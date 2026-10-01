@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- 连接服务器信息 -->
+	<broker>tcp://192.168.60.66:1883</broker>
+	<!-- 客户端ID-->
+	<clientId>biapwp_platform_59_8080</clientId>
+	<!-- 连接参数 -->
+	<options>
+		<cleanSession>true</cleanSession>
+		<username>admin</username>
+		<password>public</password>
+		<connectionTimeout>20</connectionTimeout>
+		<keepAliveInterval>60</keepAliveInterval>
+		<automaticReconnect>true</automaticReconnect>
+		<maxInflight>10000</maxInflight>
+	</options>
+</config>
