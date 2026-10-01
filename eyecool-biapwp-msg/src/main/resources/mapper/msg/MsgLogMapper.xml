@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.msg.mapper.MsgLogMapper">
+    
+    <resultMap type="MsgLog" id="MsgLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="noticeMethod"    column="notice_method"    />
+        <result property="msgSubject"    column="msg_subject"    />
+        <result property="msgContent"    column="msg_content"    />
+        <result property="hasAnnex"    column="has_annex"    />
+        <result property="fromUser"    column="from_user"    />
+        <result property="toUser"    column="to_user"    />
+        <result property="officalAccountId"    column="offical_account_id"    />
+        <result property="officalAccountName"    column="offical_account_name"    />
+        <result property="sceneRemark"    column="scene_remark"    />
+        <result property="resultStatus"    column="result_status"    />
+        <result property="errMsg"    column="err_msg"    />
+        <result property="jsonResponse"    column="json_response"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectMsgLogVo">
+        select id, received_seq, notice_method, msg_subject, msg_content, has_annex, from_user, to_user, offical_account_id, offical_account_name, scene_remark, result_status, err_msg, json_response, create_time, tenant_id from msg_log
+    </sql>
+
+    <select id="selectMsgLogList" parameterType="MsgLog" resultMap="MsgLogResult">
+        <include refid="selectMsgLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="noticeMethod != null  and noticeMethod != ''"> and notice_method = #{noticeMethod}</if>
+            <if test="msgSubject != null  and msgSubject != ''"> and msg_subject = #{msgSubject}</if>
+            <if test="msgContent != null  and msgContent != ''"> and msg_content = #{msgContent}</if>
+            <if test="hasAnnex != null  and hasAnnex != ''"> and has_annex = #{hasAnnex}</if>
+            <if test="fromUser != null  and fromUser != ''"> and from_user = #{fromUser}</if>
+            <if test="toUser != null  and toUser != ''"> and to_user = #{toUser}</if>
+            <if test="officalAccountId != null  and officalAccountId != ''"> and offical_account_id = #{officalAccountId}</if>
+            <if test="officalAccountName != null  and officalAccountName != ''"> and offical_account_name like concat(concat('%', #{officalAccountName}), '%')</if>
+            <if test="sceneRemark != null  and sceneRemark != ''"> and scene_remark = #{sceneRemark}</if>
+            <if test="resultStatus != null  and resultStatus != ''"> and result_status = #{resultStatus}</if>
+            <if test="errMsg != null  and errMsg != ''"> and err_msg = #{errMsg}</if>
+            <if test="jsonResponse != null  and jsonResponse != ''"> and json_response = #{jsonResponse}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectMsgLogById" parameterType="String" resultMap="MsgLogResult">
+        <include refid="selectMsgLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMsgLog" parameterType="MsgLog">
+        insert into msg_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="noticeMethod != null and noticeMethod != ''">notice_method,</if>
+            <if test="msgSubject != null">msg_subject,</if>
+            <if test="msgContent != null">msg_content,</if>
+            <if test="hasAnnex != null and hasAnnex != ''">has_annex,</if>
+            <if test="fromUser != null">from_user,</if>
+            <if test="toUser != null">to_user,</if>
+            <if test="officalAccountId != null">offical_account_id,</if>
+            <if test="officalAccountName != null">offical_account_name,</if>
+            <if test="sceneRemark != null">scene_remark,</if>
+            <if test="resultStatus != null and resultStatus != ''">result_status,</if>
+            <if test="errMsg != null">err_msg,</if>
+            <if test="jsonResponse != null">json_response,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="noticeMethod != null and noticeMethod != ''">#{noticeMethod},</if>
+            <if test="msgSubject != null">#{msgSubject},</if>
+            <if test="msgContent != null">#{msgContent},</if>
+            <if test="hasAnnex != null and hasAnnex != ''">#{hasAnnex},</if>
+            <if test="fromUser != null">#{fromUser},</if>
+            <if test="toUser != null">#{toUser},</if>
+            <if test="officalAccountId != null">#{officalAccountId},</if>
+            <if test="officalAccountName != null">#{officalAccountName},</if>
+            <if test="sceneRemark != null">#{sceneRemark},</if>
+            <if test="resultStatus != null and resultStatus != ''">#{resultStatus},</if>
+            <if test="errMsg != null">#{errMsg},</if>
+            <if test="jsonResponse != null">#{jsonResponse},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgLog" parameterType="MsgLog">
+        update msg_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="noticeMethod != null and noticeMethod != ''">notice_method = #{noticeMethod},</if>
+            <if test="msgSubject != null">msg_subject = #{msgSubject},</if>
+            <if test="msgContent != null">msg_content = #{msgContent},</if>
+            <if test="hasAnnex != null and hasAnnex != ''">has_annex = #{hasAnnex},</if>
+            <if test="fromUser != null">from_user = #{fromUser},</if>
+            <if test="toUser != null">to_user = #{toUser},</if>
+            <if test="officalAccountId != null">offical_account_id = #{officalAccountId},</if>
+            <if test="officalAccountName != null">offical_account_name = #{officalAccountName},</if>
+            <if test="sceneRemark != null">scene_remark = #{sceneRemark},</if>
+            <if test="resultStatus != null and resultStatus != ''">result_status = #{resultStatus},</if>
+            <if test="errMsg != null">err_msg = #{errMsg},</if>
+            <if test="jsonResponse != null">json_response = #{jsonResponse},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgLogById" parameterType="String">
+        delete from msg_log where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgLogByIds" parameterType="String">
+        delete from msg_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+     <insert id="addPartition" databaseId="mysql">
+		 CALL sp_create_partition(DATE_ADD(NOW(), INTERVAL + (#{offsetDay}) DAY), #{schemaName}, #{tableName},'%Y%m%d')
+    </insert>
+    
+     <delete id="dropPartition" databaseId="mysql">
+		 CALL sp_drop_partition(#{holdDate}, #{schemaName}, #{tableName},'%Y%m%d')
+    </delete>
+    
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceActionLogMapper">
+    
+    <resultMap type="DeviceActionLog" id="DeviceActionLogResult">
+        <result property="id"    column="id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="modelCode"    column="model_code"    />
+        <result property="actionType"    column="action_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectDeviceActionLogVo">
+        select id, device_name, device_no, channel_code, model_code, action_type, create_time, update_time, tenant_id from device_action_log
+    </sql>
+
+    <select id="selectDeviceActionLogList" parameterType="DeviceActionLog" resultMap="DeviceActionLogResult">
+        <include refid="selectDeviceActionLogVo"/>
+        <where>  
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceNo != null  and deviceNo != ''"> and device_no = #{deviceNo}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="modelCode != null  and modelCode != ''"> and model_code = #{modelCode}</if>
+            <if test="actionType != null  and actionType != ''"> and action_type = #{actionType}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectDeviceActionLogById" parameterType="String" resultMap="DeviceActionLogResult">
+        <include refid="selectDeviceActionLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceActionLog" parameterType="DeviceActionLog">
+        insert into device_action_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="deviceNo != null and deviceNo != ''">device_no,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="modelCode != null">model_code,</if>
+            <if test="actionType != null and actionType != ''">action_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="deviceNo != null and deviceNo != ''">#{deviceNo},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="modelCode != null">#{modelCode},</if>
+            <if test="actionType != null and actionType != ''">#{actionType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceActionLog" parameterType="DeviceActionLog">
+        update device_action_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="deviceNo != null and deviceNo != ''">device_no = #{deviceNo},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="modelCode != null">model_code = #{modelCode},</if>
+            <if test="actionType != null and actionType != ''">action_type = #{actionType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceActionLogById" parameterType="String">
+        delete from device_action_log where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceActionLogByIds" parameterType="String">
+        delete from device_action_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

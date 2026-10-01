@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceInfoMapper">
+    
+    <resultMap type="DeviceInfo" id="DeviceInfoResult">
+        <result property="id"    column="id"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceAddr"    column="device_addr"    />
+        <result property="deviceModelCode"    column="device_model_code"    />
+        <result property="deviceIp"    column="device_ip"    />
+        <result property="deviceMac"    column="device_mac"    />
+        <result property="deviceDirection"    column="device_direction"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="subtreasuryCode"    column="subtreasury_code"    />
+        <result property="importBatchNum"    column="import_batch_num"    />
+        <result property="createMethod"    column="create_method"    />
+        <result property="pullAllFlag"    column="pull_all_flag"    />
+        <result property="primarySubCode"    column="primary_sub_code"    />
+        <result property="duplicateTime"    column="duplicate_time"    />
+        <result property="deviceType"    column="device_type"    />
+        <result property="mqttPwd"    column="mqtt_pwd"    />
+        <result property="mqttSalt"    column="mqtt_salt"    />
+        <result property="extInfo"    column="ext_info"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectDeviceInfoVo">
+        select id, device_no, device_name, device_addr, device_model_code, device_ip, device_mac, device_direction, longitude, latitude, channel_code, area_id, subtreasury_code, import_batch_num, create_method, pull_all_flag, primary_sub_code, duplicate_time, device_type, mqtt_pwd, mqtt_salt, ext_info, create_by, update_by, create_time, update_time, batch_date, tenant_id from device_info
+    </sql>
+
+    <select id="selectDeviceInfoList" parameterType="DeviceInfo" resultMap="DeviceInfoResult" databaseId="mysql">
+        <include refid="selectDeviceInfoVo"/>
+        <where>  
+            <if test="deviceNo != null  and deviceNo != ''"> and device_no = #{deviceNo}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceAddr != null  and deviceAddr != ''"> and device_addr = #{deviceAddr}</if>
+            <if test="deviceModelCode != null  and deviceModelCode != ''"> and device_model_code = #{deviceModelCode}</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceMac != null  and deviceMac != ''"> and device_mac = #{deviceMac}</if>
+            <if test="deviceDirection != null  and deviceDirection != ''"> and device_direction = #{deviceDirection}</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="subtreasuryCode != null  and subtreasuryCode != ''"> and subtreasury_code = #{subtreasuryCode}</if>
+            <if test="importBatchNum != null  and importBatchNum != ''"> and import_batch_num = #{importBatchNum}</if>
+            <if test="createMethod != null  and createMethod != ''"> and create_method = #{createMethod}</if>
+            <if test="pullAllFlag != null  and pullAllFlag != ''"> and pull_all_flag = #{pullAllFlag}</if>
+            <if test="primarySubCode != null  and primarySubCode != ''"> and primary_sub_code = #{primarySubCode}</if>
+            <if test="duplicateTime != null "> and duplicate_time = #{duplicateTime}</if>
+            <if test="deviceType != null  and deviceType != ''"> and device_type = #{deviceType}</if>
+            <if test="mqttPwd != null  and mqttPwd != ''"> and mqtt_pwd = #{mqttPwd}</if>
+            <if test="mqttSalt != null  and mqttSalt != ''"> and mqtt_salt = #{mqttSalt}</if>
+            <if test="extInfo != null  and extInfo != ''"> and ext_info = #{extInfo}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="areaId != null ">
+				and (area_id = #{areaId} or area_id in ( select t.id from area_model t where find_in_set(#{areaId}, ancestors) ))
+			</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceInfoById" parameterType="String" resultMap="DeviceInfoResult">
+        <include refid="selectDeviceInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceInfo" parameterType="DeviceInfo">
+        insert into device_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deviceNo != null and deviceNo != ''">device_no,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="deviceAddr != null">device_addr,</if>
+            <if test="deviceModelCode != null">device_model_code,</if>
+            <if test="deviceIp != null">device_ip,</if>
+            <if test="deviceMac != null">device_mac,</if>
+            <if test="deviceDirection != null">device_direction,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="areaId != null">area_id,</if>
+            <if test="subtreasuryCode != null">subtreasury_code,</if>
+            <if test="importBatchNum != null">import_batch_num,</if>
+            <if test="createMethod != null and createMethod != ''">create_method,</if>
+            <if test="pullAllFlag != null">pull_all_flag,</if>
+            <if test="primarySubCode != null">primary_sub_code,</if>
+            <if test="duplicateTime != null">duplicate_time,</if>
+            <if test="deviceType != null and deviceType != ''">device_type,</if>
+            <if test="mqttPwd != null and mqttPwd != ''">mqtt_pwd,</if>
+            <if test="mqttSalt != null and mqttSalt != ''">mqtt_salt,</if>
+            <if test="extInfo != null">ext_info,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="deviceNo != null and deviceNo != ''">#{deviceNo},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="deviceAddr != null">#{deviceAddr},</if>
+            <if test="deviceModelCode != null">#{deviceModelCode},</if>
+            <if test="deviceIp != null">#{deviceIp},</if>
+            <if test="deviceMac != null">#{deviceMac},</if>
+            <if test="deviceDirection != null">#{deviceDirection},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="areaId != null">#{areaId},</if>
+            <if test="subtreasuryCode != null">#{subtreasuryCode},</if>
+            <if test="importBatchNum != null">#{importBatchNum},</if>
+            <if test="createMethod != null and createMethod != ''">#{createMethod},</if>
+            <if test="pullAllFlag != null">#{pullAllFlag},</if>
+            <if test="primarySubCode != null">#{primarySubCode},</if>
+            <if test="duplicateTime != null">#{duplicateTime},</if>
+            <if test="deviceType != null and deviceType != ''">#{deviceType},</if>
+            <if test="mqttPwd != null and mqttPwd != ''">#{mqttPwd},</if>
+            <if test="mqttSalt != null and mqttSalt != ''">#{mqttSalt},</if>
+            <if test="extInfo != null">#{extInfo},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceInfo" parameterType="DeviceInfo">
+        update device_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceNo != null and deviceNo != ''">device_no = #{deviceNo},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="deviceAddr != null">device_addr = #{deviceAddr},</if>
+            <if test="deviceModelCode != null">device_model_code = #{deviceModelCode},</if>
+            <if test="deviceIp != null">device_ip = #{deviceIp},</if>
+            <if test="deviceMac != null">device_mac = #{deviceMac},</if>
+            <if test="deviceDirection != null">device_direction = #{deviceDirection},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="areaId != null">area_id = #{areaId},</if>
+            <if test="subtreasuryCode != null">subtreasury_code = #{subtreasuryCode},</if>
+            <if test="importBatchNum != null">import_batch_num = #{importBatchNum},</if>
+            <if test="createMethod != null and createMethod != ''">create_method = #{createMethod},</if>
+            <if test="pullAllFlag != null">pull_all_flag = #{pullAllFlag},</if>
+            <if test="primarySubCode != null">primary_sub_code = #{primarySubCode},</if>
+            <if test="duplicateTime != null">duplicate_time = #{duplicateTime},</if>
+            <if test="deviceType != null and deviceType != ''">device_type = #{deviceType},</if>
+            <if test="extInfo != null">ext_info = #{extInfo},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceInfoById" parameterType="String">
+        delete from device_info where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceInfoByIds" parameterType="String">
+        delete from device_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="checkDeviceNoUnique" parameterType="String" resultMap="DeviceInfoResult">
+    	 select info.id, info.device_no from device_info info where info.device_no=#{deviceNo}
+	</select>
+    
+    <select id="selectDeviceCountByModelCode" parameterType="String" resultType="int">
+    	 select count(1) from device_info where device_model_code = #{deviceModelCode}
+ 	</select>
+ 	
+ 	 <update id="updateMqttAuthInfo" parameterType="DeviceInfo">
+        update device_info set mqtt_pwd = #{mqttPwd}, mqtt_salt = #{mqttSalt} where device_no = #{deviceNo}; 
+    </update>
+    
+    <delete id="deleteDeviceByImportBatchNums" parameterType="String">
+    	delete from device_info where import_batch_num in 
+    	<foreach item="importBatchNum" collection="array" open="(" separator="," close=")">
+            #{importBatchNum}
+        </foreach>
+    </delete>
+    
+    <select id="listUpgradeDevice" resultMap="DeviceInfoResult">
+		select device.id, device.device_name, device.device_no, device.device_addr, device.device_model_code, device.device_ip, device.channel_code
+        from device_info device
+		where
+			not exists ( select task.device_id from device_upgrade_task task where task.device_id = device.id and task.execute_result ='1' and task.version_id = #{versionId} ) 
+		<if test="deviceInfo != null">
+			<if test="deviceInfo.deviceName != null  and deviceInfo.deviceName != ''"> and device.device_name like concat(concat('%', #{deviceInfo.deviceName}), '%')</if>
+	        <if test="deviceInfo.deviceNo != null  and deviceInfo.deviceNo != ''"> and device.device_no = #{deviceInfo.deviceNo}</if>
+	        <if test="deviceInfo.channelCode != null  and deviceInfo.channelCode != ''"> and device.channel_code = #{deviceInfo.channelCode}</if>
+	        <if test="deviceInfo.deviceModelCode != null  and deviceInfo.deviceModelCode != ''"> and device.device_model_code = #{deviceInfo.deviceModelCode}</if>
+		</if>
+ 	</select>
+ 	
+ 	<update id="resetPullAllDataFlagBySubCode" parameterType="String" databaseId="mysql">
+    	update device_info set pull_all_flag = '1' where subtreasury_code = #{subCode} or find_in_set(#{subCode}, subtreasury_code)
+    </update>
+    
+     <update id="resetPullAllDataFlagByChannelCode" parameterType="String">
+     	update device_info set pull_all_flag = '1' where channel_code = #{channelCode}
+    </update>
+    
+    <update id="cancelPullAllDataFlagByDeviceNo" parameterType="String">
+     	update device_info set pull_all_flag = '0' where device_no = #{deviceNo}
+    </update>
+    
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrHkMacPassLogMapper">
+
+    <resultMap type="OcrHkMacPassLog" id="OcrHkMacPassLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="hkMacPassType"    column="hk_mac_pass_type"    />
+        <result property="hkMacPassMrzNumber"    column="hk_mac_pass_mrz_number"    />
+        <result property="hkMacPassNationalName"    column="hk_mac_pass_national_name"    />
+        <result property="hkMacPassEnglishName"    column="hk_mac_pass_english_name"    />
+        <result property="hkMacPassGender"    column="hk_mac_pass_gender"    />
+        <result property="hkMacPassBirth"    column="hk_mac_pass_birth"    />
+        <result property="hkMacPassExpiryDate"    column="hk_mac_pass_expiry_date"    />
+        <result property="hkMacPassIssueCountry"    column="hk_mac_pass_issue_country"    />
+        <result property="hkMacPassEnglishSurName"    column="hk_mac_pass_english_sur_name"    />
+        <result property="result"    column="result"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrHkMacPassLogVo">
+        select id, received_seq, received_time, type, type_id, channel_code, scene_image_url, scene_image_name, hk_mac_pass_type, hk_mac_pass_mrz_number, hk_mac_pass_national_name, hk_mac_pass_english_name, hk_mac_pass_gender, hk_mac_pass_birth, hk_mac_pass_expiry_date, hk_mac_pass_issue_country, hk_mac_pass_english_sur_name, result, tenant_id from ocr_hk_mac_pass_log
+    </sql>
+
+    <select id="selectOcrHkMacPassLogList" parameterType="OcrHkMacPassLog" resultMap="OcrHkMacPassLogResult">
+        <include refid="selectOcrHkMacPassLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="hkMacPassType != null  and hkMacPassType != ''"> and hk_mac_pass_type = #{hkMacPassType}</if>
+            <if test="hkMacPassMrzNumber != null  and hkMacPassMrzNumber != ''"> and hk_mac_pass_mrz_number = #{hkMacPassMrzNumber}</if>
+            <if test="hkMacPassNationalName != null  and hkMacPassNationalName != ''"> and hk_mac_pass_national_name like concat(concat('%', #{hkMacPassNationalName}), '%')</if>
+            <if test="hkMacPassEnglishName != null  and hkMacPassEnglishName != ''"> and hk_mac_pass_english_name like concat(concat('%', #{hkMacPassEnglishName}), '%')</if>
+            <if test="hkMacPassGender != null  and hkMacPassGender != ''"> and hk_mac_pass_gender = #{hkMacPassGender}</if>
+            <if test="hkMacPassBirth != null  and hkMacPassBirth != ''"> and hk_mac_pass_birth = #{hkMacPassBirth}</if>
+            <if test="hkMacPassExpiryDate != null  and hkMacPassExpiryDate != ''"> and hk_mac_pass_expiry_date = #{hkMacPassExpiryDate}</if>
+            <if test="hkMacPassIssueCountry != null  and hkMacPassIssueCountry != ''"> and hk_mac_pass_issue_country = #{hkMacPassIssueCountry}</if>
+            <if test="hkMacPassEnglishSurName != null  and hkMacPassEnglishSurName != ''"> and hk_mac_pass_english_sur_name like concat(concat('%', #{hkMacPassEnglishSurName}), '%')</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrHkMacPassLogById" parameterType="String" resultMap="OcrHkMacPassLogResult">
+        <include refid="selectOcrHkMacPassLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrHkMacPassLog" parameterType="OcrHkMacPassLog">
+        insert into ocr_hk_mac_pass_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="hkMacPassType != null">hk_mac_pass_type,</if>
+            <if test="hkMacPassMrzNumber != null">hk_mac_pass_mrz_number,</if>
+            <if test="hkMacPassNationalName != null">hk_mac_pass_national_name,</if>
+            <if test="hkMacPassEnglishName != null">hk_mac_pass_english_name,</if>
+            <if test="hkMacPassGender != null">hk_mac_pass_gender,</if>
+            <if test="hkMacPassBirth != null">hk_mac_pass_birth,</if>
+            <if test="hkMacPassExpiryDate != null">hk_mac_pass_expiry_date,</if>
+            <if test="hkMacPassIssueCountry != null">hk_mac_pass_issue_country,</if>
+            <if test="hkMacPassEnglishSurName != null">hk_mac_pass_english_sur_name,</if>
+            <if test="result != null">result,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="hkMacPassType != null">#{hkMacPassType},</if>
+            <if test="hkMacPassMrzNumber != null">#{hkMacPassMrzNumber},</if>
+            <if test="hkMacPassNationalName != null">#{hkMacPassNationalName},</if>
+            <if test="hkMacPassEnglishName != null">#{hkMacPassEnglishName},</if>
+            <if test="hkMacPassGender != null">#{hkMacPassGender},</if>
+            <if test="hkMacPassBirth != null">#{hkMacPassBirth},</if>
+            <if test="hkMacPassExpiryDate != null">#{hkMacPassExpiryDate},</if>
+            <if test="hkMacPassIssueCountry != null">#{hkMacPassIssueCountry},</if>
+            <if test="hkMacPassEnglishSurName != null">#{hkMacPassEnglishSurName},</if>
+            <if test="result != null">#{result},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrHkMacPassLog" parameterType="OcrHkMacPassLog">
+        update ocr_hk_mac_pass_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="hkMacPassType != null">hk_mac_pass_type = #{hkMacPassType},</if>
+            <if test="hkMacPassMrzNumber != null">hk_mac_pass_mrz_number = #{hkMacPassMrzNumber},</if>
+            <if test="hkMacPassNationalName != null">hk_mac_pass_national_name = #{hkMacPassNationalName},</if>
+            <if test="hkMacPassEnglishName != null">hk_mac_pass_english_name = #{hkMacPassEnglishName},</if>
+            <if test="hkMacPassGender != null">hk_mac_pass_gender = #{hkMacPassGender},</if>
+            <if test="hkMacPassBirth != null">hk_mac_pass_birth = #{hkMacPassBirth},</if>
+            <if test="hkMacPassExpiryDate != null">hk_mac_pass_expiry_date = #{hkMacPassExpiryDate},</if>
+            <if test="hkMacPassIssueCountry != null">hk_mac_pass_issue_country = #{hkMacPassIssueCountry},</if>
+            <if test="hkMacPassEnglishSurName != null">hk_mac_pass_english_sur_name = #{hkMacPassEnglishSurName},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

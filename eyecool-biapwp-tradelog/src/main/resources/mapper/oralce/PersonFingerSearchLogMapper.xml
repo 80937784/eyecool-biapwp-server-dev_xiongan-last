@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.PersonFingerSearchLogMapper">
+    
+     <select id="selectPersonFingerSearchLogList" parameterType="PersonFingerSearchLog" resultMap="PersonFingerSearchLogResult" databaseId="oracle">
+        <include refid="selectPersonFingerSearchLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="sceneType != null  and sceneType != ''"> and scene_type = #{sceneType}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="subTreasuryCode != null  and subTreasuryCode != ''"> and sub_treasury_code = #{subTreasuryCode}</if>
+            <if test="subTreasuryName != null  and subTreasuryName != ''"> and sub_treasury_name like concat(concat('%', #{subTreasuryName}), '%')</if>
+            <if test="fingerNo != null  and fingerNo != ''"> and finger_no = #{fingerNo}</if>
+            <if test="sceneImage != null  and sceneImage != ''"> and scene_image = #{sceneImage}</if>
+            <if test="stockImage != null  and stockImage != ''"> and stock_image = #{stockImage}</if>
+            <if test="sceneStockScore != null "> and scene_stock_score = #{sceneStockScore}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and algs_version = #{algsVersion}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0 ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectLastPersonFingerSearchLogList" parameterType="PersonFingerSearchLog" resultMap="PersonFingerSearchLogResult" databaseId="oracle">
+        <include refid="selectPersonFingerSearchLogVo"/>
+         INNER JOIN (
+		  SELECT unique_id as unique_id_tmp, MAX(received_time) AS received_time_tmp
+		  FROM person_finger_search_log
+		  <if test="tenantId != null  and tenantId != ''"> where tenant_id = #{tenantId}</if>
+		  GROUP BY unique_id
+		) AS tmp
+		ON log.unique_id = tmp.unique_id_tmp AND log.received_time = tmp.received_time_tmp
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="sceneType != null  and sceneType != ''"> and scene_type = #{sceneType}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="subTreasuryCode != null  and subTreasuryCode != ''"> and sub_treasury_code = #{subTreasuryCode}</if>
+            <if test="subTreasuryName != null  and subTreasuryName != ''"> and sub_treasury_name like concat(concat('%', #{subTreasuryName}), '%')</if>
+            <if test="fingerNo != null  and fingerNo != ''"> and finger_no = #{fingerNo}</if>
+            <if test="sceneImage != null  and sceneImage != ''"> and scene_image = #{sceneImage}</if>
+            <if test="stockImage != null  and stockImage != ''"> and stock_image = #{stockImage}</if>
+            <if test="sceneStockScore != null "> and scene_stock_score = #{sceneStockScore}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and algs_version = #{algsVersion}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0 ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <insert id="addPartition" databaseId="oracle">
+		 CALL sp_create_partition(sysdate + #{offsetDay}, #{tableName},'YYYYMMDD')
+    </insert>
+    
+    <delete id="dropPartition" databaseId="oracle">
+		 CALL sp_drop_partition(#{holdDate}, #{tableName},'YYYYMMDD')
+    </delete>
+    
+</mapper>

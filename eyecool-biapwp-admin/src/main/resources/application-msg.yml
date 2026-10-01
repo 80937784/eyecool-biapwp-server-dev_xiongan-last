@@ -1,0 +1,43 @@
+spring: 
+  mail: 
+    properties:
+      # 下面这些配置不用深究，主要用于配置ssl
+      mail:
+        imap:
+          ssl:
+            socketFactory:
+              fallback: false
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            socketFactory:
+              class: com.fintech.modules.base.util.mail.MailSSLSocketFactory
+          starttls:
+            enable: true
+            required: true
+      test-connection: false
+
+# 默认短信服务
+sms: 
+  tencent: 
+    # 腾讯短信服务模板国家码
+    nationcode: 86
+    
+weixin: 
+  # 订阅公众号自动回复信息
+  subscribe: 
+    reply: 感谢您关注微信公众号，为保证可以正常使用，请您点击菜单自助绑定手机号！
+  #公众号菜单跳转页面重定向基础地址
+  oauth.redirecturl: http://park.eyecool.cn
+  #公众号用户自助绑定手机号操作验证码
+  bind:
+    webRouter: /mp/bindPhone
+    captcha.sms:
+      templateId: 909402
+      sign: 眼神科技
+
+common:
+  sms:
+    appid: 1400455644  #短信服务appId
+    appSecrect: 6f48478bf138b68ebf27f27496cd20c0 #短信服务appSecrect

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.statistic.mapper.DeviceStatisticMapper">
+    
+    <select id="countDevice"  resultType="int">
+        select count(1) from device_info
+    </select>
+    
+    <select id="getDeviceNumTrend" resultType="StatisticDevice">
+        select id, device_num as deviceNum, online_num as onlineNum, offline_num as offlineNum, statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_device where statistic_date &gt;=#{startDate} and statistic_date &lt;=#{endDate}
+    </select>
+    
+    <select id="countDeviceByTenantId"  resultType="TenantDeviceCount">
+        select tenant_id as tenantId, count(1) as deviceNum from device_info group by tenant_id
+    </select>
+    
+    <select id="getStatisticDeviceByDate" resultType="StatisticDevice">
+        select id, device_num as deviceNum, online_num as onlineNum, offline_num as offlineNum, statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_device where statistic_date = #{statisticDate}
+        <if test="tenantId != null and tenantId !=''">
+        	and tenant_id = #{tenantId}
+        </if>
+    </select>
+    
+    <insert id="insertStatisticDevice" parameterType="StatisticDevice">
+        insert into statistic_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deviceNum != null">device_num,</if>
+            <if test="onlineNum != null">online_num,</if>
+            <if test="offlineNum != null">offline_num,</if>
+            <if test="statisticDate != null and statisticDate !=''">statistic_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           	<if test="id != null">#{id},</if>
+           	<if test="deviceNum != null">#{deviceNum},</if>
+            <if test="onlineNum != null">#{onlineNum},</if>
+            <if test="offlineNum != null">#{offlineNum},</if>
+            <if test="statisticDate != null and statisticDate !=''">#{statisticDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+    
+</mapper>

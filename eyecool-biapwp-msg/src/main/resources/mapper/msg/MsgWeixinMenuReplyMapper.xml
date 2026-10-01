@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.msg.mapper.MsgWeixinMenuReplyMapper">
+    
+    <resultMap type="MsgWeixinMenuReply" id="MsgWeixinMenuReplyResult">
+        <result property="id"    column="id"    />
+        <result property="officalAccountId"    column="offical_account_id"    />
+        <result property="officalAccountName"    column="app_name"    />
+        <result property="appId"    column="app_id"    />
+        <result property="menuBtnKey"    column="menu_btn_key"    />
+        <result property="resType"    column="res_type"    />
+        <result property="replyContent"    column="reply_content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectMsgWeixinMenuReplyVo">
+        select reply.id,  reply.offical_account_id, offical.app_name, reply.app_id,  reply.menu_btn_key,  reply.res_type,  reply.reply_content,  reply.create_time,  reply.update_time,  reply.tenant_id 
+        from msg_weixin_menu_reply reply
+        left join msg_offical_account offical on reply.offical_account_id = offical.id
+    </sql>
+
+    <select id="selectMsgWeixinMenuReplyList" parameterType="MsgWeixinMenuReply" resultMap="MsgWeixinMenuReplyResult">
+        <include refid="selectMsgWeixinMenuReplyVo"/>
+        <where>  
+            <if test="officalAccountId != null  and officalAccountId != ''"> and reply.offical_account_id = #{officalAccountId}</if>
+            <if test="officalAccountName != null  and officalAccountName != ''"> and offical.app_name like concat(concat('%', #{officalAccountName}), '%')</if>
+            <if test="appId != null  and appId != ''"> and reply.app_id = #{appId}</if>
+            <if test="menuBtnKey != null  and menuBtnKey != ''"> and reply.menu_btn_key = #{menuBtnKey}</if>
+            <if test="resType != null  and resType != ''"> and reply.res_type = #{resType}</if>
+            <if test="replyContent != null  and replyContent != ''"> and reply.reply_content = #{replyContent}</if>
+            <if test="tenantId != null  and tenantId != ''"> and reply.tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsgWeixinMenuReplyById" parameterType="String" resultMap="MsgWeixinMenuReplyResult">
+        <include refid="selectMsgWeixinMenuReplyVo"/>
+        where reply.id = #{id}
+    </select>
+        
+    <insert id="insertMsgWeixinMenuReply" parameterType="MsgWeixinMenuReply">
+        insert into msg_weixin_menu_reply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="officalAccountId != null and officalAccountId != ''">offical_account_id,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="menuBtnKey != null and menuBtnKey != ''">menu_btn_key,</if>
+            <if test="resType != null and resType != ''">res_type,</if>
+            <if test="replyContent != null">reply_content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="officalAccountId != null and officalAccountId != ''">#{officalAccountId},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="menuBtnKey != null and menuBtnKey != ''">#{menuBtnKey},</if>
+            <if test="resType != null and resType != ''">#{resType},</if>
+            <if test="replyContent != null">#{replyContent},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgWeixinMenuReply" parameterType="MsgWeixinMenuReply">
+        update msg_weixin_menu_reply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="officalAccountId != null and officalAccountId != ''">offical_account_id = #{officalAccountId},</if>
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="menuBtnKey != null and menuBtnKey != ''">menu_btn_key = #{menuBtnKey},</if>
+            <if test="resType != null and resType != ''">res_type = #{resType},</if>
+            <if test="replyContent != null">reply_content = #{replyContent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgWeixinMenuReplyById" parameterType="String">
+        delete from msg_weixin_menu_reply where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgWeixinMenuReplyByIds" parameterType="String">
+        delete from msg_weixin_menu_reply where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

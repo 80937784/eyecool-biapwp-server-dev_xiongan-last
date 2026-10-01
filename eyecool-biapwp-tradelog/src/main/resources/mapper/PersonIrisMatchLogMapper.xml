@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.PersonIrisMatchLogMapper">
+    
+    <resultMap type="PersonIrisMatchLog" id="PersonIrisMatchLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="personName"    column="person_name"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImage"    column="scene_image"    />
+        <result property="stockImage"    column="stock_image"    />
+        <result property="sceneStockScore"    column="scene_stock_score"    />
+        <result property="sceneStockResult"    column="scene_stock_result"    />
+        <result property="result"    column="result"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="timeUsed"    column="time_used"    />
+        <result property="serverId"    column="server_id"    />
+        <result property="vendorCode"    column="vendor_code"    />
+        <result property="algsVersion"    column="algs_version"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectPersonIrisMatchLogVo">
+        select id, received_seq, unique_id, dept_id, person_name, dept_name, channel_code, scene_image, stock_image, scene_stock_score, scene_stock_result, result, received_time, time_used, server_id, vendor_code, algs_version, create_time, batch_date, tenant_id from person_iris_match_log log
+    </sql>
+
+    <select id="selectPersonIrisMatchLogList" parameterType="PersonIrisMatchLog" resultMap="PersonIrisMatchLogResult" databaseId="mysql">
+        <include refid="selectPersonIrisMatchLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImage != null  and sceneImage != ''"> and scene_image = #{sceneImage}</if>
+            <if test="stockImage != null  and stockImage != ''"> and stock_image = #{stockImage}</if>
+            <if test="sceneStockScore != null "> and scene_stock_score = #{sceneStockScore}</if>
+            <if test="sceneStockResult != null  and sceneStockResult != ''"> and scene_stock_result = #{sceneStockResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and algs_version = #{algsVersion}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and date_format(received_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectLastPersonIrisMatchLogList" parameterType="PersonIrisMatchLog" resultMap="PersonIrisMatchLogResult" databaseId="mysql">
+        <include refid="selectPersonIrisMatchLogVo"/>
+         INNER JOIN (
+		  SELECT unique_id as unique_id_tmp, MAX(received_time) AS received_time_tmp
+		  FROM person_iris_match_log
+		  <if test="tenantId != null  and tenantId != ''"> where tenant_id = #{tenantId}</if>
+		  GROUP BY unique_id
+		) AS tmp
+		ON log.unique_id = tmp.unique_id_tmp AND log.received_time = tmp.received_time_tmp
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImage != null  and sceneImage != ''"> and scene_image = #{sceneImage}</if>
+            <if test="stockImage != null  and stockImage != ''"> and stock_image = #{stockImage}</if>
+            <if test="sceneStockScore != null "> and scene_stock_score = #{sceneStockScore}</if>
+            <if test="sceneStockResult != null  and sceneStockResult != ''"> and scene_stock_result = #{sceneStockResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and algs_version = #{algsVersion}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and date_format(received_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectPersonIrisMatchLogById" parameterType="String" resultMap="PersonIrisMatchLogResult">
+        <include refid="selectPersonIrisMatchLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPersonIrisMatchLog" parameterType="PersonIrisMatchLog">
+        insert into person_iris_match_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="uniqueId != null">unique_id,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="personName != null">person_name,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="sceneImage != null">scene_image,</if>
+            <if test="stockImage != null">stock_image,</if>
+            <if test="sceneStockScore != null">scene_stock_score,</if>
+            <if test="sceneStockResult != null">scene_stock_result,</if>
+            <if test="result != null">result,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="timeUsed != null">time_used,</if>
+            <if test="serverId != null">server_id,</if>
+            <if test="vendorCode != null">vendor_code,</if>
+            <if test="algsVersion != null">algs_version,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="uniqueId != null">#{uniqueId},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="personName != null">#{personName},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="sceneImage != null">#{sceneImage},</if>
+            <if test="stockImage != null">#{stockImage},</if>
+            <if test="sceneStockScore != null">#{sceneStockScore},</if>
+            <if test="sceneStockResult != null">#{sceneStockResult},</if>
+            <if test="result != null">#{result},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="timeUsed != null">#{timeUsed},</if>
+            <if test="serverId != null">#{serverId},</if>
+            <if test="vendorCode != null">#{vendorCode},</if>
+            <if test="algsVersion != null">#{algsVersion},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePersonIrisMatchLog" parameterType="PersonIrisMatchLog">
+        update person_iris_match_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="uniqueId != null">unique_id = #{uniqueId},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="personName != null">person_name = #{personName},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="sceneImage != null">scene_image = #{sceneImage},</if>
+            <if test="stockImage != null">stock_image = #{stockImage},</if>
+            <if test="sceneStockScore != null">scene_stock_score = #{sceneStockScore},</if>
+            <if test="sceneStockResult != null">scene_stock_result = #{sceneStockResult},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="timeUsed != null">time_used = #{timeUsed},</if>
+            <if test="serverId != null">server_id = #{serverId},</if>
+            <if test="vendorCode != null">vendor_code = #{vendorCode},</if>
+            <if test="algsVersion != null">algs_version = #{algsVersion},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePersonIrisMatchLogById" parameterType="String">
+        delete from person_iris_match_log where id = #{id}
+    </delete>
+
+    <delete id="deletePersonIrisMatchLogByIds" parameterType="String">
+        delete from person_iris_match_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    
+    <insert id="addPartition" databaseId="mysql">
+		 CALL sp_create_partition(DATE_ADD(NOW(), INTERVAL + (#{offsetDay}) DAY), #{schemaName}, #{tableName},'%Y%m%d')
+    </insert>
+    
+    <delete id="dropPartition" databaseId="mysql">
+		 CALL sp_drop_partition(#{holdDate}, #{schemaName}, #{tableName},'%Y%m%d')
+    </delete>
+</mapper>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.basedata.mapper.BasePersonFaceMapper">
+    
+    <resultMap type="BasePersonFace" id="BasePersonFaceResult">
+        <result property="id"    column="id"    />
+        <result property="personId"    column="person_id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="feature"    column="feature"    />
+        <result property="featureMd5"    column="feature_md5"    />
+        <result property="qualityScore"    column="quality_score"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="vendorCode"    column="vendor_code"    />
+        <result property="algsVersion"    column="algs_version"    />
+        <result property="encrypted"    column="encrypted"    />
+        <result property="datasource"    column="datasource"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="faceImageMd5"    column="face_image_md5"    />
+    </resultMap>
+
+    <sql id="selectBasePersonFaceVo">
+        select id, person_id, unique_id, feature, feature_md5, quality_score, image_url, vendor_code, algs_version, encrypted, datasource, remark, status, create_by, update_by, create_time, update_time, batch_date, tenant_id, face_image_md5 from base_person_face
+    </sql>
+    <sql id="selectBasePersonFaceVoUseLeftJoin">
+        select face.id, face.person_id, face.unique_id, face.feature, face.feature_md5, face.quality_score, face.image_url, face.vendor_code, face.algs_version, face.encrypted, face.datasource, face.remark, face.status, face.create_by, face.update_by, face.create_time, face.update_time, face.batch_date, face.tenant_id, face.face_image_md5 from base_person_face face
+    </sql>
+    <select id="selectBasePersonFaceList" parameterType="BasePersonFace" resultMap="BasePersonFaceResult">
+        <include refid="selectBasePersonFaceVoUseLeftJoin"/>
+        left join base_person_info info on face.person_id=info.id
+        <where>
+            <if test="personId != null  and personId != ''"> and face.person_id = #{personId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and face.unique_id = #{uniqueId}</if>
+            <if test="feature != null  and feature != ''"> and face.feature = #{feature}</if>
+            <if test="featureMd5 != null  and featureMd5 != ''"> and face.feature_md5 = #{featureMd5}</if>
+            <if test="qualityScore != null "> and face.quality_score = #{qualityScore}</if>
+            <if test="imageUrl != null  and imageUrl != ''"> and face.image_url = #{imageUrl}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and face.vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and face.algs_version = #{algsVersion}</if>
+            <if test="encrypted != null  and encrypted != ''"> and face.encrypted = #{encrypted}</if>
+            <if test="datasource != null  and datasource != ''"> and face.datasource = #{datasource}</if>
+            <if test="status != null  and status != ''"> and face.status = #{status}</if>
+            <if test="batchDate != null "> and face.batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and face.tenant_id = #{tenantId}</if>
+            <if test="personType != null  and personType != ''"> and info.person_type = #{personType}</if>
+            <if test="faceImageMd5 != null and faceImageMd5 != ''">and face.face_image_md5 = #{faceImageMd5}</if>
+            <if test="params.ids != null and params.ids.size() > 0">
+                and face.id in
+                <foreach collection="params.ids" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="params.personIds != null and params.personIds.size() > 0">
+                and face.person_id in
+                <foreach collection="params.personIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="deptId != null and deptId != 0">
+				AND (info.dept_id = #{deptId} OR info.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectBasePersonFaceById" parameterType="String" resultMap="BasePersonFaceResult">
+        <include refid="selectBasePersonFaceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBasePersonFace" parameterType="BasePersonFace">
+        insert into base_person_face
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="personId != null and personId != ''">person_id,</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id,</if>
+            <if test="feature != null and feature != ''">feature,</if>
+            <if test="featureMd5 != null">feature_md5,</if>
+            <if test="qualityScore != null">quality_score,</if>
+            <if test="imageUrl != null and imageUrl != ''">image_url,</if>
+            <if test="vendorCode != null">vendor_code,</if>
+            <if test="algsVersion != null">algs_version,</if>
+            <if test="encrypted != null">encrypted,</if>
+            <if test="datasource != null and datasource != ''">datasource,</if>
+            <if test="remark != null">remark,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="faceImageMd5 != null and faceImageMd5 != ''">face_image_md5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="personId != null and personId != ''">#{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">#{uniqueId},</if>
+            <if test="feature != null and feature != ''">#{feature},</if>
+            <if test="featureMd5 != null">#{featureMd5},</if>
+            <if test="qualityScore != null">#{qualityScore},</if>
+            <if test="imageUrl != null and imageUrl != ''">#{imageUrl},</if>
+            <if test="vendorCode != null">#{vendorCode},</if>
+            <if test="algsVersion != null">#{algsVersion},</if>
+            <if test="encrypted != null">#{encrypted},</if>
+            <if test="datasource != null and datasource != ''">#{datasource},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="faceImageMd5 != null and faceImageMd5 != ''">#{faceImageMd5},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBasePersonFace" parameterType="BasePersonFace">
+        update base_person_face
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personId != null and personId != ''">person_id = #{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="feature != null and feature != ''">feature = #{feature},</if>
+            <if test="featureMd5 != null">feature_md5 = #{featureMd5},</if>
+            <if test="qualityScore != null">quality_score = #{qualityScore},</if>
+            <if test="imageUrl != null and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="vendorCode != null">vendor_code = #{vendorCode},</if>
+            <if test="algsVersion != null">algs_version = #{algsVersion},</if>
+            <if test="encrypted != null">encrypted = #{encrypted},</if>
+            <if test="datasource != null and datasource != ''">datasource = #{datasource},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="faceImageMd5 != null and faceImageMd5 != ''">face_image_md5=#{faceImageMd5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    
+    <update id="updateBasePersonFaceByPersonId" parameterType="BasePersonFace">
+        update base_person_face
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uniqueId != null  and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="feature != null  and feature != ''">feature = #{feature},</if>
+            <if test="featureMd5 != null  and featureMd5 != ''">feature_md5 = #{featureMd5},</if>
+            <if test="qualityScore != null ">quality_score = #{qualityScore},</if>
+            <if test="imageUrl != null  and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="vendorCode != null  and vendorCode != ''">vendor_code = #{vendorCode},</if>
+            <if test="algsVersion != null  and algsVersion != ''">algs_version = #{algsVersion},</if>
+            <if test="encrypted != null  and encrypted != ''">encrypted = #{encrypted},</if>
+            <if test="datasource != null  and datasource != ''">datasource = #{datasource},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="batchDate != null ">batch_date = #{batchDate},</if>
+            <if test="faceImageMd5 != null and faceImageMd5 != ''">face_image_md5=#{faceImageMd5},</if>
+        </trim>
+        where person_id = #{personId}
+    </update>
+
+    <delete id="deleteBasePersonFaceById" parameterType="String">
+        delete from base_person_face where id = #{id}
+    </delete>
+
+    <delete id="deleteBasePersonFaceByIds" parameterType="String">
+        delete from base_person_face where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="countEnabledFaceByPersonId" parameterType="String" resultType="int">
+        select count(1) from base_person_face where person_id = #{personId} and status = '0'
+    </select>
+    
+</mapper>

@@ -1,0 +1,8 @@
+# 环信远程视频账号信息
+hx:
+  if:
+    use: 1 #1 使用环信视频通话
+  hxorg: 1111180802177882
+  hxApp: ecx332-test
+  hxCsecret: YXA60wD3wisH9zJctivj1kx27zbJqbM
+  hxCid: YXA6R3bLSX5-Te61Ag0xjxiKTw

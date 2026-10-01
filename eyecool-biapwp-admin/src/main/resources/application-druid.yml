@@ -1,0 +1,86 @@
+# 数据源配置
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        # oracle驱动
+#        driverClassName: oracle.jdbc.driver.OracleDriver
+        # pg驱动
+#        driverClassName: org.postgresql.Driver
+        druid:
+            # 主库数据源
+            master:
+                url: jdbc:mysql://localhost:3306/eyecool_assps_xagwh?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#                url: jdbc:mysql://192.168.63.190:3306/saas3?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#                username: saas
+                username: root
+#                password: NL42crKSXhC7j/LiwEJ9ddUmiMsTxc7zl7Ff/DD4C8akXFyvPIp4YQebOrL2wHJwMyL1trzGc9SVtKKf3HNlbQ==
+                #password: Eyecool@1qaz
+                password: root
+                connect-properties:
+                  config.decrypt: false
+                  config.decrypt.key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJKXXNoJYlnSdwESoaiOpPq83q71Fqz7FJeGxI2VNbFz0xn1nRoAY42LShMFokIlizAZFpMJmlTyZOisQq+pJOUCAwEAAQ==
+                # oracle连接地址
+#                url: jdbc:oracle:thin:@192.168.63.113:1521/orcl
+#                username: biapwp
+#                password: eD0F3g1hbU9TE1SXjuQkNUPhhgjX7nRAwNyxwpPAjyaatNDzC/j2v9qbgw1LgBvBIrpLy3jeZQA++S0z3Kstcg==
+#                connect-properties: 
+#                  config.decrypt: true
+#                  config.decrypt.key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAI4FysPkKmHq05x4ByaYrQYeYTR3n0UR5b78Eqg271WWyf1039qeQB+fnV8qkqx2Dj+ot2hhVaPMAJJ67CM3sJMCAwEAAQ==
+                # pg连接地址
+#               url: jdbc:postgresql://192.168.63.59:5432/saas_test
+#               username: postgres
+#               password: 123456
+#               connect-properties:
+#                 config.decrypt: false
+#                 config.decrypt.key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJ0fbaQ+vJ61YhL6oCJz3/VA7H3PVO2K3Zf0iN3JIul+rcbERvv+QFSMaxaJeBK5mk2+hsfvT4WhkZgPhY9lj0UCAwEAAQ==
+            # 从库数据源
+            slave:
+                # 从数据源开关/默认关闭
+                enabled: false
+                url: 
+                username: 
+                password: 
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效(mysql和oracle)
+            validationQuery: SELECT 1 FROM DUAL
+            # 配置检测连接是否有效(postgresql)
+#            validationQuery: SELECT 1
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter: 
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username: 
+                login-password: 
+            filter:
+                config: 
+                    enabled: true
+                stat:
+                    enabled: true
+                    # 慢SQL记录
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.area.mapper.AreaModelMapper">
+        
+    <insert id="insertAreaModel" parameterType="AreaModel" databaseId="postgresql">
+    	<selectKey keyProperty="id" order="BEFORE" resultType="Long">
+			SELECT nextval('area_model_id_seq'::regclass) as id  
+		</selectKey>
+        insert into area_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="id != null and deptId != 0">id,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="areaType != null">area_type,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="id != null and deptId != 0">#{id},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="areaType != null">#{areaType},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+     <select id="selectChildrenCountById" resultType="int" databaseId="postgresql">
+		select count(*) from area_model 
+		 <where>   
+			<if test="status != null "> and status = #{status}</if>
+			<if test="id != null "> and find_in_set(#{id}, ancestors)</if>
+		 </where>  
+	</select>
+	
+	<select id="selectChildrenAreaById" parameterType="Long" resultMap="AreaModelResult"  databaseId="postgresql">
+		select * from area_model where find_in_set(#{id}, ancestors)
+	</select>
+</mapper>

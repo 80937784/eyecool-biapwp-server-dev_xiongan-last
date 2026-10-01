@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.TradeReqRecordMapper">
+    
+    <select id="selectTradeReqRecordList" parameterType="TradeReqRecord" resultMap="TradeReqRecordResult" databaseId="postgresql">
+        <include refid="selectTradeReqRecordVo"/>
+        <where>  
+            <if test="transCode != null  and transCode != ''"> and trans_code = #{transCode}</if>
+            <if test="transTitle != null  and transTitle != ''"> and trans_title = #{transTitle}</if>
+            <if test="clientIp != null  and clientIp != ''"> and client_ip = #{clientIp}</if>
+            <if test="sendTime != null "> and send_time = #{sendTime}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="statusCode != null  and statusCode != ''"> and status_code = #{statusCode}</if>
+            <if test="transUrl != null  and transUrl != ''"> and trans_url = #{transUrl}</if>
+            <if test="classMethod != null  and classMethod != ''"> and class_method = #{classMethod}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+        </where>
+    </select>
+    
+     <delete id="dropPartition" databaseId="postgresql">
+     	drop table if exists ${tableName}
+    </delete>
+    
+</mapper>

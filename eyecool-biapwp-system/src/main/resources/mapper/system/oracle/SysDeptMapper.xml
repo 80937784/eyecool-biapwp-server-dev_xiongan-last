@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.system.mapper.SysDeptMapper">
+
+
+	<select id="selectChildrenDeptById" parameterType="Long" resultMap="SysDeptResult" databaseId="oracle">
+		select * from sys_dept where FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0
+	</select>
+	
+	<select id="selectNormalChildrenDeptById" parameterType="Long" resultType="int" databaseId="oracle">
+		select count(*) from sys_dept where status = 0 and del_flag = '0' and FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0
+	</select>
+	
+	<insert id="insertDept" parameterType="SysDept" databaseId="oracle">
+		<selectKey keyProperty="deptId" order="BEFORE" resultType="Long">
+			select s_sys_dept.nextval as deptId from DUAL
+		</selectKey>
+ 		insert into sys_dept(
+ 			<if test="deptId != null and deptId != 0">dept_id,</if>
+ 			<if test="parentId != null and parentId != 0">parent_id,</if>
+ 			<if test="deptCode != null and deptCode != ''">dept_code,</if>
+ 			<if test="deptName != null and deptName != ''">dept_name,</if>
+ 			<if test="ancestors != null and ancestors != ''">ancestors,</if>
+ 			<if test="orderNum != null and orderNum != ''">order_num,</if>
+ 			<if test="leader != null and leader != ''">leader,</if>
+ 			<if test="phone != null and phone != ''">phone,</if>
+ 			<if test="email != null and email != ''">email,</if>
+ 			<if test="status != null">status,</if>
+ 			<if test="createBy != null and createBy != ''">create_by,</if>
+ 			<if test="tenantId != null and tenantId != ''">tenant_id,</if>
+ 			create_time
+ 		)values(
+ 			<if test="deptId != null and deptId != 0">#{deptId},</if>
+ 			<if test="parentId != null and parentId != 0">#{parentId},</if>
+ 			<if test="deptCode != null and deptCode != ''">#{deptCode},</if>
+ 			<if test="deptName != null and deptName != ''">#{deptName},</if>
+ 			<if test="ancestors != null and ancestors != ''">#{ancestors},</if>
+ 			<if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+ 			<if test="leader != null and leader != ''">#{leader},</if>
+ 			<if test="phone != null and phone != ''">#{phone},</if>
+ 			<if test="email != null and email != ''">#{email},</if>
+ 			<if test="status != null">#{status},</if>
+ 			<if test="createBy != null and createBy != ''">#{createBy},</if>
+ 			<if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+ 			sysdate
+ 		)
+	</insert>
+	
+	<update id="updateDept" parameterType="SysDept" databaseId="oracle">
+ 		update sys_dept
+ 		<set>
+ 			<if test="parentId != null and parentId != 0">parent_id = #{parentId},</if>
+ 			<if test="deptCode != null and deptCode != ''">dept_code = #{deptCode},</if>
+ 			<if test="deptName != null and deptName != ''">dept_name = #{deptName},</if>
+ 			<if test="ancestors != null and ancestors != ''">ancestors = #{ancestors},</if>
+ 			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+ 			<if test="leader != null">leader = #{leader},</if>
+ 			<if test="phone != null">phone = #{phone},</if>
+ 			<if test="email != null">email = #{email},</if>
+ 			<if test="status != null and status != ''">status = #{status},</if>
+ 			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 			update_time = sysdate
+ 		</set>
+ 		where dept_id = #{deptId}
+	</update>
+	
+	<update id="updateDeptStatus" parameterType="SysDept" databaseId="oracle">
+ 	    update sys_dept
+ 	    <set>
+ 	        <if test="status != null and status != ''">status = #{status},</if>
+ 	        <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 	        update_time = sysdate
+        </set>
+ 	    where dept_id in (${ancestors})
+	</update>
+
+</mapper> 

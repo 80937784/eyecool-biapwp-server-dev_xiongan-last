@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrDriverLicLogMapper">
+
+    <resultMap type="OcrDriverLicLog" id="OcrDriverLicLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="ocrFirmType"    column="ocr_firm_type"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="driverLicNumber"    column="driver_lic_number"    />
+        <result property="driverLicHeadImage"    column="driver_lic_head_image"    />
+        <result property="driverLicAddress"    column="driver_lic_address"    />
+        <result property="driverLicBirth"    column="driver_lic_birth"    />
+        <result property="driverLicGender"    column="driver_lic_gender"    />
+        <result property="driverLicName"    column="driver_lic_name"    />
+        <result property="driverLicDriverType"    column="driver_lic_driver_type"    />
+        <result property="driverLicFirstIssue"    column="driver_lic_first_issue"    />
+        <result property="driverLicValidFrom"    column="driver_lic_valid_from"    />
+        <result property="driverLicValidFor"    column="driver_lic_valid_for"    />
+        <result property="driverLicExpiryDate"    column="driver_lic_expiry_date"    />
+        <result property="result"    column="result"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrDriverLicLogVo">
+        select id, received_seq, received_time, type, type_id, ocr_firm_type, channel_code, scene_image_url, scene_image_name, driver_lic_number, driver_lic_head_image, driver_lic_address, driver_lic_birth, driver_lic_gender, driver_lic_name, driver_lic_driver_type, driver_lic_first_issue, driver_lic_valid_from, driver_lic_valid_for, driver_lic_expiry_date, result, tenant_id from ocr_driver_lic_log
+    </sql>
+
+    <select id="selectOcrDriverLicLogList" parameterType="OcrDriverLicLog" resultMap="OcrDriverLicLogResult">
+        <include refid="selectOcrDriverLicLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="ocrFirmType != null  and ocrFirmType != ''"> and ocr_firm_type = #{ocrFirmType}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="driverLicNumber != null  and driverLicNumber != ''"> and driver_lic_number = #{driverLicNumber}</if>
+            <if test="driverLicHeadImage != null  and driverLicHeadImage != ''"> and driver_lic_head_image = #{driverLicHeadImage}</if>
+            <if test="driverLicAddress != null  and driverLicAddress != ''"> and driver_lic_address = #{driverLicAddress}</if>
+            <if test="driverLicBirth != null  and driverLicBirth != ''"> and driver_lic_birth = #{driverLicBirth}</if>
+            <if test="driverLicGender != null  and driverLicGender != ''"> and driver_lic_gender = #{driverLicGender}</if>
+            <if test="driverLicName != null  and driverLicName != ''"> and driver_lic_name like concat(concat('%', #{driverLicName}), '%')</if>
+            <if test="driverLicDriverType != null  and driverLicDriverType != ''"> and driver_lic_driver_type = #{driverLicDriverType}</if>
+            <if test="driverLicFirstIssue != null  and driverLicFirstIssue != ''"> and driver_lic_first_issue = #{driverLicFirstIssue}</if>
+            <if test="driverLicValidFrom != null  and driverLicValidFrom != ''"> and driver_lic_valid_from = #{driverLicValidFrom}</if>
+            <if test="driverLicValidFor != null  and driverLicValidFor != ''"> and driver_lic_valid_for = #{driverLicValidFor}</if>
+            <if test="driverLicExpiryDate != null  and driverLicExpiryDate != ''"> and driver_lic_expiry_date = #{driverLicExpiryDate}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrDriverLicLogById" parameterType="String" resultMap="OcrDriverLicLogResult">
+        <include refid="selectOcrDriverLicLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrDriverLicLog" parameterType="OcrDriverLicLog">
+        insert into ocr_driver_lic_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="ocrFirmType != null">ocr_firm_type,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="driverLicNumber != null">driver_lic_number,</if>
+            <if test="driverLicHeadImage != null">driver_lic_head_image,</if>
+            <if test="driverLicAddress != null">driver_lic_address,</if>
+            <if test="driverLicBirth != null">driver_lic_birth,</if>
+            <if test="driverLicGender != null">driver_lic_gender,</if>
+            <if test="driverLicName != null">driver_lic_name,</if>
+            <if test="driverLicDriverType != null">driver_lic_driver_type,</if>
+            <if test="driverLicFirstIssue != null">driver_lic_first_issue,</if>
+            <if test="driverLicValidFrom != null">driver_lic_valid_from,</if>
+            <if test="driverLicValidFor != null">driver_lic_valid_for,</if>
+            <if test="driverLicExpiryDate != null">driver_lic_expiry_date,</if>
+            <if test="result != null">result,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="ocrFirmType != null">#{ocrFirmType},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="driverLicNumber != null">#{driverLicNumber},</if>
+            <if test="driverLicHeadImage != null">#{driverLicHeadImage},</if>
+            <if test="driverLicAddress != null">#{driverLicAddress},</if>
+            <if test="driverLicBirth != null">#{driverLicBirth},</if>
+            <if test="driverLicGender != null">#{driverLicGender},</if>
+            <if test="driverLicName != null">#{driverLicName},</if>
+            <if test="driverLicDriverType != null">#{driverLicDriverType},</if>
+            <if test="driverLicFirstIssue != null">#{driverLicFirstIssue},</if>
+            <if test="driverLicValidFrom != null">#{driverLicValidFrom},</if>
+            <if test="driverLicValidFor != null">#{driverLicValidFor},</if>
+            <if test="driverLicExpiryDate != null">#{driverLicExpiryDate},</if>
+            <if test="result != null">#{result},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrDriverLicLog" parameterType="OcrDriverLicLog">
+        update ocr_driver_lic_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="ocrFirmType != null">ocr_firm_type = #{ocrFirmType},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="driverLicNumber != null">driver_lic_number = #{driverLicNumber},</if>
+            <if test="driverLicHeadImage != null">driver_lic_head_image = #{driverLicHeadImage},</if>
+            <if test="driverLicAddress != null">driver_lic_address = #{driverLicAddress},</if>
+            <if test="driverLicBirth != null">driver_lic_birth = #{driverLicBirth},</if>
+            <if test="driverLicGender != null">driver_lic_gender = #{driverLicGender},</if>
+            <if test="driverLicName != null">driver_lic_name = #{driverLicName},</if>
+            <if test="driverLicDriverType != null">driver_lic_driver_type = #{driverLicDriverType},</if>
+            <if test="driverLicFirstIssue != null">driver_lic_first_issue = #{driverLicFirstIssue},</if>
+            <if test="driverLicValidFrom != null">driver_lic_valid_from = #{driverLicValidFrom},</if>
+            <if test="driverLicValidFor != null">driver_lic_valid_for = #{driverLicValidFor},</if>
+            <if test="driverLicExpiryDate != null">driver_lic_expiry_date = #{driverLicExpiryDate},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

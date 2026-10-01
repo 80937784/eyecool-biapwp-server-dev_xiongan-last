@@ -1,0 +1,237 @@
+syntax = "proto3";
+
+package ltd.xlot.lot.edge;
+
+option java_package = "cn.eyecool.biapwp.client.proto";
+option java_outer_classname = "EdgeProto";
+
+/*
+ * 协议版本 "proto1.0"
+ *
+ * MQTT QOS
+ * level 0：最多一次的传输(就是仅发一次包，是否收到完全不管，适合那些不是很重要的数据)
+ * level 1：至少一次的传输
+ * level 2： 只有一次的传输
+ */
+
+/*
+ * topic: /edge/regist/{serial_number}
+ * topic type: publish(will)
+ * qos: 2 (retain true)
+ * 设备注册(服务端订阅/edge/regist/+)
+ */
+message RegistMessage {
+    string protocol_version = 1;    // 设备使用的协议版本（本文件协议）必填
+    enum DeviceState {
+        RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+        ONLINE = 1;
+        OFFLINE = 2;
+    }
+    DeviceState device_state = 2;  // 设备状态  必填，其他字段建议维护
+    string device_name = 3;       // 设备名称
+    string device_ip = 4;       // 设备IP
+    string device_mac = 5;     // 设备MAC
+    string device_model_code = 6;   // 设备型号编码
+    string channel_code = 7;     // 所属渠道(场景)编码
+    double longitude = 8;       // 设备经度
+    double latitude = 9;       // 设备纬度
+    string device_software_version = 10; // 设备软件版本号
+}
+
+/*
+ * topic: /edge/regist/results/{serial_number}
+ * topic type: subscribe
+ * qos: 2
+ * 设备注册结果
+ */
+message RegistResultsMessage {
+    enum RegistState {
+		RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+        SUCCESS = 1;    // 注册成功
+        UNKNOWN = 2;    // 未知错误
+        PROTOCOL_ERROR = 3;    // 协议不匹配
+        BUSINESS_ERROR = 4;    // 业务不匹配
+    }
+    RegistState regist_state = 1;    // 注册结果
+}
+
+/*
+ * topic: /edge/business/config/{serial_number}
+ * topic type: subscribe
+ * qos: 2
+ * 含参数设置（需要整理包含所有场景）
+ */
+message ConfigMessage {
+    message ConfigItem{
+        string config_key = 1; // 配置key
+        string config_value = 2; // 配置value
+    }
+    repeated ConfigItem config_item = 1; // 参数项信息
+    int64 sort_index = 2; // 参数下发记录索引排序
+}
+
+/*
+ * topic: /edge/business/config/result/{serial_number}
+ * topic type: publish
+ * qos: 2
+ * 设备参数下发配置结果
+ */
+message ConfigResultMessage {
+   enum ConfigState {
+		RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+        SUCCESS = 1;    // 下发成功
+        FAIL = 2;    // 下发失败
+    }
+    ConfigState config_state = 1;  // 下发结果,必填
+    int64 sort_index = 2; 	// 参数下发记录索引排序,必填
+}
+
+/*
+ * topic: /edge/update/{serial_number}
+ * topic type: subscribe
+ * 设备更新
+ */
+message UpdateMessage {
+    string update_url = 1;    // 更新地址
+    string update_version_name = 2;    // 更新包名
+    string update_version = 3;    // 更新包版本号
+    enum UpdateType {
+		RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+    	DEMOTE = 1;    // 降级(卸载安装)
+    	UPGRADE = 2;   // 升级
+    }
+    UpdateType update_type = 4; // 安装类型
+    string file_md5 = 5;  // 文件MD5
+}
+
+/*
+ * topic: /edge/update/result/{serial_number}
+ * topic type: publish
+ * qos: 2
+ * 设备更新结果
+ */
+message UpdateResultMessage {
+    string version_name = 1;    // 版本包名称	必填
+    string before_version = 2;    // 升级前版本号
+    string update_version = 3;    // 升级后版本号 必填
+    string start_time = 4;      // 更新开始时间yyyy-MM-dd HH:mm:ss 必填
+    int32 time_used = 5;        // 更新耗时(ms) 必填
+    string fail_reason = 6;      // 更新失败原因
+    enum UpdateState {
+		RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+        SUCCESS = 1;    // 升级成功
+        UNKNOWN = 2;    // 未知错误
+        MISMATCH = 3;    // 版本不匹配
+        LOW_VERSION = 4;    // 不允许降级
+    }
+    UpdateState update_state = 7;    // 更新结果 必填
+}
+
+/*
+ * topic: /edge/business/persion/{serial_number}
+ * topic type: subscribe
+ * qos: 2
+ * 人员下发（下发人员ID和操作，系统应用根据ID和操作去获取数据）
+ */
+message PersionMessage {
+    message Persion{
+        string persion_id = 1;
+        enum PersionType{
+		    RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+            CREATE = 1; // 添加
+            DELETE = 2; // 删除
+        }
+        PersionType persion_type = 2;
+    }
+    repeated Persion persion = 1;
+}
+
+/*
+ * topic: /edge/business/persion/result/{serial_number}
+ * topic type: publish
+ * qos: 2
+ * 人员下发结果
+ */
+message PersionResultMessage {
+    message Persion{
+        string persion_id = 1;    // 人员ID
+        enum PersionState {
+		    RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+            SUCCESS = 1;    // 成功
+            UNKNOWN = 2;    // 未知错误
+            FEATURE_FAILED = 3;    // 提取特征失败
+            ID_CARD_ERROR = 4;    // 身份证校验失败
+        }
+        PersionState persion_state = 2;
+    }
+    repeated Persion persion = 1;
+}
+
+/*
+ * topic: /edge/business/recognition/result/{serial_number}
+ * topic type: publish
+ * qos: 2
+ * 上送识别结果（定义通用上送结构，http/https？）
+ */
+message RecognitionResultMessage{
+    string persion_id = 1;    // 人员ID
+    bytes image = 2;    // 大图
+    message RectMessage {
+        int32             x = 1;
+        int32             y = 2;
+        int32             w = 3;
+        int32             h = 4;
+    }
+    RectMessage         rect = 3;    // 人脸坐标 x,y,w,h
+    int32               score = 5;    // 得分
+    int64               time = 6;    // 毫秒时间戳
+}
+
+/*
+ * topic: /edge/business/persion/select/{serial_number}
+ * topic type: subscribe
+ * qos: 2
+ * 查询人员列表
+ */
+message PersionSelectMessage {
+    int64 time = 1;    // 毫秒时间戳
+}
+
+/*
+ * topic: /edge/business/persion/list/{serial_number}
+ * topic type: publish
+ * qos: 2
+ * 发送人员列表（MQTT对报文大小有限制，最大1M）
+ */
+message PersionListMessage {
+    repeated string persion_id = 1;
+}
+
+
+/*
+ * topic: /biapwp/edge/action/
+ * topic type: publish
+ * qos: 2
+ * 生物平台设备动作，设备修改需要判断是否是渠道号的修改，渠道号修改针对不同的场景可能是需要新增或者删除设备
+ */
+ message EdgeActionMessage {
+    string serial_number = 1; // 设备编码
+    enum OnlineStatus {
+        RETAIN = 0; // 保留字段(避免序列化后字符串为空)
+        ONLINE = 1;    // 在线
+        OFFLINE = 2;    // 离线
+    }
+    OnlineStatus online_status = 2; // 设备在线状态
+    enum ActionType {
+        UNKONW = 0; // 保留字段(避免序列化后字符串为空)
+        ADD = 1;// 新增设备
+        UPDATE = 2; // 修改设备
+        DELETE = 3; // 删除设备
+    }
+    ActionType action_type = 3; // 设备动作
+    string device_name = 4;       // 设备名称
+    string device_ip = 5;       // 设备IP
+    string device_mac = 6;     // 设备MAC
+    string device_model_code = 7;   // 设备型号编码
+    string channel_code = 8;     // 所属渠道(场景)编码
+}

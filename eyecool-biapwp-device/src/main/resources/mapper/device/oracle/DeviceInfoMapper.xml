@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceInfoMapper">
+
+    <select id="selectDeviceInfoList" parameterType="DeviceInfo" resultMap="DeviceInfoResult" databaseId="oracle">
+        <include refid="selectDeviceInfoVo"/>
+        <where>  
+            <if test="deviceNo != null  and deviceNo != ''"> and device_no = #{deviceNo}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceAddr != null  and deviceAddr != ''"> and device_addr = #{deviceAddr}</if>
+            <if test="deviceModelCode != null  and deviceModelCode != ''"> and device_model_code = #{deviceModelCode}</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceMac != null  and deviceMac != ''"> and device_mac = #{deviceMac}</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="subtreasuryCode != null  and subtreasuryCode != ''"> and subtreasury_code = #{subtreasuryCode}</if>
+            <if test="importBatchNum != null  and importBatchNum != ''"> and import_batch_num = #{importBatchNum}</if>
+            <if test="createMethod != null  and createMethod != ''"> and create_method = #{createMethod}</if>
+            <if test="pullAllFlag != null  and pullAllFlag != ''"> and pull_all_flag = #{pullAllFlag}</if>
+            <if test="primarySubCode != null  and primarySubCode != ''"> and primary_sub_code = #{primarySubCode}</if>
+            <if test="duplicateTime != null "> and duplicate_time = #{duplicateTime}</if>
+            <if test="deviceType != null  and deviceType != ''"> and device_type = #{deviceType}</if>
+            <if test="mqttPwd != null  and mqttPwd != ''"> and mqtt_pwd = #{mqttPwd}</if>
+            <if test="mqttSalt != null  and mqttSalt != ''"> and mqtt_salt = #{mqttSalt}</if>
+            <if test="extInfo != null  and extInfo != ''"> and ext_info = #{extInfo}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="areaId != null ">
+				and (area_id = #{areaId} or area_id in ( select t.id from area_model t where find_in_set(#{areaId}, ancestors) <![CDATA[ <> ]]> 0))
+			</if>
+        </where>
+    </select>
+    
+     <update id="resetPullAllDataFlagBySubCode" parameterType="String" databaseId="oracle">
+    	update device_info set pull_all_flag = '1' where subtreasury_code = #{subCode} or find_in_set(#{subCode}, subtreasury_code) <![CDATA[ <> ]]> 0
+    </update>
+    
+    
+</mapper>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.basedata.mapper.BasePersonCertMapper">
+    
+    <resultMap type="BasePersonCert" id="BasePersonCertResult">
+        <result property="id"    column="id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="certType"    column="cert_type"    />
+        <result property="certNum"    column="cert_num"    />
+        <result property="certName"    column="cert_name"    />
+        <result property="certValidity"    column="cert_validity"    />
+        <result property="gender"    column="gender"    />
+        <result property="bthDate"    column="bth_date"    />
+        <result property="nation"    column="nation"    />
+        <result property="address"    column="address"    />
+        <result property="certAuthority"    column="cert_authority"    />
+        <result property="certImg"    column="cert_img"    />
+        <result property="encrypted"    column="encrypted"    />
+        <result property="enterschoolImg"    column="enterschool_img"    />
+        <result property="inschoolImg"    column="inschool_img"    />
+        <result property="graduateImg"    column="graduate_img"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectBasePersonCertVo">
+        select id, unique_id, cert_type, cert_num, cert_name, cert_validity, gender, bth_date, nation, address, cert_authority, cert_img, encrypted, enterschool_img, inschool_img, graduate_img, remark, create_by, update_by, create_time, update_time, batch_date, tenant_id from base_person_cert
+    </sql>
+
+    <select id="selectBasePersonCertList" parameterType="BasePersonCert" resultMap="BasePersonCertResult">
+        <include refid="selectBasePersonCertVo"/>
+        <where>  
+        	<if test="params !=null and params.ids != null and params.ids.size() > 0">
+        	 	and c.id in
+        	 	<foreach collection="params.ids" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		        </foreach>
+        	 </if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="certType != null  and certType != ''"> and cert_type = #{certType}</if>
+            <if test="certNum != null  and certNum != ''"> and cert_num = #{certNum}</if>
+            <if test="certName != null  and certName != ''"> and cert_name like concat(concat('%', #{certName}), '%')</if>
+            <if test="certValidity != null  and certValidity != ''"> and cert_validity = #{certValidity}</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="bthDate != null  and bthDate != ''"> and bth_date = #{bthDate}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="certAuthority != null  and certAuthority != ''"> and cert_authority = #{certAuthority}</if>
+            <if test="certImg != null  and certImg != ''"> and cert_img = #{certImg}</if>
+            <if test="encrypted != null  and encrypted != ''"> and encrypted = #{encrypted}</if>
+            <if test="enterschoolImg != null  and enterschoolImg != ''"> and enterschool_img = #{enterschoolImg}</if>
+            <if test="inschoolImg != null  and inschoolImg != ''"> and inschool_img = #{inschoolImg}</if>
+            <if test="graduateImg != null  and graduateImg != ''"> and graduate_img = #{graduateImg}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBasePersonCertById" parameterType="String" resultMap="BasePersonCertResult">
+        <include refid="selectBasePersonCertVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBasePersonCert" parameterType="BasePersonCert">
+        insert into base_person_cert
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id,</if>
+            <if test="certType != null and certType != ''">cert_type,</if>
+            <if test="certNum != null and certNum != ''">cert_num,</if>
+            <if test="certName != null">cert_name,</if>
+            <if test="certValidity != null">cert_validity,</if>
+            <if test="gender != null">gender,</if>
+            <if test="bthDate != null">bth_date,</if>
+            <if test="nation != null">nation,</if>
+            <if test="address != null">address,</if>
+            <if test="certAuthority != null">cert_authority,</if>
+            <if test="certImg != null">cert_img,</if>
+            <if test="encrypted != null">encrypted,</if>
+            <if test="enterschoolImg != null">enterschool_img,</if>
+            <if test="inschoolImg != null">inschool_img,</if>
+            <if test="graduateImg != null">graduate_img,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="uniqueId != null and uniqueId != ''">#{uniqueId},</if>
+            <if test="certType != null and certType != ''">#{certType},</if>
+            <if test="certNum != null and certNum != ''">#{certNum},</if>
+            <if test="certName != null">#{certName},</if>
+            <if test="certValidity != null">#{certValidity},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="bthDate != null">#{bthDate},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="address != null">#{address},</if>
+            <if test="certAuthority != null">#{certAuthority},</if>
+            <if test="certImg != null">#{certImg},</if>
+            <if test="encrypted != null">#{encrypted},</if>
+            <if test="enterschoolImg != null">#{enterschoolImg},</if>
+            <if test="inschoolImg != null">#{inschoolImg},</if>
+            <if test="graduateImg != null">#{graduateImg},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBasePersonCert" parameterType="BasePersonCert">
+        update base_person_cert
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uniqueId != null and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="certType != null and certType != ''">cert_type = #{certType},</if>
+            <if test="certNum != null and certNum != ''">cert_num = #{certNum},</if>
+            <if test="certName != null">cert_name = #{certName},</if>
+            <if test="certValidity != null">cert_validity = #{certValidity},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="bthDate != null">bth_date = #{bthDate},</if>
+            <if test="nation != null">nation = #{nation},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="certAuthority != null">cert_authority = #{certAuthority},</if>
+            <if test="certImg != null">cert_img = #{certImg},</if>
+            <if test="encrypted != null">encrypted = #{encrypted},</if>
+            <if test="enterschoolImg != null">enterschool_img = #{enterschoolImg},</if>
+            <if test="inschoolImg != null">inschool_img = #{inschoolImg},</if>
+            <if test="graduateImg != null">graduate_img = #{graduateImg},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBasePersonCertById" parameterType="String">
+        delete from base_person_cert where id = #{id}
+    </delete>
+
+    <delete id="deleteBasePersonCertByIds" parameterType="String">
+        delete from base_person_cert where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

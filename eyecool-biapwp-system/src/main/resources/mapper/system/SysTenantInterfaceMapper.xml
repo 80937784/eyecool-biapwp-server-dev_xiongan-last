@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.system.mapper.SysTenantInterfaceMapper">
+    
+    <resultMap type="SysTenantInterface" id="SysTenantInterfaceResult">
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="transcode"    column="transcode"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    
+    <resultMap type="SysDictData" id="SysDictDataResult">
+		<id     property="dictCode"   column="dict_code"   />
+		<result property="dictSort"   column="dict_sort"   />
+		<result property="dictLabel"  column="dict_label"  />
+		<result property="dictValue"  column="dict_value"  />
+		<result property="dictType"   column="dict_type"   />
+		<result property="cssClass"   column="css_class"   />
+		<result property="listClass"  column="list_class"  />
+		<result property="isDefault"  column="is_default"  />
+		<result property="status"     column="status"      />
+		<result property="createBy"   column="create_by"   />
+		<result property="createTime" column="create_time" />
+		<result property="updateBy"   column="update_by"   />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+    <sql id="selectSysTenantInterfaceVo">
+        select tenant_id, transcode, expire_time, create_time, update_time from sys_tenant_interface
+    </sql>
+
+    <select id="selectSysTenantInterfaceList" parameterType="SysTenantInterface" resultMap="SysTenantInterfaceResult">
+        <include refid="selectSysTenantInterfaceVo"/>
+        <where>  
+        	<if test="tenantId != null and tenantId != '' "> and tenant_id = #{tenantId}</if>
+        	<if test="transcode != null and transcode != '' "> and transcode = #{transcode}</if>
+            <if test="expireTime != null "> and expire_time = #{expireTime}</if>
+        </where>
+    </select>
+    
+    <insert id="insertSysTenantInterface" parameterType="SysTenantInterface">
+        insert into sys_tenant_interface
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="transcode != null">transcode,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="transcode != null">#{transcode},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTenantInterface" parameterType="SysTenantInterface">
+        update sys_tenant_interface
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="transcode != null">transcode = #{transcode},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where tenant_id = #{tenantId}
+    </update>
+
+    <delete id="deleteSysTenantInterface" parameterType="SysTenantInterface">
+        delete from sys_tenant_interface where tenant_id = #{tenantId} 
+        <if test="transcode != null and transcode != '' ">
+        	AND transcode = #{transcode}
+		</if>
+        <if test="params.transcodeList != null and params.transcodeList.size() > 0 ">
+        	AND transcode in 
+        	<foreach item="transcode" collection="params.transcodeList" open="(" separator="," close=")">
+	            #{transcode}
+	        </foreach>
+		</if>
+    </delete>
+
+	<select id="selectUnallocatedInterfaceList" parameterType="SysDictData" resultMap="SysDictDataResult">
+	    select dict_code, dict_sort, dict_label, dict_value, dict_type, status, create_time, remark 
+		from sys_dict_data data
+		<where>
+			dict_type = #{dictType} and dict_value not in (select transcode from sys_tenant_interface where tenant_id = #{params.tenantId} )
+			<if test="dictLabel != null and dictLabel != ''">
+				AND dict_label like concat(concat('%',#{dictLabel}),'%')
+			</if>
+			<if test="dictValue != null and dictValue != ''">
+				AND dict_value = #{dictValue} 
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+		</where>
+	</select>
+</mapper>

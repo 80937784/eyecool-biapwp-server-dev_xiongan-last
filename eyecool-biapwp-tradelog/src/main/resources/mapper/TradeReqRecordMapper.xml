@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.TradeReqRecordMapper">
+    
+    <resultMap type="TradeReqRecord" id="TradeReqRecordResult">
+        <result property="id"    column="id"    />
+        <result property="transCode"    column="trans_code"    />
+        <result property="transTitle"    column="trans_title"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="clientIp"    column="client_ip"    />
+        <result property="sendTime"    column="send_time"    />
+        <result property="timeUsed"    column="time_used"    />
+        <result property="statusCode"    column="status_code"    />
+        <result property="transUrl"    column="trans_url"    />
+        <result property="classMethod"    column="class_method"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="detailFilePath"    column="detail_file_path"    />
+    </resultMap>
+
+    <sql id="selectTradeReqRecordVo">
+        select id, trans_code, trans_title, received_time, client_ip, send_time, time_used, status_code, trans_url, class_method, channel_code, tenant_id, detail_file_path from trade_req_record
+    </sql>
+
+    <select id="selectTradeReqRecordList" parameterType="TradeReqRecord" resultMap="TradeReqRecordResult" databaseId="mysql">
+        <include refid="selectTradeReqRecordVo"/>
+        <where>  
+            <if test="transCode != null  and transCode != ''"> and trans_code = #{transCode}</if>
+            <if test="transTitle != null  and transTitle != ''"> and trans_title = #{transTitle}</if>
+            <if test="clientIp != null  and clientIp != ''"> and client_ip = #{clientIp}</if>
+            <if test="sendTime != null "> and send_time = #{sendTime}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="statusCode != null  and statusCode != ''"> and status_code = #{statusCode}</if>
+            <if test="transUrl != null  and transUrl != ''"> and trans_url = #{transUrl}</if>
+            <if test="classMethod != null  and classMethod != ''"> and class_method = #{classMethod}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and date_format(received_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+			</if>
+        </where>
+    </select>
+    
+    <select id="selectTradeReqRecordById" parameterType="String" resultMap="TradeReqRecordResult">
+        <include refid="selectTradeReqRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTradeReqRecord" parameterType="TradeReqRecord">
+        insert into trade_req_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="transCode != null">trans_code,</if>
+            <if test="transTitle != null">trans_title,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="clientIp != null">client_ip,</if>
+            <if test="sendTime != null">send_time,</if>
+            <if test="timeUsed != null">time_used,</if>
+            <if test="statusCode != null and statusCode != ''">status_code,</if>
+            <if test="transUrl != null">trans_url,</if>
+            <if test="classMethod != null">class_method,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="detailFilePath != null">detail_file_path,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="transCode != null">#{transCode},</if>
+            <if test="transTitle != null">#{transTitle},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="clientIp != null">#{clientIp},</if>
+            <if test="sendTime != null">#{sendTime},</if>
+            <if test="timeUsed != null">#{timeUsed},</if>
+            <if test="statusCode != null and statusCode != ''">#{statusCode},</if>
+            <if test="transUrl != null">#{transUrl},</if>
+            <if test="classMethod != null">#{classMethod},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="detailFilePath != null">#{detailFilePath},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTradeReqRecord" parameterType="TradeReqRecord">
+        update trade_req_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="transCode != null">trans_code = #{transCode},</if>
+            <if test="transTitle != null">trans_title = #{transTitle},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="clientIp != null">client_ip = #{clientIp},</if>
+            <if test="sendTime != null">send_time = #{sendTime},</if>
+            <if test="timeUsed != null">time_used = #{timeUsed},</if>
+            <if test="statusCode != null and statusCode != ''">status_code = #{statusCode},</if>
+            <if test="transUrl != null">trans_url = #{transUrl},</if>
+            <if test="classMethod != null">class_method = #{classMethod},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="detailFilePath != null">detail_file_path = #{detailFilePath},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTradeReqRecordById" parameterType="String">
+        delete from trade_req_record where id = #{id}
+    </delete>
+
+    <delete id="deleteTradeReqRecordByIds" parameterType="String">
+        delete from trade_req_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <insert id="addPartition" databaseId="mysql">
+		 CALL sp_create_partition(DATE_ADD(NOW(), INTERVAL + (#{offsetDay}) DAY), #{schemaName}, #{tableName},'%Y%m%d')
+    </insert>
+    
+     <delete id="dropPartition" databaseId="mysql">
+		 CALL sp_drop_partition(#{holdDate}, #{schemaName}, #{tableName},'%Y%m%d')
+    </delete>
+    
+</mapper>

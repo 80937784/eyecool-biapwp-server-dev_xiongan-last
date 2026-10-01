@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.PersonFaceirisMatchLogMapper">
+    
+    <resultMap type="PersonFaceirisMatchLog" id="PersonFaceirisMatchLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="healthcodeLogId"    column="healthcode_log_id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="personName"    column="person_name"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneFaceImage"    column="scene_face_image"    />
+        <result property="sceneIrisImage"    column="scene_iris_image"    />
+        <result property="sceneFaceScore"    column="scene_face_score"    />
+        <result property="sceneIrisScore"    column="scene_iris_score"    />
+        <result property="stockFaceImage"    column="stock_face_image"    />
+        <result property="stockIrisImage"    column="stock_iris_image"    />
+        <result property="matchMode"    column="match_mode"    />
+        <result property="matchScore"    column="match_score"    />
+        <result property="checkliveScore"    column="checklive_score"    />
+        <result property="checkliveResult"    column="checklive_result"    />
+        <result property="result"    column="result"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="timeUsed"    column="time_used"    />
+        <result property="faceTimeUsed"    column="face_time_used"    />
+        <result property="irisTimeUsed"    column="iris_time_used"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="temperatureFloor"    column="temperature_floor"    />
+        <result property="temperatureTop"    column="temperature_top"    />
+        <result property="deviceSn"    column="device_sn"    />
+        <result property="deviceModel"    column="device_model"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deviceIp"    column="device_ip"    />
+        <result property="deviceLongitude"    column="device_longitude"    />
+        <result property="deviceDimension"    column="device_dimension"    />
+        <result property="deviceDirection"    column="device_direction"    />
+        <result property="serverId"    column="server_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="temperatureResult"    column="temperature_result"    />
+    </resultMap>
+
+    <sql id="selectPersonFaceirisMatchLogVo">
+        select id, received_seq, healthcode_log_id, unique_id, dept_id, dept_name, person_name, channel_code, scene_face_image, scene_iris_image, scene_face_score, scene_iris_score, stock_face_image, stock_iris_image, match_mode, match_score, checklive_score, checklive_result, result, received_time, time_used, face_time_used, iris_time_used, temperature, temperature_floor, temperature_top, device_sn, device_model, device_name, device_ip, device_longitude, device_dimension, device_direction, server_id, create_time, batch_date, remark, tenant_id, temperature_result from person_faceiris_match_log log
+    </sql>
+
+    <select id="selectPersonFaceirisMatchLogList" parameterType="PersonFaceirisMatchLog" resultMap="PersonFaceirisMatchLogResult" databaseId="mysql">
+        <include refid="selectPersonFaceirisMatchLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="healthcodeLogId != null  and healthcodeLogId != ''"> and healthcode_log_id = #{healthcodeLogId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneFaceImage != null  and sceneFaceImage != ''"> and scene_face_image = #{sceneFaceImage}</if>
+            <if test="sceneIrisImage != null  and sceneIrisImage != ''"> and scene_iris_image = #{sceneIrisImage}</if>
+            <if test="sceneFaceScore != null "> and scene_face_score = #{sceneFaceScore}</if>
+            <if test="sceneIrisScore != null "> and scene_iris_score = #{sceneIrisScore}</if>
+            <if test="stockFaceImage != null  and stockFaceImage != ''"> and stock_face_image = #{stockFaceImage}</if>
+            <if test="stockIrisImage != null  and stockIrisImage != ''"> and stock_iris_image = #{stockIrisImage}</if>
+            <if test="matchMode != null  and matchMode != ''"> and match_mode = #{matchMode}</if>
+            <if test="matchScore != null "> and match_score = #{matchScore}</if>
+            <if test="checkliveScore != null "> and checklive_score = #{checkliveScore}</if>
+            <if test="checkliveResult != null  and checkliveResult != ''"> and checklive_result = #{checkliveResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="faceTimeUsed != null "> and face_time_used = #{faceTimeUsed}</if>
+            <if test="irisTimeUsed != null "> and iris_time_used = #{irisTimeUsed}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="temperatureFloor != null "> and temperature_floor = #{temperatureFloor}</if>
+            <if test="temperatureTop != null "> and temperature_top = #{temperatureTop}</if>
+            <if test="deviceSn != null  and deviceSn != ''"> and device_sn = #{deviceSn}</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceLongitude != null "> and device_longitude = #{deviceLongitude}</if>
+            <if test="deviceDimension != null "> and device_dimension = #{deviceDimension}</if>
+            <if test="deviceDirection != null  and deviceDirection != ''"> and device_direction = #{deviceDirection}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and date_format(received_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectLastPersonFaceirisMatchLogList" parameterType="PersonFaceirisMatchLog" resultMap="PersonFaceirisMatchLogResult" databaseId="mysql">
+        <include refid="selectPersonFaceirisMatchLogVo"/>
+        INNER JOIN (
+		  SELECT unique_id as unique_id_tmp, MAX(received_time) AS received_time_tmp
+		  FROM person_faceiris_match_log
+		  <if test="tenantId != null  and tenantId != ''"> where tenant_id = #{tenantId}</if>
+		  GROUP BY unique_id
+		) AS tmp
+		ON log.unique_id = tmp.unique_id_tmp AND log.received_time = tmp.received_time_tmp
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="healthcodeLogId != null  and healthcodeLogId != ''"> and healthcode_log_id = #{healthcodeLogId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneFaceImage != null  and sceneFaceImage != ''"> and scene_face_image = #{sceneFaceImage}</if>
+            <if test="sceneIrisImage != null  and sceneIrisImage != ''"> and scene_iris_image = #{sceneIrisImage}</if>
+            <if test="sceneFaceScore != null "> and scene_face_score = #{sceneFaceScore}</if>
+            <if test="sceneIrisScore != null "> and scene_iris_score = #{sceneIrisScore}</if>
+            <if test="stockFaceImage != null  and stockFaceImage != ''"> and stock_face_image = #{stockFaceImage}</if>
+            <if test="stockIrisImage != null  and stockIrisImage != ''"> and stock_iris_image = #{stockIrisImage}</if>
+            <if test="matchMode != null  and matchMode != ''"> and match_mode = #{matchMode}</if>
+            <if test="matchScore != null "> and match_score = #{matchScore}</if>
+            <if test="checkliveScore != null "> and checklive_score = #{checkliveScore}</if>
+            <if test="checkliveResult != null  and checkliveResult != ''"> and checklive_result = #{checkliveResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="faceTimeUsed != null "> and face_time_used = #{faceTimeUsed}</if>
+            <if test="irisTimeUsed != null "> and iris_time_used = #{irisTimeUsed}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="temperatureFloor != null "> and temperature_floor = #{temperatureFloor}</if>
+            <if test="temperatureTop != null "> and temperature_top = #{temperatureTop}</if>
+            <if test="deviceSn != null  and deviceSn != ''"> and device_sn = #{deviceSn}</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceLongitude != null "> and device_longitude = #{deviceLongitude}</if>
+            <if test="deviceDimension != null "> and device_dimension = #{deviceDimension}</if>
+            <if test="deviceDirection != null  and deviceDirection != ''"> and device_direction = #{deviceDirection}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and date_format(received_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectPersonFaceirisMatchLogById" parameterType="String" resultMap="PersonFaceirisMatchLogResult">
+        <include refid="selectPersonFaceirisMatchLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPersonFaceirisMatchLog" parameterType="PersonFaceirisMatchLog">
+        insert into person_faceiris_match_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="healthcodeLogId != null">healthcode_log_id,</if>
+            <if test="uniqueId != null">unique_id,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="personName != null">person_name,</if>
+            <if test="channelCode != null">channel_code,</if>
+            <if test="sceneFaceImage != null">scene_face_image,</if>
+            <if test="sceneIrisImage != null">scene_iris_image,</if>
+            <if test="sceneFaceScore != null">scene_face_score,</if>
+            <if test="sceneIrisScore != null">scene_iris_score,</if>
+            <if test="stockFaceImage != null">stock_face_image,</if>
+            <if test="stockIrisImage != null">stock_iris_image,</if>
+            <if test="matchMode != null">match_mode,</if>
+            <if test="matchScore != null">match_score,</if>
+            <if test="checkliveScore != null">checklive_score,</if>
+            <if test="checkliveResult != null">checklive_result,</if>
+            <if test="result != null">result,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="timeUsed != null">time_used,</if>
+            <if test="faceTimeUsed != null">face_time_used,</if>
+            <if test="irisTimeUsed != null">iris_time_used,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="temperatureFloor != null">temperature_floor,</if>
+            <if test="temperatureTop != null">temperature_top,</if>
+            <if test="deviceSn != null">device_sn,</if>
+            <if test="deviceModel != null">device_model,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="deviceIp != null">device_ip,</if>
+            <if test="deviceLongitude != null">device_longitude,</if>
+            <if test="deviceDimension != null">device_dimension,</if>
+            <if test="deviceDirection != null">device_direction,</if>
+            <if test="serverId != null">server_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="remark != null">remark,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="temperatureResult != null">temperature_result,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="healthcodeLogId != null">#{healthcodeLogId},</if>
+            <if test="uniqueId != null">#{uniqueId},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="personName != null">#{personName},</if>
+            <if test="channelCode != null">#{channelCode},</if>
+            <if test="sceneFaceImage != null">#{sceneFaceImage},</if>
+            <if test="sceneIrisImage != null">#{sceneIrisImage},</if>
+            <if test="sceneFaceScore != null">#{sceneFaceScore},</if>
+            <if test="sceneIrisScore != null">#{sceneIrisScore},</if>
+            <if test="stockFaceImage != null">#{stockFaceImage},</if>
+            <if test="stockIrisImage != null">#{stockIrisImage},</if>
+            <if test="matchMode != null">#{matchMode},</if>
+            <if test="matchScore != null">#{matchScore},</if>
+            <if test="checkliveScore != null">#{checkliveScore},</if>
+            <if test="checkliveResult != null">#{checkliveResult},</if>
+            <if test="result != null">#{result},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="timeUsed != null">#{timeUsed},</if>
+            <if test="faceTimeUsed != null">#{faceTimeUsed},</if>
+            <if test="irisTimeUsed != null">#{irisTimeUsed},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="temperatureFloor != null">#{temperatureFloor},</if>
+            <if test="temperatureTop != null">#{temperatureTop},</if>
+            <if test="deviceSn != null">#{deviceSn},</if>
+            <if test="deviceModel != null">#{deviceModel},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="deviceIp != null">#{deviceIp},</if>
+            <if test="deviceLongitude != null">#{deviceLongitude},</if>
+            <if test="deviceDimension != null">#{deviceDimension},</if>
+            <if test="deviceDirection != null">#{deviceDirection},</if>
+            <if test="serverId != null">#{serverId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="temperatureResult != null">#{temperatureResult},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePersonFaceirisMatchLog" parameterType="PersonFaceirisMatchLog">
+        update person_faceiris_match_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="healthcodeLogId != null">healthcode_log_id = #{healthcodeLogId},</if>
+            <if test="uniqueId != null">unique_id = #{uniqueId},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="personName != null">person_name = #{personName},</if>
+            <if test="channelCode != null">channel_code = #{channelCode},</if>
+            <if test="sceneFaceImage != null">scene_face_image = #{sceneFaceImage},</if>
+            <if test="sceneIrisImage != null">scene_iris_image = #{sceneIrisImage},</if>
+            <if test="sceneFaceScore != null">scene_face_score = #{sceneFaceScore},</if>
+            <if test="sceneIrisScore != null">scene_iris_score = #{sceneIrisScore},</if>
+            <if test="stockFaceImage != null">stock_face_image = #{stockFaceImage},</if>
+            <if test="stockIrisImage != null">stock_iris_image = #{stockIrisImage},</if>
+            <if test="matchMode != null">match_mode = #{matchMode},</if>
+            <if test="matchScore != null">match_score = #{matchScore},</if>
+            <if test="checkliveScore != null">checklive_score = #{checkliveScore},</if>
+            <if test="checkliveResult != null">checklive_result = #{checkliveResult},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="timeUsed != null">time_used = #{timeUsed},</if>
+            <if test="faceTimeUsed != null">face_time_used = #{faceTimeUsed},</if>
+            <if test="irisTimeUsed != null">iris_time_used = #{irisTimeUsed},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="temperatureFloor != null">temperature_floor = #{temperatureFloor},</if>
+            <if test="temperatureTop != null">temperature_top = #{temperatureTop},</if>
+            <if test="deviceSn != null">device_sn = #{deviceSn},</if>
+            <if test="deviceModel != null">device_model = #{deviceModel},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="deviceIp != null">device_ip = #{deviceIp},</if>
+            <if test="deviceLongitude != null">device_longitude = #{deviceLongitude},</if>
+            <if test="deviceDimension != null">device_dimension = #{deviceDimension},</if>
+            <if test="deviceDirection != null">device_direction = #{deviceDirection},</if>
+            <if test="serverId != null">server_id = #{serverId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="temperatureResult != null">temperature_result = #{temperatureResult},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePersonFaceirisMatchLogById" parameterType="String">
+        delete from person_faceiris_match_log where id = #{id}
+    </delete>
+
+    <delete id="deletePersonFaceirisMatchLogByIds" parameterType="String">
+        delete from person_faceiris_match_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <insert id="addPartition" databaseId="mysql">
+		 CALL sp_create_partition(DATE_ADD(NOW(), INTERVAL + (#{offsetDay}) DAY), #{schemaName}, #{tableName},'%Y%m%d')
+    </insert>
+    
+     <delete id="dropPartition" databaseId="mysql">
+		 CALL sp_drop_partition(#{holdDate}, #{schemaName}, #{tableName},'%Y%m%d')
+    </delete>
+</mapper>

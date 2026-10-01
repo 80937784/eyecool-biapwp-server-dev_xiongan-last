@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.scene.mapper.ChannelBusinessMapper">
+    
+    <select id="selectUnbindPersonInfoList" resultMap="cn.eyecool.basedata.mapper.BasePersonInfoMapper.BasePersonInfoResult" databaseId="oracle">
+         select
+			base.id,
+			base.unique_id,
+			base.name,
+			base.sex,
+			base.phone,
+			base.card_no,
+			base.account,
+			base.email,
+			base.dept_id,
+			base.flag,
+			base.status,
+			base.create_by,
+			base.update_by,
+			base.create_time,
+			base.update_time,
+			base.tenant_id 	
+		from
+			base_person_info base 
+		where
+			not exists ( select busi.person_id from channel_business busi where busi.person_id = base.id and busi.status = '0' and busi.channel_id = #{channelId} ) 
+			and base.status = '0'
+			<if test="basePersonInfo != null">
+				<if test="basePersonInfo.uniqueId != null  and basePersonInfo.uniqueId != ''"> and base.unique_id = #{basePersonInfo.uniqueId}</if>
+	            <if test="basePersonInfo.name != null  and basePersonInfo.name != ''"> and base.name like concat(concat('%', #{basePersonInfo.name}), '%')</if>
+	            <if test="basePersonInfo.phone != null  and basePersonInfo.phone != ''"> and base.phone = #{basePersonInfo.phone}</if>
+	            <if test="basePersonInfo.deptId != null "> and (base.dept_id = #{basePersonInfo.deptId} or base.dept_id in (select t.dept_id from sys_dept t where find_in_set (#{basePersonInfo.deptId},ancestors) <![CDATA[ <> ]]> 0 ))</if>
+			</if>
+    </select>
+    
+    
+    <!-- 实时同步更新数据查询 -->
+    <select id="selectLiveUpdateBasePersonInfoList" parameterType="Map" resultType="BasePersonLiveUpdateInfo" databaseId="oracle">
+        SELECT
+			base.id,
+			base.unique_id as uniqueId,
+			base.name,
+			base.sex,
+			base.phone,
+			base.card_no as cardNo,
+			base.account,
+			base.email,
+			base.flag,
+			base.ext_attrs as extAttrs, 
+			case 
+				when base.status = '0' and busi.status = '0'  <if test="sbusiUpdateSeriaNum != null"> and sbusi.status = '0' </if> then '0'
+				else '1' 
+			end as status,
+			base.update_seria_num as updateSeriaNum,
+			base.update_time as updateTime,
+			<if test="busiUpdateSeriaNum != null">
+				busi.update_seria_num as busiUpdateSeriaNum,
+			</if>
+			<if test="sbusiUpdateSeriaNum != null">
+				sbusi.update_seria_num as sbusiUpdateSeriaNum,
+				sbusi.sub_treasury_id as subTreasuryId,
+				sbusi.device_mgr as deviceMgr,
+			</if>
+			busi.face_mode as faceMode,
+			busi.finger_mode as fingerMode,
+			busi.iris_mode as irisMode,
+			busi.fvein_mode as fveinMode,
+			busi.face_iris_mode as faceIrisMode,
+			busi.locked,
+			dept.dept_code as deptCode,
+			dept.dept_name as deptName
+		FROM
+			base_person_info base
+		INNER JOIN 
+			channel_business busi
+		ON  
+			busi.person_id = base.id AND busi.channel_id = #{channelId}
+		<if test="sbusiUpdateSeriaNum != null and subtreasuryIds != null and subtreasuryIds.length > 0">
+			INNER JOIN (
+				SELECT
+					person_id,
+					to_char(wm_concat(sub_treasury_id)) AS sub_treasury_id,
+					max(update_seria_num) AS update_seria_num,
+					min(status) as status,
+					max(device_mgr) as device_mgr,
+					channel_id
+				FROM
+					channel_subtreasury_busi 
+				WHERE channel_id = #{channelId} and sub_treasury_id IN 
+				<foreach item="subId" collection="subtreasuryIds" open="(" separator="," close=")">
+				    #{subId}
+				</foreach>
+				GROUP BY person_id 
+			) sbusi ON sbusi.person_id = base.id 
+			AND sbusi.channel_id = busi.channel_id 
+		</if>
+		LEFT JOIN 
+			sys_dept dept
+		ON 
+			base.dept_id = dept.dept_id 
+		<where>
+			<if test="busiUpdateSeriaNum != null"> or busi.update_seria_num &gt; #{busiUpdateSeriaNum}</if>
+			<if test="sbusiUpdateSeriaNum != null"> or sbusi.update_seria_num &gt; #{sbusiUpdateSeriaNum}</if>
+        </where>
+    </select>
+    
+</mapper>

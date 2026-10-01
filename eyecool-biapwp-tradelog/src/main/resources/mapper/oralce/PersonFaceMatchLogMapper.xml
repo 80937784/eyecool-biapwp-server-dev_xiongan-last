@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.PersonFaceMatchLogMapper">
+
+	<select id="selectPersonFaceMatchLogList" parameterType="PersonFaceMatchLog" resultMap="PersonFaceMatchLogResult" databaseId="oracle">
+        <include refid="selectPersonFaceMatchLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="healthcodeLogId != null  and healthcodeLogId != ''"> and healthcode_log_id = #{healthcodeLogId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImage != null  and sceneImage != ''"> and scene_image = #{sceneImage}</if>
+            <if test="onlineImage != null  and onlineImage != ''"> and online_image = #{onlineImage}</if>
+            <if test="chipImage != null  and chipImage != ''"> and chip_image = #{chipImage}</if>
+            <if test="stockImage != null  and stockImage != ''"> and stock_image = #{stockImage}</if>
+            <if test="sceneVideo != null  and sceneVideo != ''"> and scene_video = #{sceneVideo}</if>
+            <if test="sceneOnlineScore != null "> and scene_online_score = #{sceneOnlineScore}</if>
+            <if test="sceneChipScore != null "> and scene_chip_score = #{sceneChipScore}</if>
+            <if test="sceneStockScore != null "> and scene_stock_score = #{sceneStockScore}</if>
+            <if test="onlineChipScore != null "> and online_chip_score = #{onlineChipScore}</if>
+            <if test="checkliveScore != null "> and checklive_score = #{checkliveScore}</if>
+            <if test="sceneOnlineResult != null  and sceneOnlineResult != ''"> and scene_online_result = #{sceneOnlineResult}</if>
+            <if test="sceneChipResult != null  and sceneChipResult != ''"> and scene_chip_result = #{sceneChipResult}</if>
+            <if test="sceneStockResult != null  and sceneStockResult != ''"> and scene_stock_result = #{sceneStockResult}</if>
+            <if test="onlineChipResult != null  and onlineChipResult != ''"> and online_chip_result = #{onlineChipResult}</if>
+            <if test="checkliveResult != null  and checkliveResult != ''"> and checklive_result = #{checkliveResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="temperatureFloor != null "> and temperature_floor = #{temperatureFloor}</if>
+            <if test="temperatureTop != null "> and temperature_top = #{temperatureTop}</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceLongitude != null "> and device_longitude = #{deviceLongitude}</if>
+            <if test="deviceDimension != null "> and device_dimension = #{deviceDimension}</if>
+            <if test="deviceDirection != null  and deviceDirection != ''"> and device_direction = #{deviceDirection}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and algs_version = #{algsVersion}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0 ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select> 
+    
+    
+	<select id="selectLastPersonFaceMatchLogList" parameterType="PersonFaceMatchLog" resultMap="PersonFaceMatchLogResult" databaseId="oracle">
+        <include refid="selectPersonFaceMatchLogVo"/>
+         INNER JOIN (
+		  SELECT unique_id as unique_id_tmp, MAX(received_time) AS received_time_tmp
+		  FROM person_face_match_log
+		  <if test="tenantId != null  and tenantId != ''"> where tenant_id = #{tenantId}</if>
+		  GROUP BY unique_id
+		) AS tmp
+		ON log.unique_id = tmp.unique_id_tmp AND log.received_time = tmp.received_time_tmp
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="healthcodeLogId != null  and healthcodeLogId != ''"> and healthcode_log_id = #{healthcodeLogId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImage != null  and sceneImage != ''"> and scene_image = #{sceneImage}</if>
+            <if test="onlineImage != null  and onlineImage != ''"> and online_image = #{onlineImage}</if>
+            <if test="chipImage != null  and chipImage != ''"> and chip_image = #{chipImage}</if>
+            <if test="stockImage != null  and stockImage != ''"> and stock_image = #{stockImage}</if>
+            <if test="sceneVideo != null  and sceneVideo != ''"> and scene_video = #{sceneVideo}</if>
+            <if test="sceneOnlineScore != null "> and scene_online_score = #{sceneOnlineScore}</if>
+            <if test="sceneChipScore != null "> and scene_chip_score = #{sceneChipScore}</if>
+            <if test="sceneStockScore != null "> and scene_stock_score = #{sceneStockScore}</if>
+            <if test="onlineChipScore != null "> and online_chip_score = #{onlineChipScore}</if>
+            <if test="checkliveScore != null "> and checklive_score = #{checkliveScore}</if>
+            <if test="sceneOnlineResult != null  and sceneOnlineResult != ''"> and scene_online_result = #{sceneOnlineResult}</if>
+            <if test="sceneChipResult != null  and sceneChipResult != ''"> and scene_chip_result = #{sceneChipResult}</if>
+            <if test="sceneStockResult != null  and sceneStockResult != ''"> and scene_stock_result = #{sceneStockResult}</if>
+            <if test="onlineChipResult != null  and onlineChipResult != ''"> and online_chip_result = #{onlineChipResult}</if>
+            <if test="checkliveResult != null  and checkliveResult != ''"> and checklive_result = #{checkliveResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="temperatureFloor != null "> and temperature_floor = #{temperatureFloor}</if>
+            <if test="temperatureTop != null "> and temperature_top = #{temperatureTop}</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceLongitude != null "> and device_longitude = #{deviceLongitude}</if>
+            <if test="deviceDimension != null "> and device_dimension = #{deviceDimension}</if>
+            <if test="deviceDirection != null  and deviceDirection != ''"> and device_direction = #{deviceDirection}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and algs_version = #{algsVersion}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0 ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select> 
+    
+    <select id="selectPersonFaceMatchLogByTimeRange" parameterType="PersonFaceMatchLog" resultMap="PersonFaceMatchLogResult" databaseId="oracle">
+        select id, received_seq, healthcode_log_id, unique_id, dept_id, person_name, dept_name, channel_code, scene_image, online_image, chip_image, stock_image, scene_video, scene_online_score, scene_chip_score, scene_stock_score, online_chip_score, checklive_score, scene_online_result, scene_chip_result, scene_stock_result, online_chip_result, checklive_result, result, temperature, temperature_floor, temperature_top, device_code, device_name, device_model, device_ip, device_longitude, device_dimension, device_direction, received_time, time_used, server_id, vendor_code, algs_version, create_time, batch_date, tenant_id from person_face_match_log
+    	<where>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="params != null  and params.startTime !=null">
+            	and received_time &gt;= to_date(#{params.startTime},'yyyy-MM-dd HH24:mi:ss')
+            </if>
+            <if test="params != null  and params.endTime !=null">
+            	and received_time &lt;= to_date(#{params.endTime},'yyyy-MM-dd HH24:mi:ss')
+            </if>
+        </where>
+    </select>
+	
+    <insert id="addPartition" databaseId="oracle">
+		 CALL sp_create_partition(sysdate + #{offsetDay}, #{tableName},'YYYYMMDD')
+    </insert>
+    
+    <delete id="dropPartition" databaseId="oracle">
+		 CALL sp_drop_partition(#{holdDate}, #{tableName},'YYYYMMDD')
+    </delete>
+    
+</mapper>

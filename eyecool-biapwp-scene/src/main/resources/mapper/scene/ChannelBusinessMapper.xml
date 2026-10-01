@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.scene.mapper.ChannelBusinessMapper">
+
+    <resultMap type="ChannelBusiness" id="ChannelBusinessResult">
+        <result property="id" column="id" />
+        <result property="channelId" column="channel_id" />
+        <result property="channelCode" column="channel_code" />
+        <result property="channelName" column="channel_name" />
+        <result property="personId" column="person_id" />
+        <result property="uniqueId" column="unique_id" />
+        <result property="busiCodeFirst" column="busi_code_first" />
+        <result property="busiCodeSecond" column="busi_code_second" />
+        <result property="busiCodeThird" column="busi_code_third" />
+        <result property="faceMode" column="face_mode" />
+        <result property="fingerMode" column="finger_mode" />
+        <result property="irisMode" column="iris_mode" />
+        <result property="fveinMode" column="fvein_mode" />
+        <result property="faceIrisMode" column="face_iris_mode" />
+        <result property="datasource" column="datasource" />
+        <result property="locked" column="locked" />
+        <result property="lockTime" column="lock_time" />
+        <result property="status" column="status" />
+        <result property="remark" column="remark" />
+        <result property="createBy" column="create_by" />
+        <result property="updateBy" column="update_by" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="batchDate" column="batch_date" />
+        <result property="tenantId" column="tenant_id" />
+        <result property="updateSeriaNum" column="update_seria_num" />
+    </resultMap>
+
+    <sql id="selectChannelBusinessVo">
+        select busi.id, busi.channel_id, busi.person_id, busi.unique_id, busi.busi_code_first, busi.busi_code_second, busi.busi_code_third, busi.face_mode, busi.finger_mode, busi.iris_mode, busi.fvein_mode, busi.face_iris_mode, busi.datasource, busi.locked, busi.lock_time, busi.status, busi.remark, busi.create_by, busi.update_by, busi.create_time, busi.update_time, busi.batch_date, busi.tenant_id, busi.update_seria_num, channel.channel_code, channel.channel_name from channel_business busi
+        left join channel_info channel on busi.channel_id = channel.id
+    </sql>
+
+    <select id="selectChannelBusinessList" parameterType="ChannelBusiness" resultMap="ChannelBusinessResult">
+        <include refid="selectChannelBusinessVo"/>
+        <where>
+            <if test="channelId != null  and channelId != ''"> and busi.channel_id = #{channelId}</if>
+            <if test="personId != null  and personId != ''"> and busi.person_id = #{personId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and busi.unique_id = #{uniqueId}</if>
+            <if test="busiCodeFirst != null  and busiCodeFirst != ''"> and busi.busi_code_first = #{busiCodeFirst}</if>
+            <if test="busiCodeSecond != null  and busiCodeSecond != ''"> and busi.busi_code_second = #{busiCodeSecond}</if>
+            <if test="busiCodeThird != null  and busiCodeThird != ''"> and busi.busi_code_third = #{busiCodeThird}</if>
+            <if test="faceMode != null  and faceMode != ''"> and busi.face_mode = #{faceMode}</if>
+            <if test="fingerMode != null  and fingerMode != ''"> and busi.finger_mode = #{fingerMode}</if>
+            <if test="irisMode != null  and irisMode != ''"> and busi.iris_mode = #{irisMode}</if>
+            <if test="fveinMode != null  and fveinMode != ''"> and busi.fvein_mode = #{fveinMode}</if>
+            <if test="faceIrisMode != null  and faceIrisMode != ''"> and busi.face_iris_mode = #{faceIrisMode}</if>
+            <if test="datasource != null  and datasource != ''"> and busi.datasource = #{datasource}</if>
+            <if test="locked != null  and locked != ''"> and busi.locked = #{locked}</if>
+            <if test="lockTime != null "> and busi.lock_time = #{lockTime}</if>
+            <if test="status != null  and status != ''"> and busi.status = #{status}</if>
+            <if test="batchDate != null "> and busi.batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and busi.tenant_id = #{tenantId}</if>
+            <if test="updateSeriaNum != null "> and busi.update_seria_num = #{updateSeriaNum}</if>
+        </where>
+    </select>
+
+    <select id="selectChannelBusinessById" parameterType="String" resultMap="ChannelBusinessResult">
+        <include refid="selectChannelBusinessVo"/>
+        where busi.id = #{id}
+    </select>
+
+    <insert id="insertChannelBusiness" parameterType="ChannelBusiness">
+        insert into channel_business
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="channelId != null and channelId != ''">channel_id,</if>
+            <if test="personId != null and personId != ''">person_id,</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id,</if>
+            <if test="busiCodeFirst != null">busi_code_first,</if>
+            <if test="busiCodeSecond != null">busi_code_second,</if>
+            <if test="busiCodeThird != null">busi_code_third,</if>
+            <if test="faceMode != null and faceMode != ''">face_mode,</if>
+            <if test="fingerMode != null and fingerMode != ''">finger_mode,</if>
+            <if test="irisMode != null and irisMode != ''">iris_mode,</if>
+            <if test="fveinMode != null and fveinMode != ''">fvein_mode,</if>
+            <if test="faceIrisMode != null and faceIrisMode != ''">face_iris_mode,</if>
+            <if test="datasource != null and datasource != ''">datasource,</if>
+            <if test="locked != null">locked,</if>
+            <if test="lockTime != null">lock_time,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="updateSeriaNum != null">update_seria_num,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="channelId != null and channelId != ''">#{channelId},</if>
+            <if test="personId != null and personId != ''">#{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">#{uniqueId},</if>
+            <if test="busiCodeFirst != null">#{busiCodeFirst},</if>
+            <if test="busiCodeSecond != null">#{busiCodeSecond},</if>
+            <if test="busiCodeThird != null">#{busiCodeThird},</if>
+            <if test="faceMode != null and faceMode != ''">#{faceMode},</if>
+            <if test="fingerMode != null and fingerMode != ''">#{fingerMode},</if>
+            <if test="irisMode != null and irisMode != ''">#{irisMode},</if>
+            <if test="fveinMode != null and fveinMode != ''">#{fveinMode},</if>
+            <if test="faceIrisMode != null and faceIrisMode != ''">#{faceIrisMode},</if>
+            <if test="datasource != null and datasource != ''">#{datasource},</if>
+            <if test="locked != null">#{locked},</if>
+            <if test="lockTime != null">#{lockTime},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="updateSeriaNum != null">#{updateSeriaNum},</if>
+        </trim>
+    </insert>
+
+    <update id="updateChannelBusiness" parameterType="ChannelBusiness">
+        update channel_business
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="channelId != null and channelId != ''">channel_id = #{channelId},</if>
+            <if test="personId != null and personId != ''">person_id = #{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="busiCodeFirst != null">busi_code_first = #{busiCodeFirst},</if>
+            <if test="busiCodeSecond != null">busi_code_second = #{busiCodeSecond},</if>
+            <if test="busiCodeThird != null">busi_code_third = #{busiCodeThird},</if>
+            <if test="faceMode != null and faceMode != ''">face_mode = #{faceMode},</if>
+            <if test="fingerMode != null and fingerMode != ''">finger_mode = #{fingerMode},</if>
+            <if test="irisMode != null and irisMode != ''">iris_mode = #{irisMode},</if>
+            <if test="fveinMode != null and fveinMode != ''">fvein_mode = #{fveinMode},</if>
+            <if test="faceIrisMode != null and faceIrisMode != ''">face_iris_mode = #{faceIrisMode},</if>
+            <if test="datasource != null and datasource != ''">datasource = #{datasource},</if>
+            <if test="locked != null">locked = #{locked},</if>
+            <if test="lockTime != null">lock_time = #{lockTime},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="updateSeriaNum != null">update_seria_num = #{updateSeriaNum},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChannelBusinessById" parameterType="String">
+        delete from channel_business where id = #{id}
+    </delete>
+
+    <delete id="deleteChannelBusinessByIds" parameterType="String">
+        delete from channel_business where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectUnbindPersonInfoList" resultMap="cn.eyecool.basedata.mapper.BasePersonInfoMapper.BasePersonInfoResult" databaseId="mysql">
+         select
+			base.id,
+			base.unique_id,
+			base.name,
+			base.sex,
+			base.phone,
+			base.card_no,
+			base.account,
+			base.email,
+			base.dept_id,
+			base.flag,
+			base.status,
+			base.create_by,
+			base.update_by,
+			base.create_time,
+			base.update_time,
+			base.tenant_id 	
+		from
+			base_person_info base 
+		where
+			not exists ( select busi.person_id from channel_business busi where busi.person_id = base.id and busi.status = '0' and busi.channel_id = #{channelId} ) 
+			and base.status = '0'
+            and base.person_type='user'
+        <if test="basePersonInfo != null">
+            <if test="basePersonInfo.uniqueId != null  and basePersonInfo.uniqueId != ''"> and base.unique_id = #{basePersonInfo.uniqueId}</if>
+            <if test="basePersonInfo.name != null  and basePersonInfo.name != ''"> and base.name like concat(concat('%', #{basePersonInfo.name}), '%')</if>
+            <if test="basePersonInfo.phone != null  and basePersonInfo.phone != ''"> and base.phone = #{basePersonInfo.phone}</if>
+            <if test="basePersonInfo.deptId != null "> and (base.dept_id = #{basePersonInfo.deptId} or base.dept_id in ( select t.dept_id from sys_dept t where find_in_set(#{basePersonInfo.deptId}, ancestors)))</if>
+        </if>
+    </select>
+
+    <!-- 实时同步渠道业务更新数据标识最大流水码查询 -->
+    <select id="selectLiveUpdateMaxSeriaNum" resultType="Long">
+        select max(update_seria_num) from channel_business
+    </select>
+
+    <delete id="deleteChannelBusinessByChannelIds" parameterType="String">
+        delete from channel_business where channel_id in
+        <foreach collection="array" item="channelId" open="(" separator="," close=")">
+            #{channelId}
+        </foreach>
+    </delete>
+
+
+    <!-- 实时同步更新数据查询 -->
+    <select id="selectLiveUpdateBasePersonInfoList" parameterType="Map" resultType="BasePersonLiveUpdateInfo" databaseId="mysql">
+        SELECT
+			base.id,
+			base.unique_id as uniqueId,
+			base.name,
+			base.sex,
+			base.phone,
+			base.card_no as cardNo,
+			base.account,
+			base.email,
+			base.flag,
+			base.ext_attrs as extAttrs,
+            base.person_type as personType,
+            base.effective_begin_time as effectiveBeginTime,
+            base.effective_end_time as effectiveEndTime,
+            base.effective_begin_time as permitStartDate,
+            base.effective_end_time as permitEndDate,
+            '00:00:00-23:59:59' as permitInoutTime,
+			case
+				when base.status = '0' and busi.status = '0'  <if test="sbusiUpdateSeriaNum != null"> and sbusi.status = '0' </if> then '0'
+				else '1' 
+			end as status,
+			base.update_time as updateTime,
+        <if test="busiUpdateSeriaNum != null">
+				busi.update_seria_num as busiUpdateSeriaNum,
+        </if>
+        <if test="sbusiUpdateSeriaNum != null">
+				sbusi.update_seria_num as sbusiUpdateSeriaNum,
+				sbusi.sub_treasury_id as subTreasuryId,
+				sbusi.device_mgr as deviceMgr,
+        </if>
+			busi.face_mode as faceMode,
+			busi.finger_mode as fingerMode,
+			busi.iris_mode as irisMode,
+			busi.fvein_mode as fveinMode,
+			busi.face_iris_mode as faceIrisMode,
+			busi.locked,
+			dept.dept_code as deptCode,
+			dept.dept_name as deptName
+		from
+			base_person_info base
+		inner join 
+			channel_business busi
+		on  
+			busi.person_id = base.id and busi.channel_id = #{channelId}
+        <if test="sbusiUpdateSeriaNum != null and subtreasuryIds != null and subtreasuryIds.length > 0">
+			inner join (
+				select
+					person_id,
+					group_concat( sub_treasury_id ) as sub_treasury_id,
+					max( update_seria_num ) as update_seria_num,
+					min(status) as status,
+					max(device_mgr) as device_mgr,
+					channel_id 
+				from
+					channel_subtreasury_busi 
+				where 
+					 channel_id = #{channelId} and sub_treasury_id in 
+            <foreach item="subId" collection="subtreasuryIds" open="(" separator="," close=")">
+				    #{subId}
+            </foreach>
+				group by person_id 
+			) sbusi on sbusi.person_id = base.id 
+			and sbusi.channel_id = busi.channel_id 
+        </if>
+		left join 
+			sys_dept dept
+		on 
+			base.dept_id = dept.dept_id 
+        <where>
+            <if test="busiUpdateSeriaNum != null"> or busi.update_seria_num &gt; #{busiUpdateSeriaNum}</if>
+            <if test="sbusiUpdateSeriaNum != null"> or sbusi.update_seria_num &gt; #{sbusiUpdateSeriaNum}</if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceUpgradeVersionMapper">
+    
+    <resultMap type="DeviceUpgradeVersion" id="DeviceUpgradeVersionResult">
+        <result property="id"    column="id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="version"    column="version"    />
+        <result property="description"    column="description"    />
+        <result property="path"    column="path"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="filename"    column="filename"    />
+        <result property="md5"    column="md5"    />
+        <result property="enabled"    column="enabled"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectDeviceUpgradeVersionVo">
+        select id, app_name, version, description, path, file_size, filename, md5, enabled, create_by, update_by, create_time, update_time, batch_date, tenant_id from device_upgrade_version
+    </sql>
+
+    <select id="selectDeviceUpgradeVersionList" parameterType="DeviceUpgradeVersion" resultMap="DeviceUpgradeVersionResult">
+        <include refid="selectDeviceUpgradeVersionVo"/>
+        <where>  
+            <if test="appName != null  and appName != ''"> and app_name like concat(concat('%', #{appName}), '%')</if>
+            <if test="version != null  and version != ''"> and version = #{version}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+            <if test="fileSize != null "> and file_size = #{fileSize}</if>
+            <if test="filename != null  and filename != ''"> and filename like concat(concat('%', #{filename}), '%')</if>
+            <if test="md5 != null  and md5 != ''"> and md5 = #{md5}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="enabled != null"> and enabled = #{enabled}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceUpgradeVersionById" parameterType="String" resultMap="DeviceUpgradeVersionResult">
+        <include refid="selectDeviceUpgradeVersionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceUpgradeVersion" parameterType="DeviceUpgradeVersion">
+        insert into device_upgrade_version
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="version != null and version != ''">version,</if>
+            <if test="description != null">description,</if>
+            <if test="path != null and path != ''">path,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="filename != null and filename != ''">filename,</if>
+            <if test="md5 != null and md5 != ''">md5,</if>
+            <if test="enabled != null">enabled,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="version != null and version != ''">#{version},</if>
+            <if test="description != null">#{description},</if>
+            <if test="path != null and path != ''">#{path},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="filename != null and filename != ''">#{filename},</if>
+            <if test="md5 != null and md5 != ''">#{md5},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceUpgradeVersion" parameterType="DeviceUpgradeVersion">
+        update device_upgrade_version
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="version != null and version != ''">version = #{version},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="path != null and path != ''">path = #{path},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="filename != null and filename != ''">filename = #{filename},</if>
+            <if test="md5 != null and md5 != ''">md5 = #{md5},</if>
+            <if test="enabled != null">enabled = #{enabled},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceUpgradeVersionById" parameterType="String">
+        delete from device_upgrade_version where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceUpgradeVersionByIds" parameterType="String">
+        delete from device_upgrade_version where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

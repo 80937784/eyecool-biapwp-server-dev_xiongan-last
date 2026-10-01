@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.msg.mapper.MsgWeixinMenuMapper">
+    
+    <resultMap type="MsgWeixinMenu" id="MsgWeixinMenuResult">
+        <result property="id"    column="id"    />
+        <result property="officalAccountId"    column="offical_account_id"    />
+        <result property="officalAccountName"    column="app_name"    />
+        <result property="appId"    column="app_id"    />
+        <result property="menuJson"    column="menu_json"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectMsgWeixinMenuVo">
+        select menu.id, menu.offical_account_id, offical.app_name, menu.app_id, menu.menu_json, menu.create_time, menu.update_time, menu.tenant_id 
+        from msg_weixin_menu menu
+        left join msg_offical_account offical on menu.offical_account_id = offical.id
+    </sql>
+
+    <select id="selectMsgWeixinMenuList" parameterType="MsgWeixinMenu" resultMap="MsgWeixinMenuResult">
+        <include refid="selectMsgWeixinMenuVo"/>
+        <where>  
+            <if test="officalAccountId != null  and officalAccountId != ''"> and menu.offical_account_id = #{officalAccountId}</if>
+            <if test="officalAccountName != null  and officalAccountName != ''"> and offical.app_name like concat(concat('%', #{officalAccountName}), '%')</if>
+            <if test="appId != null  and appId != ''"> and menu.app_id = #{appId}</if>
+            <if test="menuJson != null  and menuJson != ''"> and menu.menu_json = #{menuJson}</if>
+            <if test="tenantId != null  and tenantId != ''"> and menu.tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsgWeixinMenuById" parameterType="String" resultMap="MsgWeixinMenuResult">
+        <include refid="selectMsgWeixinMenuVo"/>
+        where menu.id = #{id}
+    </select>
+        
+    <insert id="insertMsgWeixinMenu" parameterType="MsgWeixinMenu">
+        insert into msg_weixin_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="officalAccountId != null and officalAccountId != ''">offical_account_id,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="menuJson != null and menuJson != ''">menu_json,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="officalAccountId != null and officalAccountId != ''">#{officalAccountId},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="menuJson != null and menuJson != ''">#{menuJson},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgWeixinMenu" parameterType="MsgWeixinMenu">
+        update msg_weixin_menu
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="officalAccountId != null and officalAccountId != ''">offical_account_id = #{officalAccountId},</if>
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="menuJson != null and menuJson != ''">menu_json = #{menuJson},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgWeixinMenuById" parameterType="String">
+        delete from msg_weixin_menu where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgWeixinMenuByIds" parameterType="String">
+        delete from msg_weixin_menu where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

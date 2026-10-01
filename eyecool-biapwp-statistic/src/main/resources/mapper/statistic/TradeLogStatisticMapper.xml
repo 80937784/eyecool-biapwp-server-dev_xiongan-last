@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.statistic.mapper.TradeLogStatisticMapper">
+
+	<select id="countFace1v1PassPerson"  resultType="int">
+       select count(distinct(unique_id)) from person_face_match_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime}
+    </select>
+    
+    <select id="countFace1vNPassPerson"  resultType="int">
+       select count(distinct(unique_id)) from person_face_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime}
+    </select>
+    
+    <select id="countFinger1vNPassPerson"  resultType="int">
+       select count(distinct(unique_id)) from person_finger_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime}
+    </select>
+    
+    <select id="countIris1vNPassPerson"  resultType="int">
+       select count(distinct(unique_id)) from person_iris_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime}
+    </select>
+    
+    <select id="countIrisFace1vNPassPerson"  resultType="int">
+       select count(distinct(unique_id)) from person_faceiris_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime}
+    </select>
+    
+    <select id="countFace1vNTradeLog"  resultType="int">
+       select count(1) from person_face_search_log
+       <where>
+       		<if test="result != null  and result != ''"> and result = #{result} </if>
+       		<if test="validType != null  and validType != ''"> and valid_type = #{validType} </if>
+            <if test="startTime != null"> and received_time &gt;= #{startTime} </if>
+            <if test="endTime != null"> and received_time &lt;#{endTime} </if>
+       </where>
+    </select>
+    
+    <select id="countFace1v1TradeLog"  resultType="int">
+       select count(1) from person_face_match_log 
+       <where>
+       		<if test="result != null  and result != ''"> and result = #{result} </if>
+            <if test="startTime != null"> and received_time &gt;= #{startTime} </if>
+            <if test="endTime != null"> and received_time &lt;#{endTime} </if>
+       </where>
+    </select>
+    
+    
+    <select id="countFinger1vNTradeLog"  resultType="int">
+       select count(1) from person_finger_search_log
+       <where>
+       		<if test="result != null  and result != ''"> and result = #{result} </if>
+            <if test="startTime != null"> and received_time &gt;= #{startTime} </if>
+            <if test="endTime != null"> and received_time &lt;#{endTime} </if>
+       </where>
+    </select>
+    
+    <select id="countIris1vNTradeLog"  resultType="int">
+       select count(1) from person_iris_search_log
+       <where>
+       		<if test="result != null  and result != ''"> and result = #{result} </if>
+            <if test="startTime != null"> and received_time &gt;= #{startTime} </if>
+            <if test="endTime != null"> and received_time &lt;#{endTime} </if>
+       </where>
+    </select>
+    
+    <select id="countIrisFace1vNTradeLog"  resultType="int">
+       select count(1) from person_faceiris_search_log 
+       <where>
+       		<if test="result != null  and result != ''"> and result = #{result} </if>
+            <if test="startTime != null"> and received_time &gt;= #{startTime} </if>
+            <if test="endTime != null"> and received_time &lt;#{endTime} </if>
+       </where>
+    </select>
+    
+    <select id="getFace1vNDeviceLogNumInfo"  resultType="DeviceLogNumInfo">
+       select device_code as deviceNo, max(device_name) as deviceName, count(1) as logNum from person_face_search_log  where device_code is not null and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       <if test="result !=null and result !=''">
+       		and result = #{result} 
+       </if>
+       group by device_code order by logNum desc
+    </select>
+    
+    <select id="getFace1v1DeviceLogNumInfo"  resultType="DeviceLogNumInfo">
+       select device_code as deviceNo, max(device_name) as deviceName, count(1) as logNum from person_face_match_log  where device_code is not null and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       <if test="result !=null and result !=''">
+       		and result = #{result} 
+       </if>
+       group by device_code order by logNum desc
+    </select>
+    
+     <select id="getFace1v1AreaLogNum"  resultType="int" databaseId="mysql">
+        select count(1) as logNum from person_face_match_log  where device_code in
+		(select device_no from device_info where area_id = #{areaId} or area_id in ( select t.id from area_model t where find_in_set(#{areaId}, ancestors)))
+		and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       	<if test="result !=null and result !=''">
+       		and result = #{result} 
+      	</if>
+    </select>
+    
+      <select id="getFace1vNAreaLogNum"  resultType="int" databaseId="mysql">
+        select count(1) as logNum from person_face_search_log  where device_code in
+		(select device_no from device_info where area_id = #{areaId} or area_id in ( select t.id from area_model t where find_in_set(#{areaId}, ancestors)))
+		and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       	<if test="result !=null and result !=''">
+       		and result = #{result} 
+      	</if>
+    </select>
+   
+    <select id="getIrisFace1vNDeviceLogNumInfo"  resultType="DeviceLogNumInfo">
+       select device_sn as deviceNo, max(device_name) as deviceName, count(1) as logNum from person_faceiris_search_log  where device_sn is not null and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       <if test="result !=null and result !=''">
+       		and result = #{result} 
+       </if>
+       group by device_sn order by logNum desc
+    </select>
+    
+    <select id="getRealtimeTradeLog"  resultType="RealtimeTradeLog" databaseId="mysql">
+		select received_seq, received_time, result, unique_id, person_name, device_no, device_name, device_addr,  bio_type, busi_type, tenant_id
+		from view_today_trans_log order by received_time desc limit 10
+    </select>
+    
+    <select id="getTradeLogTrend" resultType="StatisticTradeLog">
+        select id, trade_num as tradeNum, pass_num as passNum, notpass_num as notpassNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_trade_log where statistic_unit = #{statisticUnit} and statistic_date &gt;=#{startDate} and statistic_date &lt;=#{endDate}
+    </select>
+    
+    
+    <select id="getFaceRecogLogTrend" resultType="StatisticFaceRecogLog">
+        select id, trade_num as tradeNum, pass_num as passNum, notpass_num as notpassNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_face_recog_log where statistic_unit = #{statisticUnit} and statistic_date &gt;=#{startDate} and statistic_date &lt;=#{endDate}
+    </select>
+    
+    
+     <select id="getIdcardVerifyLogTrend" resultType="StatisticIdcardVerifyLog">
+        select id, trade_num as tradeNum, pass_num as passNum, notpass_num as notpassNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_idcard_verify_log where statistic_unit = #{statisticUnit} and statistic_date &gt;=#{startDate} and statistic_date &lt;=#{endDate}
+    </select>
+    
+    
+    <select id="countFace1vNPassPersonByTenantId"  resultType="TenantPassPersonCount">
+       select tenant_id as tenantId, count(distinct(unique_id)) as passNum from person_face_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+    
+    <select id="countFinger1vNPassPersonByTenantId"  resultType="TenantPassPersonCount">
+       select tenant_id as tenantId, count(distinct(unique_id)) as passNum from person_finger_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+    
+    <select id="countIris1vNPassPersonByTenantId"  resultType="TenantPassPersonCount">
+       select tenant_id as tenantId, count(distinct(unique_id)) as passNum from person_iris_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+    
+    <select id="countIrisFace1vNPassPersonByTenantId"  resultType="TenantPassPersonCount">
+       select tenant_id as tenantId, count(distinct(unique_id)) as passNum from person_faceiris_search_log where result = '0' and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+    
+    <select id="getStatistictTradeLogByDate" resultType="StatisticTradeLog">
+        select id, trade_num as tradeNum, pass_num as passNum, notpass_num as notpassNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_trade_log where statistic_unit = #{statisticUnit} and statistic_date = #{statisticDate}
+        <if test="tenantId != null and tenantId !=''">
+        	and tenant_id = #{tenantId}
+        </if>
+    </select>
+    
+     <insert id="insertStatisticTradeLog" parameterType="StatisticTradeLog">
+        insert into statistic_trade_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="tradeNum != null">trade_num,</if>
+            <if test="passNum != null">pass_num,</if>
+            <if test="notpassNum != null">notpass_num,</if>
+            <if test="statisticUnit != null and statisticUnit != ''">statistic_unit,</if>
+            <if test="statisticDate != null and statisticDate !=''">statistic_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           	<if test="id != null">#{id},</if>
+            <if test="tradeNum != null">#{tradeNum},</if>
+            <if test="passNum != null">#{passNum},</if>
+            <if test="notpassNum != null">#{notpassNum},</if>
+            <if test="statisticUnit != null and statisticUnit != ''">#{statisticUnit},</if>
+            <if test="statisticDate != null and statisticDate !=''">#{statisticDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+    
+     <select id="getStatistictFaceRecogLogByDate" resultType="StatisticFaceRecogLog">
+        select id, trade_num as tradeNum, pass_num as passNum, notpass_num as notpassNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_face_recog_log where statistic_unit = #{statisticUnit} and statistic_date = #{statisticDate}
+        <if test="tenantId != null and tenantId !=''">
+        	and tenant_id = #{tenantId}
+        </if>
+    </select>
+    
+    <insert id="insertStatisticFaceRecogLog" parameterType="StatisticFaceRecogLog">
+        insert into statistic_face_recog_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="tradeNum != null">trade_num,</if>
+            <if test="passNum != null">pass_num,</if>
+            <if test="notpassNum != null">notpass_num,</if>
+            <if test="statisticUnit != null and statisticUnit != ''">statistic_unit,</if>
+            <if test="statisticDate != null and statisticDate !=''">statistic_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           	<if test="id != null">#{id},</if>
+            <if test="tradeNum != null">#{tradeNum},</if>
+            <if test="passNum != null">#{passNum},</if>
+            <if test="notpassNum != null">#{notpassNum},</if>
+            <if test="statisticUnit != null and statisticUnit != ''">#{statisticUnit},</if>
+            <if test="statisticDate != null and statisticDate !=''">#{statisticDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+    
+    <select id="getStatistictIdcardVerifyLogByDate" resultType="StatisticIdcardVerifyLog">
+        select id, trade_num as tradeNum, pass_num as passNum, notpass_num as notpassNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_idcard_verify_log where statistic_unit = #{statisticUnit} and statistic_date = #{statisticDate}
+        <if test="tenantId != null and tenantId !=''">
+        	and tenant_id = #{tenantId}
+        </if>
+    </select>
+    
+     <insert id="insertStatisticIdcardVerifyLog" parameterType="StatisticIdcardVerifyLog">
+        insert into statistic_idcard_verify_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="tradeNum != null">trade_num,</if>
+            <if test="passNum != null">pass_num,</if>
+            <if test="notpassNum != null">notpass_num,</if>
+            <if test="statisticUnit != null and statisticUnit != ''">statistic_unit,</if>
+            <if test="statisticDate != null and statisticDate !=''">statistic_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           	<if test="id != null">#{id},</if>
+            <if test="tradeNum != null">#{tradeNum},</if>
+            <if test="passNum != null">#{passNum},</if>
+            <if test="notpassNum != null">#{notpassNum},</if>
+            <if test="statisticUnit != null and statisticUnit != ''">#{statisticUnit},</if>
+            <if test="statisticDate != null and statisticDate !=''">#{statisticDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+    
+    <select id="countFace1vNTradeLogByTenantId"  resultType="TenantTradeLogCount">
+       select tenant_id as tenantId, count(1) as tradeNum from person_face_search_log where result = #{result} and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       <if test="validType != null  and validType != ''"> and valid_type = #{validType} </if>
+       group by tenant_id
+    </select>
+    
+    <select id="countFinger1vNTradeLogByTenantId"  resultType="TenantTradeLogCount">
+       select tenant_id as tenantId, count(1) as tradeNum from person_finger_search_log where result = #{result} and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+    
+    <select id="countIris1vNTradeLogByTenantId"  resultType="TenantTradeLogCount">
+       select tenant_id as tenantId, count(1) as tradeNum from person_iris_search_log where result = #{result} and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+    
+    <select id="countIrisFace1vNTradeLogByTenantId"  resultType="TenantTradeLogCount">
+       select tenant_id as tenantId, count(1) as tradeNum from person_faceiris_search_log where result = #{result} and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+
+ 	<select id="countFace1v1TradeLogByTenantId"  resultType="TenantTradeLogCount">
+ 		select tenant_id as tenantId, count(1) as tradeNum from person_face_match_log where result = #{result} and received_time &gt;= #{startTime} and received_time &lt;#{endTime} group by tenant_id
+    </select>
+   
+ 	<select id="getFaceRealtimeTradeLog"  resultType="FaceRealtimeTradeLog" databaseId="mysql">
+		select received_seq, received_time, result, unique_id, person_name, device_no, device_name, device_addr,  bio_type, busi_type, tenant_id, temperature, temperature_floor, temperature_top, temperature_result, health_result, health_message 
+		from view_today_face_log order by received_time desc limit 8
+    </select>
+    
+    <select id="getFaceAbnormalRealtimeTrade"  resultType="FaceRealtimeTradeLog" databaseId="mysql">
+		select received_seq, received_time, result, unique_id, person_name, device_no, device_name, device_addr,  bio_type, busi_type, tenant_id, temperature, temperature_floor, temperature_top, temperature_result, health_result, health_message 
+		from view_today_face_log 
+		where temperature &gt;= temperature_top 
+		or temperature &lt; temperature_floor 
+		or temperature_result = '2'
+		or temperature_result = '3'
+		or health_message = '黄码'
+		or health_message = '红码'
+		order by received_time desc limit 4
+    </select>
+    
+</mapper>

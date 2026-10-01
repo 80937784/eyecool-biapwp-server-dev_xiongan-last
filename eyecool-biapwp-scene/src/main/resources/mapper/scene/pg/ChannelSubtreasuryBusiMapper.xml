@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.scene.mapper.ChannelSubtreasuryBusiMapper">
+    
+    
+    <select id="selectUnbindPersonInfoList" resultMap="cn.eyecool.basedata.mapper.BasePersonInfoMapper.BasePersonInfoResult" databaseId="postgresql">
+         select
+			base.id,
+			base.unique_id,
+			base.name,
+			base.sex,
+			base.phone,
+			base.card_no,
+			base.account,
+			base.email,
+			base.dept_id,
+			base.flag,
+			base.status,
+			base.create_by,
+			base.update_by,
+			base.create_time,
+			base.update_time,
+			base.tenant_id 	
+		from
+			base_person_info base
+		inner join  
+			channel_business busi
+		on
+			busi.person_id = base.id
+		where
+			not exists ( select sub.person_id from channel_subtreasury_busi sub where sub.person_id = busi.person_id and sub.status = '0' and sub.sub_treasury_id = #{subTreasuryId} and sub.channel_id = #{channelId}) 
+			and base.status = '0' 
+			and busi.status = '0'
+			and busi.channel_id = #{channelId}
+			<if test="basePersonInfo != null">
+				<if test="basePersonInfo.uniqueId != null  and basePersonInfo.uniqueId != ''"> and base.unique_id = #{basePersonInfo.uniqueId}</if>
+	            <if test="basePersonInfo.name != null  and basePersonInfo.name != ''"> and base.name like concat(concat('%', #{basePersonInfo.name}), '%')</if>
+	            <if test="basePersonInfo.phone != null  and basePersonInfo.phone != ''"> and base.phone = #{basePersonInfo.phone}</if>
+	            <if test="basePersonInfo.deptId != null "> and (base.dept_id = #{basePersonInfo.deptId} or base.dept_id in ( select t.dept_id from sys_dept t where find_in_set(#{basePersonInfo.deptId}, ancestors)))</if>
+			</if>
+    </select>
+</mapper>

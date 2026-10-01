@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.statistic.mapper.AreaStatisticMapper">
+    
+    <resultMap type="AreaModel" id="AreaModelResult">
+        <result property="id"    column="id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="areaType"    column="area_type"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+    
+    <select id="getLevel1AreaModel" resultMap="AreaModelResult">
+    	select id, parent_id, ancestors, area_name, order_num, area_type, status, create_by, create_time, update_by, update_time, remark, tenant_id from area_model
+    	where parent_id = '0'
+    </select>
+    
+</mapper>

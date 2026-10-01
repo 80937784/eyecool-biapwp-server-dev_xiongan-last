@@ -1,0 +1,9 @@
+biapwp:
+  dfrs:
+    abis:
+      enable: true
+    
+    hkTherm:
+      enable: false
+      libName: hcnetsdk
+      teso_lib: /usr/lib

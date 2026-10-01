@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.basedata.mapper.BasePersonInfoMapper">
+
+    <resultMap type="BasePersonInfo" id="BasePersonInfoResult">
+        <result property="id"    column="id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="phone"    column="phone"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="account"    column="account"    />
+        <result property="email"    column="email"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="datasource"    column="datasource"    />
+        <result property="flag"    column="flag"    />
+        <result property="status"    column="status"    />
+        <result property="personType"    column="person_type"    />
+        <result property="inviterId"    column="inviter_id"    />
+        <result property="visitorStatus"    column="visitor_status"    />
+        <result property="effectiveBeginTime"    column="effective_begin_time"    />
+        <result property="effectiveEndTime"    column="effective_end_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="extAttrs"    column="ext_attrs"    />
+    </resultMap>
+
+    <sql id="selectBasePersonInfoVo">
+        select id, unique_id, name, sex, phone, card_no, account, email, dept_id, datasource, flag, status, effective_begin_time, effective_end_time,  remark, create_by, update_by, create_time, update_time, batch_date, tenant_id, ext_attrs from base_person_info info
+    </sql>
+
+    <sql id="selectBaseVisitorInfoVo">
+        select id, unique_id, name, sex, phone, card_no, account, email, dept_id, datasource, flag, status,person_type, inviter_id, visitor_status, effective_begin_time, effective_end_time, remark, create_by, update_by, create_time, update_time, batch_date, tenant_id from base_person_info info
+    </sql>
+
+    <!-- 增加人员通行时间已过期状态显示及查询筛选 -->
+    <select id="selectBasePersonInfoList" parameterType="BasePersonInfo" resultMap="BasePersonInfoResult">
+        select id, unique_id, name, sex, phone, card_no, account, email, dept_id, datasource, flag, effective_begin_time, effective_end_time,  remark, create_by, update_by, create_time, update_time, batch_date, tenant_id, ext_attrs ,
+        IF(tstate = 2,tstate,tstatus) as `status`
+        FROM
+        (select id, unique_id, name, sex, phone, card_no, account, email, dept_id, datasource, flag, status as tstatus, effective_begin_time, effective_end_time,  remark, create_by, update_by, create_time, update_time, batch_date, tenant_id, ext_attrs ,
+        (CASE WHEN NOW() &gt;= effective_begin_time AND NOW() &lt;= effective_end_time THEN 0 ELSE 2 END) as tstate
+        from base_person_info info
+        <where>
+            <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="name != null  and name != ''"> and name like concat(concat('%', #{name}), '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="datasource != null  and datasource != ''"> and datasource = #{datasource}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+            <if test="status != null  and status != '' and status !=2 "> and status = #{status}</if>
+            <if test="personType != null  and personType != ''"> and person_type = #{personType}</if>
+            <if test="inviterId != null  and inviterId != ''"> and inviter_id = #{inviterId}</if>
+            <if test="visitorStatus != null  and visitorStatus != ''"> and visitor_status = #{visitorStatus}</if>
+            <if test="effectiveBeginTime != null "> and effective_begin_time =  #{effectiveBeginTime}</if>
+            <if test="effectiveEndTime != null "> and effective_end_time =  #{effectiveEndTime}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="deptId != null and deptId != 0">
+                AND (info.dept_id = #{deptId} OR info.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
+        ) mm
+        <where>
+            <if test="status != null  and status == 2 "> and mm.tstate = #{status}</if>
+        </where>
+    </select>
+
+    <!-- 备份 -->
+    <select id="selectBasePersonInfoListCopy" parameterType="BasePersonInfo" resultMap="BasePersonInfoResult">
+        <include refid="selectBasePersonInfoVo"/>
+        <where>
+            <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="name != null  and name != ''"> and name like concat(concat('%', #{name}), '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="datasource != null  and datasource != ''"> and datasource = #{datasource}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="personType != null  and personType != ''"> and person_type = #{personType}</if>
+            <if test="inviterId != null  and inviterId != ''"> and inviter_id = #{inviterId}</if>
+            <if test="visitorStatus != null  and visitorStatus != ''"> and visitor_status = #{visitorStatus}</if>
+            <if test="effectiveBeginTime != null "> and effective_begin_time =  #{effectiveBeginTime}</if>
+            <if test="effectiveEndTime != null "> and effective_end_time =  #{effectiveEndTime}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="deptId != null and deptId != 0">
+				AND (info.dept_id = #{deptId} OR info.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+
+    <select id="selectBaseVisitorInfoList" parameterType="cn.eyecool.basedata.vo.BaseVisitorInfoVO" resultMap="BasePersonInfoResult">
+        <include refid="selectBaseVisitorInfoVo"/>
+        <where>
+            <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="name != null  and name != ''"> and name like concat(concat('%', #{name}), '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="datasource != null  and datasource != ''"> and datasource = #{datasource}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="personType != null  and personType != ''"> and person_type = #{personType}</if>
+            <if test="inviterId != null  and inviterId != ''"> and inviter_id = #{inviterId}</if>
+            <if test="visitorStatus != null  and visitorStatus != ''"> and visitor_status = #{visitorStatus}</if>
+            <if test="effectiveBeginTimeStart != null and effectiveBeginTimeEnd != null "> and effective_begin_time between  #{effectiveBeginTimeStart} and #{effectiveBeginTimeEnd}</if>
+            <if test="effectiveEndTimeStart != null and effectiveEndTimeEnd != null "> and effective_end_time between  #{effectiveEndTimeStart} and #{effectiveEndTimeEnd}</if>
+            <if test="effectiveStatus != null and effectiveStatus == 0"> and effective_begin_time &gt;  now()</if>
+            <if test="effectiveStatus != null and effectiveStatus == 1"> and effective_begin_time &lt;  now()  and effective_end_time &gt;  now()</if>
+            <if test="effectiveStatus != null and effectiveStatus == 2"> and effective_end_time &lt;  now()</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="deptId != null and deptId != 0">
+				AND (info.dept_id = #{deptId} OR info.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+
+    <select id="selectByUidOrName" parameterType="BasePersonInfo" resultMap="BasePersonInfoResult">
+        <include refid="selectBasePersonInfoVo"/>
+        <where>
+            <if test="uniqueId != null ">and unique_id = #{uniqueId} or name like concat(concat('%', #{uniqueId}), '%')</if>
+            <if test="name != null "> and unique_id = #{name} or name like concat(concat('%', #{name}), '%')</if>
+            <if test="personType != null "> and person_type = #{personType}</if>
+        </where>
+    </select>
+    
+    <select id="selectBasePersonInfoById" parameterType="String" resultMap="BasePersonInfoResult">
+        <include refid="selectBasePersonInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBasePersonInfo" parameterType="BasePersonInfo">
+        insert into base_person_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id,</if>
+            <if test="name != null">name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="phone != null">phone,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="account != null">account,</if>
+            <if test="email != null">email,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="datasource != null and datasource != ''">datasource,</if>
+            <if test="flag != null">flag,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="personType != null  and personType != ''">person_type,</if>
+            <if test="inviterId != null  and inviterId != ''">inviter_id,</if>
+            <if test="visitorStatus != null  and visitorStatus != ''">visitor_status,</if>
+            <if test="effectiveBeginTime != null ">effective_begin_time,</if>
+            <if test="effectiveEndTime != null ">effective_end_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="extAttrs != null">ext_attrs,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="uniqueId != null and uniqueId != ''">#{uniqueId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="account != null">#{account},</if>
+            <if test="email != null">#{email},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="datasource != null and datasource != ''">#{datasource},</if>
+            <if test="flag != null">#{flag},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="personType != null  and personType != ''">#{personType},</if>
+            <if test="inviterId != null  and inviterId != ''">#{inviterId},</if>
+            <if test="visitorStatus != null  and visitorStatus != ''">#{visitorStatus},</if>
+            <if test="effectiveBeginTime != null ">#{effectiveBeginTime},</if>
+            <if test="effectiveEndTime != null ">#{effectiveEndTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="extAttrs != null">#{extAttrs},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBasePersonInfo" parameterType="BasePersonInfo">
+        update base_person_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uniqueId != null and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="cardNo != null">card_no = #{cardNo},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="datasource != null and datasource != ''">datasource = #{datasource},</if>
+            <if test="flag != null">flag = #{flag},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="personType != null  and personType != ''">  person_type = #{personType},</if>
+            <if test="inviterId != null  and inviterId != ''">  inviter_id = #{inviterId},</if>
+            <if test="visitorStatus != null  and visitorStatus != ''">  visitor_status = #{visitorStatus},</if>
+            <if test="effectiveBeginTime != null ">  effective_begin_time = #{effectiveBeginTime},</if>
+            <if test="effectiveEndTime != null ">  effective_end_time = #{effectiveEndTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="extAttrs != null">ext_attrs = #{extAttrs},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    
+    <update id="updatePersonFlagByUniqueIds">
+        update base_person_info set flag = #{flag} where unique_id in
+        <foreach item="uniqueId" collection="array" open="(" separator="," close=")">
+            #{uniqueId} 
+        </foreach>
+    </update>
+
+    <delete id="deleteBasePersonInfoById" parameterType="String">
+        delete from base_person_info where id = #{id}
+    </delete>
+
+    <delete id="deleteBasePersonInfoByIds" parameterType="String">
+        delete from base_person_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="selectBasePersonCount" parameterType="BasePersonInfo" resultType="int">
+        select count(1) from base_person_info
+        <where>  
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="name != null  and name != ''"> and name like concat(concat('%', #{name}), '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="datasource != null  and datasource != ''"> and datasource = #{datasource}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+            <if test="personType != null  and personType != ''"> and person_type = #{personType}</if>
+            <if test="inviterId != null  and inviterId != ''"> and inviter_id = #{inviterId}</if>
+            <if test="visitorStatus != null  and visitorStatus != ''"> and visitor_status = #{visitorStatus}</if>
+            <if test="effectiveBeginTime != null "> and effective_begin_time = #{effectiveBeginTime}</if>
+            <if test="effectiveEndTime != null "> and effective_end_time = #{effectiveEndTime}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectMaxSeriaNumForChannelBusiness" resultType="Long">
+        select max(update_seria_num) from channel_business
+    </select>
+
+    <select id="selectMaxSeriaNumForchannelSubBusi" resultType="Long">
+        select max(update_seria_num) from channel_subtreasury_busi
+    </select>
+
+    <update id="updateChannelBusiSeq">
+        UPDATE channel_business SET update_seria_num = #{channelBusiSeqNum} WHERE person_id = #{id}
+    </update>
+
+    <update id="updateChannelSubBusiSeq">
+        UPDATE channel_subtreasury_busi SET update_seria_num = #{subBusiSeqNum} WHERE person_id = #{id}
+    </update>
+    
+    
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrIdcardFrontLogMapper">
+
+    <resultMap type="OcrIdcardFrontLog" id="OcrIdcardFrontLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="idcardNumber"    column="idcard_number"    />
+        <result property="idcardHeadimage"    column="idcard_headimage"    />
+        <result property="idcardEthnicity"    column="idcard_ethnicity"    />
+        <result property="idcardAddress"    column="idcard_address"    />
+        <result property="idcardBirth"    column="idcard_birth"    />
+        <result property="idcardGender"    column="idcard_gender"    />
+        <result property="idcardName"    column="idcard_name"    />
+        <result property="result"    column="result"    />
+        <result property="idcardOcrFirmType"    column="idcard_ocr_firm_type"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrIdcardFrontLogVo">
+        select id, received_seq, received_time, type, type_id, channel_code, scene_image_url, scene_image_name, idcard_number, idcard_headimage, idcard_ethnicity, idcard_address, idcard_birth, idcard_gender, idcard_name, result, idcard_ocr_firm_type, tenant_id from ocr_idcard_front_log
+    </sql>
+
+    <select id="selectOcrIdcardFrontLogList" parameterType="OcrIdcardFrontLog" resultMap="OcrIdcardFrontLogResult">
+        <include refid="selectOcrIdcardFrontLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="idcardNumber != null  and idcardNumber != ''"> and idcard_number = #{idcardNumber}</if>
+            <if test="idcardHeadimage != null  and idcardHeadimage != ''"> and idcard_headimage = #{idcardHeadimage}</if>
+            <if test="idcardEthnicity != null  and idcardEthnicity != ''"> and idcard_ethnicity = #{idcardEthnicity}</if>
+            <if test="idcardAddress != null  and idcardAddress != ''"> and idcard_address = #{idcardAddress}</if>
+            <if test="idcardBirth != null  and idcardBirth != ''"> and idcard_birth = #{idcardBirth}</if>
+            <if test="idcardGender != null  and idcardGender != ''"> and idcard_gender = #{idcardGender}</if>
+            <if test="idcardName != null  and idcardName != ''"> and idcard_name like concat(concat('%', #{idcardName}), '%')</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="idcardOcrFirmType != null  and idcardOcrFirmType != ''"> and idcard_ocr_firm_type = #{idcardOcrFirmType}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrIdcardFrontLogById" parameterType="String" resultMap="OcrIdcardFrontLogResult">
+        <include refid="selectOcrIdcardFrontLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrIdcardFrontLog" parameterType="OcrIdcardFrontLog">
+        insert into ocr_idcard_front_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="idcardNumber != null">idcard_number,</if>
+            <if test="idcardHeadimage != null">idcard_headimage,</if>
+            <if test="idcardEthnicity != null">idcard_ethnicity,</if>
+            <if test="idcardAddress != null">idcard_address,</if>
+            <if test="idcardBirth != null">idcard_birth,</if>
+            <if test="idcardGender != null">idcard_gender,</if>
+            <if test="idcardName != null">idcard_name,</if>
+            <if test="result != null">result,</if>
+            <if test="idcardOcrFirmType != null">idcard_ocr_firm_type,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="idcardNumber != null">#{idcardNumber},</if>
+            <if test="idcardHeadimage != null">#{idcardHeadimage},</if>
+            <if test="idcardEthnicity != null">#{idcardEthnicity},</if>
+            <if test="idcardAddress != null">#{idcardAddress},</if>
+            <if test="idcardBirth != null">#{idcardBirth},</if>
+            <if test="idcardGender != null">#{idcardGender},</if>
+            <if test="idcardName != null">#{idcardName},</if>
+            <if test="result != null">#{result},</if>
+            <if test="idcardOcrFirmType != null">#{idcardOcrFirmType},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrIdcardFrontLog" parameterType="OcrIdcardFrontLog">
+        update ocr_idcard_front_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="idcardNumber != null">idcard_number = #{idcardNumber},</if>
+            <if test="idcardHeadimage != null">idcard_headimage = #{idcardHeadimage},</if>
+            <if test="idcardEthnicity != null">idcard_ethnicity = #{idcardEthnicity},</if>
+            <if test="idcardAddress != null">idcard_address = #{idcardAddress},</if>
+            <if test="idcardBirth != null">idcard_birth = #{idcardBirth},</if>
+            <if test="idcardGender != null">idcard_gender = #{idcardGender},</if>
+            <if test="idcardName != null">idcard_name = #{idcardName},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="idcardOcrFirmType != null">idcard_ocr_firm_type = #{idcardOcrFirmType},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

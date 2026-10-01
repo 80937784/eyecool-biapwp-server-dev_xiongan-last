@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.PersonHealthCodeLogMapper">
+    
+    <select id="selectPersonHealthCodeLogList" parameterType="PersonHealthCodeLog" resultMap="PersonHealthCodeLogResult" databaseId="postgresql">
+        <include refid="selectPersonHealthCodeLogVo"/>
+        <where>  
+      		<if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="message != null  and message != ''"> and message = #{message}</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="temperature != null  and temperature != ''"> and temperature = #{temperature}</if>
+            <if test="carNo != null  and carNo != ''"> and car_no = #{carNo}</if>
+            <if test="region != null  and region != ''"> and region = #{region}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+        </where>
+    </select>
+    
+    <delete id="dropPartition" databaseId="postgresql">
+     	drop table if exists ${tableName}
+    </delete>
+    
+</mapper>

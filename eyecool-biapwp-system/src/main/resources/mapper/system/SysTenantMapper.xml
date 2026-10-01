@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.system.mapper.SysTenantMapper">
+    
+    <resultMap type="SysTenant" id="SysTenantResult">
+        <result property="id"    column="id"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="tenantType"    column="tenant_type"    />
+        <result property="tenantDesc"    column="tenant_desc"    />
+        <result property="tenantState"    column="tenant_state"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="tenantRoleId"    column="tenant_role_id"    />
+        <result property="createSource"    column="create_source"    />
+        <result property="effectiveTime"    column="effective_time"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysTenantVo">
+        select id, tenant_id, tenant_name, tenant_type, tenant_desc, tenant_state, contact_name, phone, email, tenant_role_id, create_source, effective_time, expire_time, create_time, update_time from sys_tenant
+    </sql>
+
+    <select id="selectSysTenantList" parameterType="SysTenant" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        <where>  
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat(concat('%', #{tenantName}), '%')</if>
+            <if test="tenantType != null  and tenantType != ''"> and tenant_type = #{tenantType}</if>
+            <if test="tenantDesc != null  and tenantDesc != ''"> and tenant_desc = #{tenantDesc}</if>
+            <if test="tenantState != null  and tenantState != ''"> and tenant_state = #{tenantState}</if>
+            <if test="contactName != null  and contactName != ''"> and contact_name like concat(concat('%', #{contactName}), '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="tenantRoleId != null  and tenantRoleId != ''"> and tenant_role_id = #{tenantRoleId}</if>
+            <if test="createSource != null  and createSource != ''"> and create_source = #{createSource}</if>
+            <if test="effectiveTime != null "> and effective_time = #{effectiveTime}</if>
+            <if test="expireTime != null "> and expire_time = #{expireTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTenantById" parameterType="Long" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysTenant" parameterType="SysTenant" useGeneratedKeys="true" keyProperty="id" databaseId="mysql">
+        insert into sys_tenant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+            <if test="tenantName != null">tenant_name,</if>
+            <if test="tenantType != null">tenant_type,</if>
+            <if test="tenantDesc != null">tenant_desc,</if>
+            <if test="tenantState != null">tenant_state,</if>
+            <if test="contactName != null">contact_name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="tenantRoleId != null">tenant_role_id,</if>
+            <if test="createSource != null">create_source,</if>
+            <if test="effectiveTime != null">effective_time,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+            <if test="tenantName != null">#{tenantName},</if>
+            <if test="tenantType != null">#{tenantType},</if>
+            <if test="tenantDesc != null">#{tenantDesc},</if>
+            <if test="tenantState != null">#{tenantState},</if>
+            <if test="contactName != null">#{contactName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="tenantRoleId != null">#{tenantRoleId},</if>
+            <if test="createSource != null">#{createSource},</if>
+            <if test="effectiveTime != null">#{effectiveTime},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTenant" parameterType="SysTenant">
+        update sys_tenant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+            <if test="tenantName != null">tenant_name = #{tenantName},</if>
+            <if test="tenantType != null">tenant_type = #{tenantType},</if>
+            <if test="tenantDesc != null">tenant_desc = #{tenantDesc},</if>
+            <if test="tenantState != null">tenant_state = #{tenantState},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="tenantRoleId != null">tenant_role_id = #{tenantRoleId},</if>
+            <if test="createSource != null">create_source = #{createSource},</if>
+            <if test="effectiveTime != null">effective_time = #{effectiveTime},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTenantById" parameterType="Long">
+        delete from sys_tenant where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTenantByIds" parameterType="String">
+        delete from sys_tenant where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+      
+    <select id="selectSysTenantByTenantId" parameterType="String" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        where tenant_id = #{tenantId}
+    </select>
+    
+    <select id="selectSysTenantByTenantName" parameterType="String" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        where tenant_name = #{tenantName}
+    </select>
+    
+     <select id="selectSysTenantByPhone" parameterType="String" resultMap="SysTenantResult">
+        <include refid="selectSysTenantVo"/>
+        where phone = #{phone}
+    </select>
+    
+    <select id="selectMaxTenantId" parameterType="String" resultType="String">
+        select max(tenant_id) from sys_tenant where tenant_id like concat('ZH', '________')
+    </select>
+    
+    <select id="countTenantRoleByRoleId" parameterType="String" resultType="int">
+        select count(1) from sys_tenant where tenant_role_id = #{tenantRoleId}
+    </select>
+    
+</mapper>

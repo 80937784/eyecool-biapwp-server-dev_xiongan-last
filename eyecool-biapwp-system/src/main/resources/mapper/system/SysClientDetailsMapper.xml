@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.system.mapper.SysClientDetailsMapper">
+    
+    <resultMap type="SysClientDetails" id="SysClientDetailsResult">
+        <result property="clientId"    column="client_id"    />
+        <result property="resourceIds"    column="resource_ids"    />
+        <result property="clientSecret"    column="client_secret"    />
+        <result property="scope"    column="scope"    />
+        <result property="webServerRedirectUri"    column="web_server_redirect_uri"    />
+        <result property="authorities"    column="authorities"    />
+        <result property="additionalInformation"    column="additional_information"    />
+        <result property="originSecret"    column="origin_secret"    />
+    </resultMap>
+
+    <sql id="selectSysClientDetailsVo">
+        select client_id, resource_ids, client_secret, scope, web_server_redirect_uri, authorities, additional_information, origin_secret from sys_client_details
+    </sql>
+
+    <select id="selectSysClientDetailsList" parameterType="SysClientDetails" resultMap="SysClientDetailsResult">
+        <include refid="selectSysClientDetailsVo"/>
+        <where>  
+        	<if test="clientId != null  and clientId != ''"> and client_id = #{clientId}</if>
+            <if test="resourceIds != null  and resourceIds != ''"> and resource_ids = #{resourceIds}</if>
+            <if test="clientSecret != null  and clientSecret != ''"> and client_secret = #{clientSecret}</if>
+            <if test="scope != null  and scope != ''"> and scope = #{scope}</if>
+            <if test="webServerRedirectUri != null  and webServerRedirectUri != ''"> and web_server_redirect_uri = #{webServerRedirectUri}</if>
+            <if test="authorities != null  and authorities != ''"> and authorities = #{authorities}</if>
+            <if test="additionalInformation != null  and additionalInformation != ''"> and additional_information = #{additionalInformation}</if>
+            <if test="originSecret != null  and originSecret != ''"> and origin_secret = #{originSecret}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysClientDetailsById" parameterType="String" resultMap="SysClientDetailsResult">
+        <include refid="selectSysClientDetailsVo"/>
+        where client_id = #{clientId}
+    </select>
+        
+    <insert id="insertSysClientDetails" parameterType="SysClientDetails">
+        insert into sys_client_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientId != null">client_id,</if>
+            <if test="resourceIds != null">resource_ids,</if>
+            <if test="clientSecret != null and clientSecret != ''">client_secret,</if>
+            <if test="scope != null and scope != ''">scope,</if>
+            <if test="webServerRedirectUri != null">web_server_redirect_uri,</if>
+            <if test="authorities != null">authorities,</if>
+            <if test="additionalInformation != null">additional_information,</if>
+            <if test="originSecret != null and originSecret != ''">origin_secret,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientId != null">#{clientId},</if>
+            <if test="resourceIds != null">#{resourceIds},</if>
+            <if test="clientSecret != null and clientSecret != ''">#{clientSecret},</if>
+            <if test="scope != null and scope != ''">#{scope},</if>
+            <if test="webServerRedirectUri != null">#{webServerRedirectUri},</if>
+            <if test="authorities != null">#{authorities},</if>
+            <if test="additionalInformation != null">#{additionalInformation},</if>
+            <if test="originSecret != null and originSecret != ''">#{originSecret},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysClientDetails" parameterType="SysClientDetails">
+        update sys_client_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resourceIds != null">resource_ids = #{resourceIds},</if>
+            <if test="clientSecret != null and clientSecret != ''">client_secret = #{clientSecret},</if>
+            <if test="scope != null and scope != ''">scope = #{scope},</if>
+            <if test="webServerRedirectUri != null">web_server_redirect_uri = #{webServerRedirectUri},</if>
+            <if test="authorities != null">authorities = #{authorities},</if>
+            <if test="additionalInformation != null">additional_information = #{additionalInformation},</if>
+            <if test="originSecret != null and originSecret != ''">origin_secret = #{originSecret},</if>
+        </trim>
+        where client_id = #{clientId}
+    </update>
+
+    <delete id="deleteSysClientDetailsById" parameterType="String">
+        delete from sys_client_details where client_id = #{clientId}
+    </delete>
+
+    <delete id="deleteSysClientDetailsByIds" parameterType="String">
+        delete from sys_client_details where client_id in 
+        <foreach item="clientId" collection="array" open="(" separator="," close=")">
+            #{clientId}
+        </foreach>
+    </delete>
+    
+</mapper>

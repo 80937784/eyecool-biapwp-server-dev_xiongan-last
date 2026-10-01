@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceUpgradeTaskMapper">
+    
+    <resultMap type="DeviceUpgradeTask" id="DeviceUpgradeTaskResult">
+        <result property="id"    column="id"    />
+        <result property="versionId"    column="version_id"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="appName"    column="app_name"    />
+        <result property="appVersion"    column="version"    />
+        <result property="upgradeTime"    column="upgrade_time"    />
+        <result property="upgradeCountLimit"    column="upgrade_count_limit"    />
+        <result property="executeCount"    column="execute_count"    />
+        <result property="pubCount"    column="pub_count"    />
+        <result property="taskIndex"    column="task_index"    />
+        <result property="executeResult"    column="execute_result"    />
+        <result property="rollbackInstall"    column="rollback_install"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="md5"    column="md5"    />
+        <result property="fileSize"    column="file_size"    />
+    </resultMap>
+
+    <sql id="selectDeviceUpgradeTaskVo">
+        select device.device_no, device.device_name, version.app_name, version.version, version.md5, version.file_size, task.id, task.version_id, task.device_id, task.upgrade_time, task.upgrade_count_limit, task.execute_count, task.pub_count, task.task_index, task.execute_result, task.rollback_install, task.create_by, task.update_by, task.create_time, task.update_time, task.batch_date, task.tenant_id from device_upgrade_task task
+        left join device_info device on task.device_id = device.id
+        left join device_upgrade_version version on task.version_id = version.id
+    </sql>
+
+    <select id="selectDeviceUpgradeTaskList" parameterType="DeviceUpgradeTask" resultMap="DeviceUpgradeTaskResult">
+        <include refid="selectDeviceUpgradeTaskVo"/>
+        <where>  
+            <if test="versionId != null  and versionId != ''"> and task.version_id = #{versionId}</if>
+            <if test="deviceId != null  and deviceId != ''"> and task.device_id = #{deviceId}</if>
+            <if test="upgradeTime != null "> and task.upgrade_time = #{upgradeTime}</if>
+            <if test="upgradeCountLimit != null "> and task.upgrade_count_limit = #{upgradeCountLimit}</if>
+            <if test="executeCount != null "> and task.execute_count = #{executeCount}</if>
+            <if test="pubCount != null "> and task.pub_count = #{pubCount}</if>
+            <if test="taskIndex != null "> and task.task_index = #{taskIndex}</if>
+            <if test="executeResult != null  and executeResult != ''"> and task.execute_result = #{executeResult}</if>
+            <if test="rollbackInstall != null"> and task.rollback_install = #{rollbackInstall}</if>
+            <if test="batchDate != null "> and task.batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and task.tenant_id = #{tenantId}</if>
+            <if test="deviceNo != null  and deviceNo != ''"> and device.device_no = #{deviceNo}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device.device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="appName != null  and appName != ''"> and version.app_name like concat(concat('%', #{appName}), '%')</if>
+            <if test="appVersion != null  and appVersion != ''"> and version.version = #{appVersion}</if>
+        </where>
+         order by task.task_index desc
+    </select>
+    
+    <select id="selectDeviceUpgradeTaskById" parameterType="String" resultMap="DeviceUpgradeTaskResult">
+        <include refid="selectDeviceUpgradeTaskVo"/>
+        where task.id = #{id}
+    </select>
+        
+    <insert id="insertDeviceUpgradeTask" parameterType="DeviceUpgradeTask">
+        insert into device_upgrade_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="versionId != null and versionId != ''">version_id,</if>
+            <if test="deviceId != null and deviceId != ''">device_id,</if>
+            <if test="upgradeTime != null">upgrade_time,</if>
+            <if test="upgradeCountLimit != null">upgrade_count_limit,</if>
+            <if test="executeCount != null">execute_count,</if>
+            <if test="pubCount != null">pub_count,</if>
+            <if test="taskIndex != null">task_index,</if>
+            <if test="executeResult != null and executeResult != ''">execute_result,</if>
+            <if test="rollbackInstall != null">rollback_install,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="versionId != null and versionId != ''">#{versionId},</if>
+            <if test="deviceId != null and deviceId != ''">#{deviceId},</if>
+            <if test="upgradeTime != null">#{upgradeTime},</if>
+            <if test="upgradeCountLimit != null">#{upgradeCountLimit},</if>
+            <if test="executeCount != null">#{executeCount},</if>
+            <if test="pubCount != null">#{pubCount},</if>
+            <if test="taskIndex != null">#{taskIndex},</if>
+            <if test="executeResult != null and executeResult != ''">#{executeResult},</if>
+            <if test="rollbackInstall != null">#{rollbackInstall},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceUpgradeTask" parameterType="DeviceUpgradeTask">
+        update device_upgrade_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="versionId != null and versionId != ''">version_id = #{versionId},</if>
+            <if test="deviceId != null and deviceId != ''">device_id = #{deviceId},</if>
+            <if test="upgradeTime != null">upgrade_time = #{upgradeTime},</if>
+            <if test="upgradeCountLimit != null">upgrade_count_limit = #{upgradeCountLimit},</if>
+            <if test="executeCount != null">execute_count = #{executeCount},</if>
+            <if test="pubCount != null">pub_count = #{pubCount},</if>
+            <if test="taskIndex != null">task_index = #{taskIndex},</if>
+            <if test="executeResult != null and executeResult != ''">execute_result = #{executeResult},</if>
+            <if test="rollbackInstall != null">rollback_install = #{rollbackInstall},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceUpgradeTaskById" parameterType="String">
+        delete from device_upgrade_task where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceUpgradeTaskByIds" parameterType="String">
+        delete from device_upgrade_task where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="selectMaxTaskIndex" resultType="Long">
+    	select max(task_index) as taskIndex from device_upgrade_task
+    </select>
+    
+    <update id="skipTaskByDeviceId">
+     	update device_upgrade_task set execute_result = '4', update_time = #{updateTime} where device_id = #{deviceId} and execute_result = '1'
+    </update>
+     
+    <update id="skipTaskByVersionId">
+     	update device_upgrade_task set execute_result = '4', update_time = #{updateTime} where version_id = #{versionId} and execute_result = '1'
+    </update>
+     
+    <update id="skipTaskByTaskIds">
+     	update device_upgrade_task set execute_result = '4', update_time = #{updateTime}
+     	where id in
+     	<foreach item="id" collection="taskIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+     	and execute_result = '1'
+    </update>
+    
+        
+    <select id="selectToBeAutoPublishedTaskList" resultMap="DeviceUpgradeTaskResult" databaseId="mysql">
+        <include refid="selectDeviceUpgradeTaskVo"/>
+       	where 
+       		task.execute_count &lt; task.upgrade_count_limit 
+       		and task.execute_result = '1'
+       		and task.pub_count &lt;= 0 
+       		and (task.upgrade_time is null or task.upgrade_time &lt;= now())
+        order by task_index desc
+    </select>
+     
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceBatchLogMapper">
+    
+    <resultMap type="DeviceBatchLog" id="DeviceBatchLogResult">
+        <result property="id"    column="id"    />
+        <result property="batchNum"    column="batch_num"    />
+        <result property="batchDesc"    column="batch_desc"    />
+        <result property="rollbacked"    column="rollbacked"    />
+        <result property="rollbackTime"    column="rollback_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectDeviceBatchLogVo">
+        select id, batch_num, batch_desc, rollbacked, rollback_time, create_time, create_by, update_time, update_by, tenant_id from device_batch_log
+    </sql>
+
+    <select id="selectDeviceBatchLogList" parameterType="DeviceBatchLog" resultMap="DeviceBatchLogResult">
+        <include refid="selectDeviceBatchLogVo"/>
+        <where>  
+            <if test="batchNum != null  and batchNum != ''"> and batch_num = #{batchNum}</if>
+            <if test="batchDesc != null  and batchDesc != ''"> and batch_desc like concat(concat('%', #{batchDesc}), '%')</if>
+            <if test="rollbacked != null"> and rollbacked = #{rollbacked}</if>
+            <if test="rollbackTime != null "> and rollback_time = #{rollbackTime}</if>
+            <if test="tenantId != null and tenantId != '' "> and tenant_id = #{tenantId}</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectDeviceBatchLogById" parameterType="String" resultMap="DeviceBatchLogResult">
+        <include refid="selectDeviceBatchLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceBatchLog" parameterType="DeviceBatchLog">
+        insert into device_batch_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="batchNum != null and batchNum != ''">batch_num,</if>
+            <if test="batchDesc != null and batchDesc != ''">batch_desc,</if>
+            <if test="rollbacked != null">rollbacked,</if>
+            <if test="rollbackTime != null">rollback_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="tenantId != null and tenantId != '' ">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="batchNum != null and batchNum != ''">#{batchNum},</if>
+            <if test="batchDesc != null and batchDesc != ''">#{batchDesc},</if>
+            <if test="rollbacked != null">#{rollbacked},</if>
+            <if test="rollbackTime != null">#{rollbackTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="tenantId != null and tenantId != '' ">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceBatchLog" parameterType="DeviceBatchLog">
+        update device_batch_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="batchNum != null and batchNum != ''">batch_num = #{batchNum},</if>
+            <if test="batchDesc != null and batchDesc != ''">batch_desc = #{batchDesc},</if>
+            <if test="rollbacked != null">rollbacked = #{rollbacked},</if>
+            <if test="rollbackTime != null">rollback_time = #{rollbackTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="tenantId != null and tenantId != '' ">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceBatchLogById" parameterType="String">
+        delete from device_batch_log where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceBatchLogByIds" parameterType="String">
+        delete from device_batch_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+     <update id="updateBatchRollBackStatus">
+        update device_batch_log set rollbacked = '1', rollback_time = #{rollbackTime}
+        where batch_num in 
+        <foreach item="batchNum" collection="batchNums" open="(" separator="," close=")">
+            #{batchNum}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,152 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.eyecool</groupId>
+    <artifactId>eyecool-biapwp</artifactId>
+    <version>${eyecool.version}</version>
+  </parent>
+  <artifactId>eyecool-biapwp-basedata</artifactId>
+  
+   <description>
+        basedata模块
+   </description>
+
+   <dependencies>
+
+        <!-- 核心模块 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-framework</artifactId>
+		</dependency>
+		<!-- 通用工具 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-common</artifactId>
+		</dependency>
+		<!-- 通用工具 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-msg</artifactId>
+		</dependency>
+		<!-- 微服务调用组件-->
+		<dependency>
+		  <groupId>com.eyecool</groupId>
+		  <artifactId>callmicroservice</artifactId>
+		  <version>2.1.6</version>
+		</dependency>
+        <dependency>
+            <groupId>cn.eyecool.multi</groupId>
+            <artifactId>abis-match-multi-grpc</artifactId>
+            <version>1.0.3.V.withbean</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>eyecool-status</artifactId>
+            <version>1.0.6.V.alpha</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>abis-match-service-definitions</artifactId>
+            <version>1.6.8.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.grpc</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>abis-match-service-common</artifactId>
+            <version>1.6.8.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.eyecool</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>abis-match-service-consumer</artifactId>
+            <version>1.6.8.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.eyecool</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cn.eyecool.grpc</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool.abis</groupId>
+            <artifactId>detect-grpc</artifactId>
+            <version>2.0.1.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.grpc</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>fox-minisearch-grpc</artifactId>
+            <version>2.3.0.V.alpha</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool.checklive</groupId>
+            <artifactId>checklive-service-definitions</artifactId>
+            <version>1.1.3.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.grpc</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency> 
+
+        <!-- grpc版本 -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-all</artifactId>
+            <version>1.22.1</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool.grpc</groupId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
+            <version>2.2.8.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.eyecool.grpc</groupId>
+                    <artifactId>grpc-service-registry</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool.grpc</groupId>
+            <artifactId>grpc-service-registry</artifactId>
+            <version>2.2.5.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.netflix.eureka</groupId>
+                    <artifactId>eureka-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cn.eyecool.grpc</groupId>
+                    <artifactId>grpc-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+    </dependencies>
+  
+</project>

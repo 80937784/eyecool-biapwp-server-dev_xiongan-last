@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.msg.mapper.MsgDingTeamMapper">
+    
+    <resultMap type="MsgDingTeam" id="MsgDingTeamResult">
+        <result property="id"    column="id"    />
+        <result property="corpId"    column="corp_id"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="teamDes"    column="team_des"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectMsgDingTeamVo">
+        select id, corp_id, team_name, team_des, create_time, update_time, tenant_id from msg_ding_team
+    </sql>
+
+    <select id="selectMsgDingTeamList" parameterType="MsgDingTeam" resultMap="MsgDingTeamResult">
+        <include refid="selectMsgDingTeamVo"/>
+        <where>  
+            <if test="corpId != null  and corpId != ''"> and corp_id = #{corpId}</if>
+            <if test="teamName != null  and teamName != ''"> and team_name like concat(concat('%', #{teamName}), '%')</if>
+            <if test="teamDes != null  and teamDes != ''"> and team_des = #{teamDes}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsgDingTeamById" parameterType="String" resultMap="MsgDingTeamResult">
+        <include refid="selectMsgDingTeamVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMsgDingTeam" parameterType="MsgDingTeam">
+        insert into msg_ding_team
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="corpId != null and corpId != ''">corp_id,</if>
+            <if test="teamName != null and teamName != ''">team_name,</if>
+            <if test="teamDes != null">team_des,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="corpId != null and corpId != ''">#{corpId},</if>
+            <if test="teamName != null and teamName != ''">#{teamName},</if>
+            <if test="teamDes != null">#{teamDes},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgDingTeam" parameterType="MsgDingTeam">
+        update msg_ding_team
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="corpId != null and corpId != ''">corp_id = #{corpId},</if>
+            <if test="teamName != null and teamName != ''">team_name = #{teamName},</if>
+            <if test="teamDes != null">team_des = #{teamDes},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgDingTeamById" parameterType="String">
+        delete from msg_ding_team where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgDingTeamByIds" parameterType="String">
+        delete from msg_ding_team where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+   	<select id="checkCorpIdUnique" resultMap="MsgDingTeamResult">
+	    <include refid="selectMsgDingTeamVo"/>
+		where corp_id = #{corpId}
+	</select>
+    
+</mapper>

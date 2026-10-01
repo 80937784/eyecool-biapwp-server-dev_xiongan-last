@@ -1,0 +1,296 @@
+# 项目相关配置
+eyecool:
+  # 名称
+  name: Eyecool
+  # 版本
+  version: 3.2.9.R
+  # 版权年份
+  copyrightYear: 2023
+  # 实例演示开关
+  demoEnabled: true
+  # 文件路径 示例 （ 建议配置在当前应用目录下，例如Windows配置D:/eyecool/uploadPath，Linux配置 /home/eyecool/uploadPath）
+  profile: C:/eyecool/uploadPath
+  # 获取ip地址开关
+  addressEnabled: false
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: math
+  # 是否启用JOB功能, 不配置此项默认启用JOB功能
+  jobEnabled: true
+  # 当前应用的服务器域信息，如有有nginx代理或转发，请使用nginx代理地址，不要使用实际地址
+  serverDomain: http://127.0.0.1:8765
+  #国际化，zh中文，en英文
+  language: zh
+  mockEnabled: false
+  apiAuthEnabled: false
+
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8701
+  servlet:
+    # 应用的访问路径
+    context-path:
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+    # form body最大大小(默认2MB)
+    max-http-form-post-size: 15MB
+    # tomcat基础文件夹(建议配置在当前应用目录下，例如Windows配置D:/eyecool/tomcat/basedir，/home/eyecool/tomcat/basedir)
+    basedir: ./basedir
+
+# mqtt协议通讯
+mqtt:
+  # 是否启用
+  enabled: false
+  # proto协议文件版本
+  proto-version: proto1.0
+  # 异步处理接收订阅消息
+  msg-async: true
+  # 异步处理订阅消息线程池大小
+  msg-thread-pool-size: 16
+
+# 日志配置
+logging:
+  config: ./config/logback.xml
+
+
+visit:
+  sms:
+    #访客系统短信设置
+    tencent:
+      # 访客系统签名内容，不是id
+      sign: 眼神科技
+      # 访客系统中邀请人登录访客系统时短信模板id
+      register.templateId: 1196173
+      # 访客系统被邀请人接收的短信模板id
+      visitor.templateId: 1196504
+  #访客系统前端地址
+  front.address: ${eyecool.serverDomain}/visitor/#/admin
+
+
+
+# Spring配置
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles:
+    active: druid, msg, dfrs
+  # 文件上传
+  servlet:
+     multipart:
+       # 单个文件大小
+       max-file-size:  500MB
+       # 设置总上传的文件大小
+       max-request-size:  500MB
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: false
+  # redis 配置
+  redis:
+    # 地址
+    host: 127.0.0.1
+    # 端口，默认为6379
+    port: 6379
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+
+# token配置
+token:
+    # 令牌自定义标识
+    header: Authorization
+    # 令牌密钥
+    secret: abcdefghijklmnopqrstuvwxyz
+    # 令牌有效期（默认30分钟）
+    expireTime: 30
+
+# 单点登录页面地址
+sso:
+  loginPage: http://localhost/login
+
+# MyBatis-Plus配置
+mybatis-plus:
+    # 搜索指定包别名
+    typeAliasesPackage: cn.eyecool.**.domain
+    # 配置mapper的扫描，找到所有的mapper.xml映射文件
+    mapperLocations: classpath*:mapper/**/*Mapper.xml
+    # 加载全局的配置文件
+    # configLocation: classpath:mybatis/mybatis-config.xml
+    configuration:
+      # 允许 JDBC 支持自动生成主键(mysql允许，oracle和postgresql不允许)
+      use-generated-keys: true
+      # 多数据库支持，数据库标识(mysql,oracle,postgresql)
+      database-id: mysql
+      # 全局映射器启用缓存
+      cache-enabled: true
+      # 配置默认的执行器
+      default-executor-type: reuse
+
+# PageHelper分页插件
+pagehelper:
+  # 可以配置[mysql|oracle|postgresql]
+  helperDialect: ${mybatis-plus.configuration.database-id}
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  # 请求前缀
+  pathMapping: /dev-api
+
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice/*
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+# 用户密码找回短信验证码模板和签名配置
+userpwd:
+  getback:
+    smscaptcha:
+      templateId: 1085863
+      sign: 眼神科技
+
+# 租户设置
+tenant:
+  # 是否启用多租户拦截
+  enabled: false
+  # 需要排除多租户的表
+  ignoreTables:
+    - sys_client_details
+    - sys_dict**
+    - sys_config
+    - sys_job**
+    - sys_menu
+    - sys_tenant_menu
+    - sys_tenant_interface
+    - sys_tenant_role
+    - sys_tenant_role_menu
+    - sys_role_**
+    - sys_user_post
+    - sys_user_role
+    - gen_table**
+    - qrtz_*
+    - sync_*
+    - tables
+    - columns
+    - device_model
+    - device_param_info
+    - device_param_model_rel
+    - device_batch_log
+    - device_upgrade_version
+    - dual
+  # 多租户隔离字段名称
+  column: tenant_id
+  # 排除不进行租户隔离的sql 全路径：cn.eyecool.system.mapper.UserMapper.findList
+  ignoreSqls:
+  # 注册租户发送短信验证码
+  register:
+    captcha.sms:
+      templateId: 1007266
+      sign: 眼神科技
+
+# 数字化综合管理系统接口对接
+digitalsystem:
+  enabled: true
+  baseUrl: https://pmapitest.eyecool.cn/api/eyecoolpm
+  appKey: hFOsMYs7
+  appSecrect: 3a6067bd4f6f790e1fe132c1f313a4f44b162ca9
+  tenantId:
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        step: 1m
+        descriptions: true
+    tags:
+      application: ${spring.application.name:actuator-prometheus}
+  web:
+    base-path: /actuator
+    server:
+      auto-time-requests: true
+  endpoints:
+    prometheus:
+      id: springmetrics
+    web:
+      exposure:
+        include: '*'
+
+#算法微服务
+cn:
+  eyecool:
+    abis:
+      # abis服务超时时间
+      timeOut: 60000
+      # datamanager服务超时时间
+      datamanager:
+        timeOut: 30000
+      # 多模态服务超时时间
+      multi:
+        timeOut: 30000
+    grpc:
+      enabled: true
+      loadBalancerType: Predictable
+      consumer:
+        match:
+          # abis-match服务地址(1:1)
+          FeatureMatchService: grpc://192.168.63.117:29000?metadata=algType:multiFace;grpc://192.168.63.117:29020?metadata=algType:multiIris;grpc://192.168.63.117:19000?metadata=algType:face;grpc://192.168.63.117:19010?metadata=algType:finger;grpc://192.168.63.117:19020?metadata=algType:iris
+        extraction:
+          # abis-match服务地址(提取特征)
+          FeatureExtractionService: grpc://192.168.63.117:29000?metadata=algType:multiFace;grpc://192.168.63.117:29020?metadata=algType:multiIris;grpc://192.168.63.117:19000?metadata=algType:face;grpc://192.168.63.117:19010?metadata=algType:finger;grpc://192.168.63.117:19020?metadata=algType:iris
+        detection:
+          DetectionService: grpc://192.168.63.117:19000?metadata=algType:multiFace;grpc://192.168.63.117:29000?metadata=algType:multiIris;grpc://192.168.63.117:9991?metadata=algType:face
+          ImageAttributeDetectionService: grpc://192.168.63.117:19000?metadata=algType:multiFace;grpc://192.168.63.117:29000?metadata=algType:multiIris;grpc://192.168.63.117:9991?metadata=algType:face
+        data_access:
+          # fox-minisearch服务地址(1:N)
+          DataSearchService: grpc://192.168.63.117:17775?metadata=algType:face;grpc://192.168.63.117:17722?metadata=algType:finger;grpc://192.168.63.117:17732?metadata=algType:iris
+          DataMatchService: grpc://192.168.63.117:17775?metadata=algType:face;grpc://192.168.63.117:17722?metadata=algType:finger;grpc://192.168.63.117:17732?metadata=algType:iris
+        face_service:
+          # 人脸检活服务地址
+          FaceDetectionService: grpc://192.168.63.117:17000?metadata=algType:face
+        quality:
+          # abis-detect图片质量检测服务地址
+          BioImageQualityService: grpc://192.168.63.117:18000?metadata=algType:multiFace;grpc://192.168.63.117:18010?metadata=algType:multiIris;grpc://192.168.63.117:18000?metadata=algType:face;grpc://192.168.63.117:19010?metadata=algType:finger
+        minisearch:
+          data_store:
+            # datamanager服务地址
+            DataStoreService: grpc://192.168.63.117:16000
+        abisdetect:
+          ocr:
+            # OCR识别服务地址
+            OcrDetectService: grpc://192.168.63.117:19030?metadata=algType:idCardWT;grpc://192.168.63.117:19032?metadata=algType:bankWT;grpc://192.168.63.117:37000?metadata=algType:toure
+        abis:
+          match:
+             multi:
+                service:
+                  # 人脸虹膜多模态比对服务地址(1:1)
+                  MultiFeatureMatchService: grpc://192.168.63.117:11000?metadata=algType:multiFaceIris;
+
+  

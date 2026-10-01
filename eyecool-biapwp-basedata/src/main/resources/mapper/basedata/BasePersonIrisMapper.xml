@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.basedata.mapper.BasePersonIrisMapper">
+    
+    <resultMap type="BasePersonIris" id="BasePersonIrisResult">
+        <result property="id"    column="id"    />
+        <result property="personId"    column="person_id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="feature"    column="feature"    />
+        <result property="featureMd5"    column="feature_md5"    />
+        <result property="qualityScore"    column="quality_score"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="vendorCode"    column="vendor_code"    />
+        <result property="algsVersion"    column="algs_version"    />
+        <result property="encrypted"    column="encrypted"    />
+        <result property="datasource"    column="datasource"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectBasePersonIrisVo">
+        select iris.id, iris.person_id, iris.unique_id, iris.feature, iris.feature_md5, iris.quality_score, iris.image_url, iris.vendor_code, iris.algs_version, iris.encrypted, iris.datasource, iris.remark, iris.status, iris.create_by, iris.update_by, iris.create_time, iris.update_time, iris.batch_date, iris.tenant_id from base_person_iris iris
+    </sql>
+
+    <select id="selectBasePersonIrisList" parameterType="BasePersonIris" resultMap="BasePersonIrisResult">
+        <include refid="selectBasePersonIrisVo"/> 
+        left join base_person_info info on iris.person_id=info.id
+        <where>  
+            <if test="personId != null  and personId != ''"> and iris.person_id = #{personId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and iris.unique_id = #{uniqueId}</if>
+            <if test="feature != null  and feature != ''"> and iris.feature = #{feature}</if>
+            <if test="featureMd5 != null  and featureMd5 != ''"> and iris.feature_md5 = #{featureMd5}</if>
+            <if test="qualityScore != null "> and iris.quality_score = #{qualityScore}</if>
+            <if test="imageUrl != null  and imageUrl != ''"> and iris.image_url = #{imageUrl}</if>
+            <if test="vendorCode != null  and vendorCode != ''"> and iris.vendor_code = #{vendorCode}</if>
+            <if test="algsVersion != null  and algsVersion != ''"> and iris.algs_version = #{algsVersion}</if>
+            <if test="encrypted != null  and encrypted != ''"> and iris.encrypted = #{encrypted}</if>
+            <if test="datasource != null  and datasource != ''"> and iris.datasource = #{datasource}</if>
+            <if test="status != null  and status != ''"> and iris.status = #{status}</if>
+            <if test="batchDate != null "> and iris.batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and iris.tenant_id = #{tenantId}</if>
+            <if test="params.ids != null and params.ids.size() > 0">
+        	 	and iris.id in
+        	 	<foreach collection="params.ids" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		        </foreach>
+        	</if>
+        	<if test="params.personIds != null and params.personIds.size() > 0">
+        	 	and iris.person_id in
+        	 	<foreach collection="params.personIds" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		        </foreach>
+        	</if>
+        	<if test="deptId != null and deptId != 0">
+				AND (info.dept_id = #{deptId} OR info.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectBasePersonIrisById" parameterType="String" resultMap="BasePersonIrisResult">
+        <include refid="selectBasePersonIrisVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBasePersonIris" parameterType="BasePersonIris">
+        insert into base_person_iris
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="personId != null and personId != ''">person_id,</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id,</if>
+            <if test="feature != null and feature != ''">feature,</if>
+            <if test="featureMd5 != null">feature_md5,</if>
+            <if test="qualityScore != null">quality_score,</if>
+            <if test="imageUrl != null and imageUrl != ''">image_url,</if>
+            <if test="vendorCode != null">vendor_code,</if>
+            <if test="algsVersion != null">algs_version,</if>
+            <if test="encrypted != null">encrypted,</if>
+            <if test="datasource != null and datasource != ''">datasource,</if>
+            <if test="remark != null">remark,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="personId != null and personId != ''">#{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">#{uniqueId},</if>
+            <if test="feature != null and feature != ''">#{feature},</if>
+            <if test="featureMd5 != null">#{featureMd5},</if>
+            <if test="qualityScore != null">#{qualityScore},</if>
+            <if test="imageUrl != null and imageUrl != ''">#{imageUrl},</if>
+            <if test="vendorCode != null">#{vendorCode},</if>
+            <if test="algsVersion != null">#{algsVersion},</if>
+            <if test="encrypted != null">#{encrypted},</if>
+            <if test="datasource != null and datasource != ''">#{datasource},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBasePersonIris" parameterType="BasePersonIris">
+        update base_person_iris
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personId != null and personId != ''">person_id = #{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="feature != null and feature != ''">feature = #{feature},</if>
+            <if test="featureMd5 != null">feature_md5 = #{featureMd5},</if>
+            <if test="qualityScore != null">quality_score = #{qualityScore},</if>
+            <if test="imageUrl != null and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="vendorCode != null">vendor_code = #{vendorCode},</if>
+            <if test="algsVersion != null">algs_version = #{algsVersion},</if>
+            <if test="encrypted != null">encrypted = #{encrypted},</if>
+            <if test="datasource != null and datasource != ''">datasource = #{datasource},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    
+     <update id="updateBasePersonIrisByPersonId" parameterType="BasePersonIris">
+        update base_person_iris
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uniqueId != null  and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="feature != null  and feature != ''">feature = #{feature},</if>
+            <if test="featureMd5 != null  and featureMd5 != ''">feature_md5 = #{featureMd5},</if>
+            <if test="qualityScore != null ">quality_score = #{qualityScore},</if>
+            <if test="imageUrl != null  and imageUrl != ''">image_url = #{imageUrl},</if>
+            <if test="vendorCode != null  and vendorCode != ''">vendor_code = #{vendorCode},</if>
+            <if test="algsVersion != null  and algsVersion != ''">algs_version = #{algsVersion},</if>
+            <if test="encrypted != null  and encrypted != ''">encrypted = #{encrypted},</if>
+            <if test="datasource != null  and datasource != ''">datasource = #{datasource},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="batchDate != null ">batch_date = #{batchDate},</if>
+        </trim>
+        where person_id = #{personId}
+    </update>
+
+    <delete id="deleteBasePersonIrisById" parameterType="String">
+        delete from base_person_iris where id = #{id}
+    </delete>
+
+    <delete id="deleteBasePersonIrisByIds" parameterType="String">
+        delete from base_person_iris where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+     
+    <select id="countEnabledIrisByPersonId" parameterType="String" resultType="int">
+        select count(1) from base_person_iris where person_id = #{personId} and status = '0'
+    </select>
+    
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.system.mapper.SysMenuMapper">
+
+	<sql id="selectMenuVo" databaseId="oracle">
+        select menu_id, menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, nvl(perms,'') as perms, icon, create_time, menu_position 
+		from sys_menu
+    </sql>
+    
+    <select id="selectMenuList" parameterType="SysMenu" resultMap="SysMenuResult" databaseId="oracle">
+		<include refid="selectMenuVo"/>
+		<where>
+			<if test="menuName != null and menuName != ''">
+				AND menu_name like concat(concat('%', #{menuName}), '%')
+			</if>
+			<if test="visible != null and visible != ''">
+				AND visible = #{visible}
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+		</where>
+		order by parent_id asc, order_num asc
+	</select>
+	
+	
+	<select id="selectMenuTreeAll" resultMap="SysMenuResult" databaseId="oracle">
+		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, nvl(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time, m.menu_position
+		from sys_menu m where m.menu_type in ('M', 'C') and m.status = 0
+		order by m.parent_id asc, m.order_num asc
+	</select> 
+	
+	<select id="selectMenuListByUserId" parameterType="SysMenu" resultMap="SysMenuResult" databaseId="oracle">
+		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, nvl(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time, m.menu_position
+		from sys_menu m
+		left join sys_role_menu rm on m.menu_id = rm.menu_id
+		left join sys_user_role ur on rm.role_id = ur.role_id
+		left join sys_role ro on ur.role_id = ro.role_id
+		where ur.user_id = #{params.userId}
+		<if test="menuName != null and menuName != ''">
+            AND m.menu_name like concat(concat('%', #{menuName}), '%')
+		</if>
+		<if test="visible != null and visible != ''">
+            AND m.visible = #{visible}
+		</if>
+		<if test="status != null and status != ''">
+            AND m.status = #{status}
+		</if>
+		order by m.parent_id asc, m.order_num asc
+	</select>
+    
+    <select id="selectMenuTreeByUserId" parameterType="Long" resultMap="SysMenuResult" databaseId="oracle">
+		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, nvl(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time, m.menu_position
+		from sys_menu m
+			 left join sys_role_menu rm on m.menu_id = rm.menu_id
+			 left join sys_user_role ur on rm.role_id = ur.role_id
+			 left join sys_role ro on ur.role_id = ro.role_id
+			 left join sys_user u on ur.user_id = u.user_id
+		where u.user_id = #{userId} and m.menu_type in ('M', 'C') and m.status = 0  AND ro.status = 0
+		order by m.parent_id asc, m.order_num asc
+	</select>
+	
+	<select id="checkMenuNameUnique" parameterType="SysMenu" resultMap="SysMenuResult" databaseId="oracle">
+		<include refid="selectMenuVo"/>
+		where menu_name=#{menuName} and parent_id = #{parentId}
+	</select>
+	
+	<update id="updateMenu" parameterType="SysMenu" databaseId="oracle">
+		update sys_menu
+		<set>
+			<if test="menuName != null and menuName != ''">menu_name = #{menuName},</if>
+			<if test="parentId != null">parent_id = #{parentId},</if>
+			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+			<if test="path != null and path != ''">path = #{path},</if>
+			<if test="component != null and component != ''">component = #{component},</if>
+			<if test="isFrame != null and isFrame != ''">is_frame = #{isFrame},</if>
+			<if test="isCache != null and isCache != ''">is_cache = #{isCache},</if>
+			<if test="menuType != null and menuType != ''">menu_type = #{menuType},</if>
+			<if test="visible != null">visible = #{visible},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="perms !=null">perms = #{perms},</if>
+			<if test="icon !=null and icon != ''">icon = #{icon},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="menuPosition != null and menuPosition != ''">menu_position = #{menuPosition},</if>
+			update_time = sysdate
+		</set>
+		where menu_id = #{menuId}
+	</update>
+
+	<insert id="insertMenu" parameterType="SysMenu" databaseId="oracle">
+		<selectKey keyProperty="menuId" order="BEFORE" resultType="Long">
+			select s_sys_menu.nextval as menuId from DUAL
+		</selectKey>
+		insert into sys_menu(
+		<if test="menuId != null and menuId != 0">menu_id,</if>
+		<if test="parentId != null and parentId != 0">parent_id,</if>
+		<if test="menuName != null and menuName != ''">menu_name,</if>
+		<if test="orderNum != null and orderNum != ''">order_num,</if>
+		<if test="path != null and path != ''">path,</if>
+		<if test="component != null and component != ''">component,</if>
+		<if test="isFrame != null and isFrame != ''">is_frame,</if>
+		<if test="isCache != null and isCache != ''">is_cache,</if>
+		<if test="menuType != null and menuType != ''">menu_type,</if>
+		<if test="visible != null">visible,</if>
+		<if test="status != null">status,</if>
+		<if test="perms !=null and perms != ''">perms,</if>
+		<if test="icon != null and icon != ''">icon,</if>
+		<if test="remark != null and remark != ''">remark,</if>
+		<if test="createBy != null and createBy != ''">create_by,</if>
+		<if test="menuPosition != null and menuPosition != ''">menu_position,</if>
+		create_time
+		)values(
+		<if test="menuId != null and menuId != 0">#{menuId},</if>
+		<if test="parentId != null and parentId != 0">#{parentId},</if>
+		<if test="menuName != null and menuName != ''">#{menuName},</if>
+		<if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+		<if test="path != null and path != ''">#{path},</if>
+		<if test="component != null and component != ''">#{component},</if>
+		<if test="isFrame != null and isFrame != ''">#{isFrame},</if>
+		<if test="isCache != null and isCache != ''">#{isCache},</if>
+		<if test="menuType != null and menuType != ''">#{menuType},</if>
+		<if test="visible != null">#{visible},</if>
+		<if test="status != null">#{status},</if>
+		<if test="perms !=null and perms != ''">#{perms},</if>
+		<if test="icon != null and icon != ''">#{icon},</if>
+		<if test="remark != null and remark != ''">#{remark},</if>
+		<if test="createBy != null and createBy != ''">#{createBy},</if>
+		<if test="menuPosition != null and menuPosition != ''">{menuPosition},</if>
+		sysdate
+		)
+	</insert>
+	
+	<select id="selectMenuListByTenantRoleId" parameterType="String" resultMap="SysMenuResult" databaseId="oracle">
+		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, nvl(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time, m.menu_position
+		from sys_menu m
+		inner join sys_tenant_role_menu tm on m.menu_id = tm.menu_id
+		where tm.role_id = #{params.tenantRoleId}
+		<if test="menuName != null and menuName != ''">
+            AND menu_name like concat(concat('%', #{menuName}), '%')
+		</if>
+		<if test="visible != null and visible != ''">
+            AND visible = #{visible}
+		</if>
+		<if test="status != null and status != ''">
+            AND status = #{status}
+		</if>
+		order by m.parent_id asc, m.order_num asc
+	</select>
+	
+	<select id="selectMenuTreeAllByTenantRoleId" resultMap="SysMenuResult" databaseId="oracle">
+		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, nvl(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time, m.menu_position
+		from sys_menu m inner join sys_tenant_role_menu tm on m.menu_id = tm.menu_id where m.menu_type in ('M', 'C') and m.status = 0 and tm.role = #{tenantRoleId}
+		order by m.parent_id asc, m.order_num asc
+	</select> 
+	
+</mapper> 

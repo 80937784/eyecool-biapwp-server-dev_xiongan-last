@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrPassportLogMapper">
+
+    <resultMap type="OcrPassportLog" id="OcrPassportLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="passportMrzFir"    column="passport_mrz_fir"    />
+        <result property="passportMrzSec"    column="passport_mrz_sec"    />
+        <result property="passportNationalityCode"    column="passport_nationality_code"    />
+        <result property="passportNumber"    column="passport_number"    />
+        <result property="passportBirthPlace"    column="passport_birth_place"    />
+        <result property="passportIssuePlace"    column="passport_issue_place"    />
+        <result property="passportIssueDate"    column="passport_issue_date"    />
+        <result property="passportRfidMrz"    column="passport_rfid_mrz"    />
+        <result property="passportOcrMrz"    column="passport_ocr_mrz"    />
+        <result property="passportBirthPlacePinyin"    column="passport_birth_place_pinyin"    />
+        <result property="passportIssuePlacePinyin"    column="passport_issue_place_pinyin"    />
+        <result property="passportIdNumber"    column="passport_id_number"    />
+        <result property="passportOcrNationalName"    column="passport_ocr_national_name"    />
+        <result property="passportOcrGender"    column="passport_ocr_gender"    />
+        <result property="passportOcrNationalityCode"    column="passport_ocr_nationality_code"    />
+        <result property="passportOcrBirthDate"    column="passport_ocr_birth_date"    />
+        <result property="passportOcrExpiryDate"    column="passport_ocr_expiry_date"    />
+        <result property="passportOcrAuthority"    column="passport_ocr_authority"    />
+        <result property="passportNationalSurname"    column="passport_national_surname"    />
+        <result property="passportNationalGivenName"    column="passport_national_given_name"    />
+        <result property="passportHeight"    column="passport_height"    />
+        <result property="result"    column="result"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrPassportLogVo">
+        select id, received_seq, received_time, type, type_id, channel_code, scene_image_url, scene_image_name, passport_mrz_fir, passport_mrz_sec, passport_nationality_code, passport_number, passport_birth_place, passport_issue_place, passport_issue_date, passport_rfid_mrz, passport_ocr_mrz, passport_birth_place_pinyin, passport_issue_place_pinyin, passport_id_number, passport_ocr_national_name, passport_ocr_gender, passport_ocr_nationality_code, passport_ocr_birth_date, passport_ocr_expiry_date, passport_ocr_authority, passport_national_surname, passport_national_given_name, passport_height, result, tenant_id from ocr_passport_log
+    </sql>
+
+    <select id="selectOcrPassportLogList" parameterType="OcrPassportLog" resultMap="OcrPassportLogResult">
+        <include refid="selectOcrPassportLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="passportMrzFir != null  and passportMrzFir != ''"> and passport_mrz_fir = #{passportMrzFir}</if>
+            <if test="passportMrzSec != null  and passportMrzSec != ''"> and passport_mrz_sec = #{passportMrzSec}</if>
+            <if test="passportNationalityCode != null  and passportNationalityCode != ''"> and passport_nationality_code = #{passportNationalityCode}</if>
+            <if test="passportNumber != null  and passportNumber != ''"> and passport_number = #{passportNumber}</if>
+            <if test="passportBirthPlace != null  and passportBirthPlace != ''"> and passport_birth_place = #{passportBirthPlace}</if>
+            <if test="passportIssuePlace != null  and passportIssuePlace != ''"> and passport_issue_place = #{passportIssuePlace}</if>
+            <if test="passportIssueDate != null  and passportIssueDate != ''"> and passport_issue_date = #{passportIssueDate}</if>
+            <if test="passportRfidMrz != null  and passportRfidMrz != ''"> and passport_rfid_mrz = #{passportRfidMrz}</if>
+            <if test="passportOcrMrz != null  and passportOcrMrz != ''"> and passport_ocr_mrz = #{passportOcrMrz}</if>
+            <if test="passportBirthPlacePinyin != null  and passportBirthPlacePinyin != ''"> and passport_birth_place_pinyin = #{passportBirthPlacePinyin}</if>
+            <if test="passportIssuePlacePinyin != null  and passportIssuePlacePinyin != ''"> and passport_issue_place_pinyin = #{passportIssuePlacePinyin}</if>
+            <if test="passportIdNumber != null  and passportIdNumber != ''"> and passport_id_number = #{passportIdNumber}</if>
+            <if test="passportOcrNationalName != null  and passportOcrNationalName != ''"> and passport_ocr_national_name like concat(concat('%', #{passportOcrNationalName}), '%')</if>
+            <if test="passportOcrGender != null  and passportOcrGender != ''"> and passport_ocr_gender = #{passportOcrGender}</if>
+            <if test="passportOcrNationalityCode != null  and passportOcrNationalityCode != ''"> and passport_ocr_nationality_code = #{passportOcrNationalityCode}</if>
+            <if test="passportOcrBirthDate != null  and passportOcrBirthDate != ''"> and passport_ocr_birth_date = #{passportOcrBirthDate}</if>
+            <if test="passportOcrExpiryDate != null  and passportOcrExpiryDate != ''"> and passport_ocr_expiry_date = #{passportOcrExpiryDate}</if>
+            <if test="passportOcrAuthority != null  and passportOcrAuthority != ''"> and passport_ocr_authority = #{passportOcrAuthority}</if>
+            <if test="passportNationalSurname != null  and passportNationalSurname != ''"> and passport_national_surname like concat(concat('%', #{passportNationalSurname}), '%')</if>
+            <if test="passportNationalGivenName != null  and passportNationalGivenName != ''"> and passport_national_given_name like concat(concat('%', #{passportNationalGivenName}), '%')</if>
+            <if test="passportHeight != null  and passportHeight != ''"> and passport_height = #{passportHeight}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrPassportLogById" parameterType="String" resultMap="OcrPassportLogResult">
+        <include refid="selectOcrPassportLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrPassportLog" parameterType="OcrPassportLog">
+        insert into ocr_passport_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="passportMrzFir != null">passport_mrz_fir,</if>
+            <if test="passportMrzSec != null">passport_mrz_sec,</if>
+            <if test="passportNationalityCode != null">passport_nationality_code,</if>
+            <if test="passportNumber != null">passport_number,</if>
+            <if test="passportBirthPlace != null">passport_birth_place,</if>
+            <if test="passportIssuePlace != null">passport_issue_place,</if>
+            <if test="passportIssueDate != null">passport_issue_date,</if>
+            <if test="passportRfidMrz != null">passport_rfid_mrz,</if>
+            <if test="passportOcrMrz != null">passport_ocr_mrz,</if>
+            <if test="passportBirthPlacePinyin != null">passport_birth_place_pinyin,</if>
+            <if test="passportIssuePlacePinyin != null">passport_issue_place_pinyin,</if>
+            <if test="passportIdNumber != null">passport_id_number,</if>
+            <if test="passportOcrNationalName != null">passport_ocr_national_name,</if>
+            <if test="passportOcrGender != null">passport_ocr_gender,</if>
+            <if test="passportOcrNationalityCode != null">passport_ocr_nationality_code,</if>
+            <if test="passportOcrBirthDate != null">passport_ocr_birth_date,</if>
+            <if test="passportOcrExpiryDate != null">passport_ocr_expiry_date,</if>
+            <if test="passportOcrAuthority != null">passport_ocr_authority,</if>
+            <if test="passportNationalSurname != null">passport_national_surname,</if>
+            <if test="passportNationalGivenName != null">passport_national_given_name,</if>
+            <if test="passportHeight != null">passport_height,</if>
+            <if test="result != null">result,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="passportMrzFir != null">#{passportMrzFir},</if>
+            <if test="passportMrzSec != null">#{passportMrzSec},</if>
+            <if test="passportNationalityCode != null">#{passportNationalityCode},</if>
+            <if test="passportNumber != null">#{passportNumber},</if>
+            <if test="passportBirthPlace != null">#{passportBirthPlace},</if>
+            <if test="passportIssuePlace != null">#{passportIssuePlace},</if>
+            <if test="passportIssueDate != null">#{passportIssueDate},</if>
+            <if test="passportRfidMrz != null">#{passportRfidMrz},</if>
+            <if test="passportOcrMrz != null">#{passportOcrMrz},</if>
+            <if test="passportBirthPlacePinyin != null">#{passportBirthPlacePinyin},</if>
+            <if test="passportIssuePlacePinyin != null">#{passportIssuePlacePinyin},</if>
+            <if test="passportIdNumber != null">#{passportIdNumber},</if>
+            <if test="passportOcrNationalName != null">#{passportOcrNationalName},</if>
+            <if test="passportOcrGender != null">#{passportOcrGender},</if>
+            <if test="passportOcrNationalityCode != null">#{passportOcrNationalityCode},</if>
+            <if test="passportOcrBirthDate != null">#{passportOcrBirthDate},</if>
+            <if test="passportOcrExpiryDate != null">#{passportOcrExpiryDate},</if>
+            <if test="passportOcrAuthority != null">#{passportOcrAuthority},</if>
+            <if test="passportNationalSurname != null">#{passportNationalSurname},</if>
+            <if test="passportNationalGivenName != null">#{passportNationalGivenName},</if>
+            <if test="passportHeight != null">#{passportHeight},</if>
+            <if test="result != null">#{result},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrPassportLog" parameterType="OcrPassportLog">
+        update ocr_passport_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="passportMrzFir != null">passport_mrz_fir = #{passportMrzFir},</if>
+            <if test="passportMrzSec != null">passport_mrz_sec = #{passportMrzSec},</if>
+            <if test="passportNationalityCode != null">passport_nationality_code = #{passportNationalityCode},</if>
+            <if test="passportNumber != null">passport_number = #{passportNumber},</if>
+            <if test="passportBirthPlace != null">passport_birth_place = #{passportBirthPlace},</if>
+            <if test="passportIssuePlace != null">passport_issue_place = #{passportIssuePlace},</if>
+            <if test="passportIssueDate != null">passport_issue_date = #{passportIssueDate},</if>
+            <if test="passportRfidMrz != null">passport_rfid_mrz = #{passportRfidMrz},</if>
+            <if test="passportOcrMrz != null">passport_ocr_mrz = #{passportOcrMrz},</if>
+            <if test="passportBirthPlacePinyin != null">passport_birth_place_pinyin = #{passportBirthPlacePinyin},</if>
+            <if test="passportIssuePlacePinyin != null">passport_issue_place_pinyin = #{passportIssuePlacePinyin},</if>
+            <if test="passportIdNumber != null">passport_id_number = #{passportIdNumber},</if>
+            <if test="passportOcrNationalName != null">passport_ocr_national_name = #{passportOcrNationalName},</if>
+            <if test="passportOcrGender != null">passport_ocr_gender = #{passportOcrGender},</if>
+            <if test="passportOcrNationalityCode != null">passport_ocr_nationality_code = #{passportOcrNationalityCode},</if>
+            <if test="passportOcrBirthDate != null">passport_ocr_birth_date = #{passportOcrBirthDate},</if>
+            <if test="passportOcrExpiryDate != null">passport_ocr_expiry_date = #{passportOcrExpiryDate},</if>
+            <if test="passportOcrAuthority != null">passport_ocr_authority = #{passportOcrAuthority},</if>
+            <if test="passportNationalSurname != null">passport_national_surname = #{passportNationalSurname},</if>
+            <if test="passportNationalGivenName != null">passport_national_given_name = #{passportNationalGivenName},</if>
+            <if test="passportHeight != null">passport_height = #{passportHeight},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.statistic.mapper.TradeLogStatisticMapper">
+    
+    <select id="getRealtimeTradeLog"  resultType="RealtimeTradeLog" databaseId="oracle">
+		SELECT *  FROM (
+			select tt.*, ROWNUM AS rowno  from (
+				select
+					received_seq as receivedSeq,
+					received_time as receivedTime,
+					result,
+					unique_id as uniqueId,
+					person_name as personName,
+					device_no as deviceNo,
+					device_name as deviceName,
+					device_addr as deviceAddr,
+					bio_type as bioType,
+					busi_type as busiType,
+					tenant_id as tenantId
+				from
+					view_today_trans_log 
+				order by
+					received_time desc 
+			) tt 
+			 <![CDATA[  WHERE ROWNUM <= 10 ]]>
+			) table_alias  <![CDATA[ WHERE table_alias.rowno >= 1 ]]>
+    </select>
+    
+    <select id="getFace1v1AreaLogNum"  resultType="int" databaseId="oracle">
+        select count(1) as logNum from person_face_match_log  where device_code in
+		(select device_no from device_info where area_id = #{areaId} or area_id in ( select t.id from area_model t where find_in_set(#{areaId}, ancestors) <![CDATA[ <> ]]> 0))
+		and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       	<if test="result !=null and result !=''">
+       		and result = #{result} 
+      	</if>
+    </select>
+    
+      <select id="getFace1vNAreaLogNum"  resultType="int" databaseId="oracle">
+        select count(1) as logNum from person_face_search_log  where device_code in
+		(select device_no from device_info where area_id = #{areaId} or area_id in ( select t.id from area_model t where find_in_set(#{areaId}, ancestors) <![CDATA[ <> ]]> 0))
+		and received_time &gt;= #{startTime} and received_time &lt;#{endTime} 
+       	<if test="result !=null and result !=''">
+       		and result = #{result} 
+      	</if>
+    </select>
+    
+    <select id="getFaceRealtimeTradeLog"  resultType="FaceRealtimeTradeLog" databaseId="oracle">
+    	SELECT *  FROM (
+			select tt.*, ROWNUM AS rowno  from (
+				select
+					received_seq as receivedSeq,
+					received_time as receivedTime,
+					result,
+					unique_id as uniqueId,
+					person_name as personName,
+					device_no as deviceNo,
+					device_name as deviceName,
+					device_addr as deviceAddr,
+					bio_type as bioType,
+					busi_type as busiType,
+					tenant_id as tenantId,
+					temperature, 
+					temperature_floor as temperatureFloor,
+					temperature_top as temperatureTop, 
+					temperature_result as temperatureResult,
+					health_result as healthResult, 
+					health_message as healthMessage  
+				from
+					view_today_face_log 
+				order by
+					received_time desc 
+			) tt 
+			 <![CDATA[  WHERE ROWNUM <= 8 ]]>
+			) table_alias  <![CDATA[ WHERE table_alias.rowno >= 1 ]]>
+    </select>
+    
+    <select id="getFaceRealtimeTradeLog"  resultType="FaceRealtimeTradeLog" databaseId="oracle">
+    	SELECT *  FROM (
+			select tt.*, ROWNUM AS rowno  from (
+				select
+					received_seq as receivedSeq,
+					received_time as receivedTime,
+					result,
+					unique_id as uniqueId,
+					person_name as personName,
+					device_no as deviceNo,
+					device_name as deviceName,
+					device_addr as deviceAddr,
+					bio_type as bioType,
+					busi_type as busiType,
+					tenant_id as tenantId,
+					temperature, 
+					temperature_floor as temperatureFloor,
+					temperature_top as temperatureTop, 
+					temperature_result as temperatureResult,
+					health_result as healthResult, 
+					health_message as healthMessage  
+				from
+					view_today_face_log 
+				where temperature &gt;= temperature_top 
+					or temperature &lt; temperature_floor 
+					or temperature_result = '2'
+					or temperature_result = '3'
+					or health_message = '黄码'
+					or health_message = '红码'
+				order by
+					received_time desc 
+			) tt 
+			 <![CDATA[  WHERE ROWNUM <= 4 ]]>
+			) table_alias  <![CDATA[ WHERE table_alias.rowno >= 1 ]]>
+    </select>
+		
+</mapper>

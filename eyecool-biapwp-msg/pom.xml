@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.eyecool</groupId>
+    <artifactId>eyecool-biapwp</artifactId>
+    <version>${eyecool.version}</version>
+  </parent>
+  <artifactId>eyecool-biapwp-msg</artifactId>
+  <dependencies>
+		<!-- 核心模块 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-framework</artifactId>
+		</dependency>
+		<!-- 通用工具 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-common</artifactId>
+		</dependency>
+		<!-- 系统模块 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-system</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.weixin4j</groupId>
+			<artifactId>weixin4j</artifactId>
+			<version>0.1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.11</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.8</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
+		<dependency>
+			<groupId>com.github.qcloudsms</groupId>
+			<artifactId>qcloudsms</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<!-- 钉钉SDK -->
+		<dependency>
+			<groupId>taobao.sdk</groupId>
+			<artifactId>taobao-sdk-java-auto_1479188381469</artifactId>
+			<version>20210317</version>
+		</dependency>
+	</dependencies>
+</project>

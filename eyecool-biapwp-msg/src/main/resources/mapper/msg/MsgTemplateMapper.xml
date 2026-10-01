@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.msg.mapper.MsgTemplateMapper">
+    
+    <resultMap type="MsgTemplate" id="MsgTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="templateName"    column="template_name"    />
+        <result property="officalId"    column="offical_id"    />
+        <result property="content"    column="content"    />
+        <result property="noticeMethod"    column="notice_method"    />
+        <result property="officalAccountId"    column="offical_account_id"    />
+        <result property="officalAccountName"    column="offical_account_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectMsgTemplateVo" databaseId="mysql">
+        select
+			t.id,
+			t.template_name,
+			t.offical_id,
+			t.content,
+			t.notice_method,
+			t.offical_account_id,
+			ifnull(offical.app_name,ca.app_name)  as offical_account_name,
+			t.create_time,
+			t.update_time,
+			t.tenant_id 
+		from
+			msg_template t
+		left join msg_offical_account offical on t.offical_account_id = offical.id
+		left join msg_sms_cloud_account ca on t.offical_account_id = ca.id
+    </sql>
+
+    <select id="selectMsgTemplateList" parameterType="MsgTemplate" resultMap="MsgTemplateResult">
+        <include refid="selectMsgTemplateVo"/>
+        <where>  
+            <if test="templateName != null  and templateName != ''"> and t.template_name like concat(concat('%', #{templateName}), '%')</if>
+            <if test="officalId != null  and officalId != ''"> and t.offical_id = #{officalId}</if>
+            <if test="content != null  and content != ''"> and t.content = #{content}</if>
+            <if test="noticeMethod != null  and noticeMethod != ''"> and t.notice_method = #{noticeMethod}</if>
+            <if test="officalAccountId != null  and officalAccountId != ''"> and t.offical_account_id = #{officalAccountId}</if>
+            <if test="tenantId != null  and tenantId != ''"> and t.tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsgTemplateById" parameterType="String" resultMap="MsgTemplateResult">
+        <include refid="selectMsgTemplateVo"/>
+        where t.id = #{id}
+    </select>
+        
+    <insert id="insertMsgTemplate" parameterType="MsgTemplate">
+        insert into msg_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="templateName != null and templateName != ''">template_name,</if>
+            <if test="officalId != null">offical_id,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="noticeMethod != null and noticeMethod != ''">notice_method,</if>
+            <if test="officalAccountId != null">offical_account_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="templateName != null and templateName != ''">#{templateName},</if>
+            <if test="officalId != null">#{officalId},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="noticeMethod != null and noticeMethod != ''">#{noticeMethod},</if>
+            <if test="officalAccountId != null">#{officalAccountId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgTemplate" parameterType="MsgTemplate">
+        update msg_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="templateName != null and templateName != ''">template_name = #{templateName},</if>
+            <if test="officalId != null">offical_id = #{officalId},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="noticeMethod != null and noticeMethod != ''">notice_method = #{noticeMethod},</if>
+            <if test="officalAccountId != null">offical_account_id = #{officalAccountId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgTemplateById" parameterType="String">
+        delete from msg_template where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgTemplateByIds" parameterType="String">
+        delete from msg_template where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteTemplateByAccountId" parameterType="String">
+        delete from msg_template where offical_account_id = #{officalAccountId}
+    </delete>
+    
+    <select id="checkTemplateNameUnique" resultMap="MsgTemplateResult">
+	    <include refid="selectMsgTemplateVo"/>
+		where t.template_name = #{templateName} and t.notice_method = #{noticeMethod} 
+	</select>
+	
+	<select id="checkOfficalIdUnique" resultMap="MsgTemplateResult">
+	    <include refid="selectMsgTemplateVo"/>
+		where t.offical_id = #{officalId} and t.notice_method = #{noticeMethod} 
+	</select>
+	
+</mapper>

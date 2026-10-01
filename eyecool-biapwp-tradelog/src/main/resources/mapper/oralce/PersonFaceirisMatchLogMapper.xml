@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.PersonFaceirisMatchLogMapper">
+
+    <select id="selectPersonFaceirisMatchLogList" parameterType="PersonFaceirisMatchLog" resultMap="PersonFaceirisMatchLogResult" databaseId="oracle">
+        <include refid="selectPersonFaceirisMatchLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="healthcodeLogId != null  and healthcodeLogId != ''"> and healthcode_log_id = #{healthcodeLogId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneFaceImage != null  and sceneFaceImage != ''"> and scene_face_image = #{sceneFaceImage}</if>
+            <if test="sceneIrisImage != null  and sceneIrisImage != ''"> and scene_iris_image = #{sceneIrisImage}</if>
+            <if test="sceneFaceScore != null "> and scene_face_score = #{sceneFaceScore}</if>
+            <if test="sceneIrisScore != null "> and scene_iris_score = #{sceneIrisScore}</if>
+            <if test="stockFaceImage != null  and stockFaceImage != ''"> and stock_face_image = #{stockFaceImage}</if>
+            <if test="stockIrisImage != null  and stockIrisImage != ''"> and stock_iris_image = #{stockIrisImage}</if>
+            <if test="matchMode != null  and matchMode != ''"> and match_mode = #{matchMode}</if>
+            <if test="matchScore != null "> and match_score = #{matchScore}</if>
+            <if test="checkliveScore != null "> and checklive_score = #{checkliveScore}</if>
+            <if test="checkliveResult != null  and checkliveResult != ''"> and checklive_result = #{checkliveResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="faceTimeUsed != null "> and face_time_used = #{faceTimeUsed}</if>
+            <if test="irisTimeUsed != null "> and iris_time_used = #{irisTimeUsed}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="temperatureFloor != null "> and temperature_floor = #{temperatureFloor}</if>
+            <if test="temperatureTop != null "> and temperature_top = #{temperatureTop}</if>
+            <if test="deviceSn != null  and deviceSn != ''"> and device_sn = #{deviceSn}</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceLongitude != null "> and device_longitude = #{deviceLongitude}</if>
+            <if test="deviceDimension != null "> and device_dimension = #{deviceDimension}</if>
+            <if test="deviceDirection != null  and deviceDirection != ''"> and device_direction = #{deviceDirection}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0 ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+    
+    
+    <select id="selectLastPersonFaceirisMatchLogList" parameterType="PersonFaceirisMatchLog" resultMap="PersonFaceirisMatchLogResult" databaseId="oracle">
+        <include refid="selectPersonFaceirisMatchLogVo"/>
+         INNER JOIN (
+		  SELECT unique_id as unique_id_tmp, MAX(received_time) AS received_time_tmp
+		  FROM person_faceiris_match_log
+		  <if test="tenantId != null  and tenantId != ''"> where tenant_id = #{tenantId}</if>
+		  GROUP BY unique_id
+		) AS tmp
+		ON log.unique_id = tmp.unique_id_tmp AND log.received_time = tmp.received_time_tmp
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="healthcodeLogId != null  and healthcodeLogId != ''"> and healthcode_log_id = #{healthcodeLogId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat(concat('%', #{personName}), '%')</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneFaceImage != null  and sceneFaceImage != ''"> and scene_face_image = #{sceneFaceImage}</if>
+            <if test="sceneIrisImage != null  and sceneIrisImage != ''"> and scene_iris_image = #{sceneIrisImage}</if>
+            <if test="sceneFaceScore != null "> and scene_face_score = #{sceneFaceScore}</if>
+            <if test="sceneIrisScore != null "> and scene_iris_score = #{sceneIrisScore}</if>
+            <if test="stockFaceImage != null  and stockFaceImage != ''"> and stock_face_image = #{stockFaceImage}</if>
+            <if test="stockIrisImage != null  and stockIrisImage != ''"> and stock_iris_image = #{stockIrisImage}</if>
+            <if test="matchMode != null  and matchMode != ''"> and match_mode = #{matchMode}</if>
+            <if test="matchScore != null "> and match_score = #{matchScore}</if>
+            <if test="checkliveScore != null "> and checklive_score = #{checkliveScore}</if>
+            <if test="checkliveResult != null  and checkliveResult != ''"> and checklive_result = #{checkliveResult}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="faceTimeUsed != null "> and face_time_used = #{faceTimeUsed}</if>
+            <if test="irisTimeUsed != null "> and iris_time_used = #{irisTimeUsed}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="temperatureFloor != null "> and temperature_floor = #{temperatureFloor}</if>
+            <if test="temperatureTop != null "> and temperature_top = #{temperatureTop}</if>
+            <if test="deviceSn != null  and deviceSn != ''"> and device_sn = #{deviceSn}</if>
+            <if test="deviceModel != null  and deviceModel != ''"> and device_model = #{deviceModel}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceLongitude != null "> and device_longitude = #{deviceLongitude}</if>
+            <if test="deviceDimension != null "> and device_dimension = #{deviceDimension}</if>
+            <if test="deviceDirection != null  and deviceDirection != ''"> and device_direction = #{deviceDirection}</if>
+            <if test="serverId != null  and serverId != ''"> and server_id = #{serverId}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and received_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and received_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="deptId != null and deptId != 0">
+				AND (log.dept_id = #{deptId} OR log.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) <![CDATA[ <> ]]> 0 ))
+			</if>
+			<!-- 数据范围过滤 -->
+			${params.dataScope}
+        </where>
+    </select>
+
+    
+  	<insert id="addPartition" databaseId="oracle">
+		 CALL sp_create_partition(sysdate + #{offsetDay}, #{tableName},'YYYYMMDD')
+    </insert>
+    
+    <delete id="dropPartition" databaseId="oracle">
+		 CALL sp_drop_partition(#{holdDate}, #{tableName},'YYYYMMDD')
+    </delete>
+        
+</mapper>

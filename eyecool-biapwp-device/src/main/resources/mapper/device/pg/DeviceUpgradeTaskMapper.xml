@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceUpgradeTaskMapper">
+        
+    <select id="selectToBeAutoPublishedTaskList" resultMap="DeviceUpgradeTaskResult" databaseId="postgresql">
+        <include refid="selectDeviceUpgradeTaskVo"/>
+       	where 
+       		task.execute_count &lt; task.upgrade_count_limit 
+       		and task.execute_result = '1'
+       		and task.pub_count &lt;= 0 
+       		and (task.upgrade_time is null or task.upgrade_time &lt;= now())
+        order by task_index desc
+    </select>
+     
+</mapper>

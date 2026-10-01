@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.system.mapper.SysUserIrisFaceMapper">
+    
+    <resultMap type="SysUserIrisFace" id="SysUserIrisFaceResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="fusionFeature"    column="fusion_feature"    />
+        <result property="faceFeature"    column="face_feature"    />
+        <result property="irisFeature"    column="iris_feature"    />
+        <result property="fusionFeatureMd5"    column="fusion_feature_md5"    />
+        <result property="faceFeatureMd5"    column="face_feature_md5"    />
+        <result property="faceImageUrl"    column="face_image_url"    />
+        <result property="faceQuality"    column="face_quality"    />
+        <result property="irisFeatureMd5"    column="iris_feature_md5"    />
+        <result property="irisImageUrl"    column="iris_image_url"    />
+        <result property="irisQuality"    column="iris_quality"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectSysUserIrisFaceVo">
+        select id, user_id, fusion_feature, face_feature, iris_feature, fusion_feature_md5, face_feature_md5, face_image_url, face_quality, iris_feature_md5, iris_image_url, iris_quality, status, create_by, update_by, create_time, update_time, tenant_id from sys_user_iris_face
+    </sql>
+
+    <select id="selectSysUserIrisFaceList" parameterType="SysUserIrisFace" resultMap="SysUserIrisFaceResult">
+        <include refid="selectSysUserIrisFaceVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="fusionFeature != null  and fusionFeature != ''"> and fusion_feature = #{fusionFeature}</if>
+            <if test="faceFeature != null  and faceFeature != ''"> and face_feature = #{faceFeature}</if>
+            <if test="irisFeature != null  and irisFeature != ''"> and iris_feature = #{irisFeature}</if>
+            <if test="fusionFeatureMd5 != null  and fusionFeatureMd5 != ''"> and fusion_feature_md5 = #{fusionFeatureMd5}</if>
+            <if test="faceFeatureMd5 != null  and faceFeatureMd5 != ''"> and face_feature_md5 = #{faceFeatureMd5}</if>
+            <if test="faceImageUrl != null  and faceImageUrl != ''"> and face_image_url = #{faceImageUrl}</if>
+            <if test="faceQuality != null "> and face_quality = #{faceQuality}</if>
+            <if test="irisFeatureMd5 != null  and irisFeatureMd5 != ''"> and iris_feature_md5 = #{irisFeatureMd5}</if>
+            <if test="irisImageUrl != null  and irisImageUrl != ''"> and iris_image_url = #{irisImageUrl}</if>
+            <if test="irisQuality != null "> and iris_quality = #{irisQuality}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysUserIrisFaceById" parameterType="String" resultMap="SysUserIrisFaceResult">
+        <include refid="selectSysUserIrisFaceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysUserIrisFace" parameterType="SysUserIrisFace">
+        insert into sys_user_iris_face
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="fusionFeature != null">fusion_feature,</if>
+            <if test="faceFeature != null">face_feature,</if>
+            <if test="irisFeature != null">iris_feature,</if>
+            <if test="fusionFeatureMd5 != null">fusion_feature_md5,</if>
+            <if test="faceFeatureMd5 != null">face_feature_md5,</if>
+            <if test="faceImageUrl != null">face_image_url,</if>
+            <if test="faceQuality != null">face_quality,</if>
+            <if test="irisFeatureMd5 != null">iris_feature_md5,</if>
+            <if test="irisImageUrl != null">iris_image_url,</if>
+            <if test="irisQuality != null">iris_quality,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="fusionFeature != null">#{fusionFeature},</if>
+            <if test="faceFeature != null">#{faceFeature},</if>
+            <if test="irisFeature != null">#{irisFeature},</if>
+            <if test="fusionFeatureMd5 != null">#{fusionFeatureMd5},</if>
+            <if test="faceFeatureMd5 != null">#{faceFeatureMd5},</if>
+            <if test="faceImageUrl != null">#{faceImageUrl},</if>
+            <if test="faceQuality != null">#{faceQuality},</if>
+            <if test="irisFeatureMd5 != null">#{irisFeatureMd5},</if>
+            <if test="irisImageUrl != null">#{irisImageUrl},</if>
+            <if test="irisQuality != null">#{irisQuality},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysUserIrisFace" parameterType="SysUserIrisFace">
+        update sys_user_iris_face
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="fusionFeature != null">fusion_feature = #{fusionFeature},</if>
+            <if test="faceFeature != null">face_feature = #{faceFeature},</if>
+            <if test="irisFeature != null">iris_feature = #{irisFeature},</if>
+            <if test="fusionFeatureMd5 != null">fusion_feature_md5 = #{fusionFeatureMd5},</if>
+            <if test="faceFeatureMd5 != null">face_feature_md5 = #{faceFeatureMd5},</if>
+            <if test="faceImageUrl != null">face_image_url = #{faceImageUrl},</if>
+            <if test="faceQuality != null">face_quality = #{faceQuality},</if>
+            <if test="irisFeatureMd5 != null">iris_feature_md5 = #{irisFeatureMd5},</if>
+            <if test="irisImageUrl != null">iris_image_url = #{irisImageUrl},</if>
+            <if test="irisQuality != null">iris_quality = #{irisQuality},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysUserIrisFaceById" parameterType="String">
+        delete from sys_user_iris_face where id = #{id}
+    </delete>
+
+    <delete id="deleteSysUserIrisFaceByIds" parameterType="String">
+        delete from sys_user_iris_face where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteSysUserIrisFaceByUserId" parameterType="Long">
+        delete from sys_user_iris_face where user_id = #{userId}
+    </delete>
+    
+</mapper>

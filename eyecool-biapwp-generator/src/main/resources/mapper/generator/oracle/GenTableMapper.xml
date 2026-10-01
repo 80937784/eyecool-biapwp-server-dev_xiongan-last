@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.generator.mapper.GenTableMapper">
+
+    <select id="selectGenTableList" parameterType="GenTable" resultMap="GenTableResult" databaseId="oracle">
+		<include refid="selectGenTableVo"/>
+		<where>
+			<if test="tableName != null and tableName != ''">
+				AND lower(table_name) like lower(concat(concat('%', #{tableName}), '%'))
+			</if>
+			<if test="tableComment != null and tableComment != ''">
+				AND lower(table_comment) like lower(concat(concat('%', #{tableComment}), '%'))
+			</if>
+			<if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				AND create_time &gt;= to_date(#{beginTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				AND create_time &lt;= to_date(#{endTime},'yyyy-MM-dd HH24:mi:ss')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectDbTableList" parameterType="GenTable" resultMap="GenTableResult" databaseId="oracle">
+		select lower(dt.table_name) as table_name, dtc.comments as table_comment, uo.created as create_time, uo.last_ddl_time as update_time
+		from user_tables dt, user_tab_comments dtc, user_objects uo
+		where dt.table_name = dtc.table_name
+		and dt.table_name = uo.object_name
+		and uo.object_type = 'TABLE'
+		AND dt.table_name NOT LIKE 'QRTZ_%' AND dt.table_name NOT LIKE 'GEN_%'
+		AND lower(dt.table_name) NOT IN (select table_name from gen_table)
+		<if test="tableName != null and tableName != ''">
+			AND lower(dt.table_name)  like lower(concat(concat('%', #{tableName}), '%'))
+		</if>
+		<if test="tableComment != null and tableComment != ''">
+			AND lower(dtc.comments) like lower(concat(concat('%', #{tableComment}), '%'))
+		</if>
+	</select>
+	
+	<select id="selectDbTableListByNames" resultMap="GenTableResult" databaseId="oracle">
+		select lower(dt.table_name) as table_name, dtc.comments as table_comment, uo.created as create_time, uo.last_ddl_time as update_time
+		from user_tables dt, user_tab_comments dtc, user_objects uo
+		where dt.table_name = dtc.table_name
+		and dt.table_name = uo.object_name
+		and uo.object_type = 'TABLE'
+		AND dt.table_name NOT LIKE 'QRTZ_%' AND dt.table_name NOT LIKE 'GEN_%'
+		AND dt.table_name NOT IN (select table_name from gen_table)
+		and lower(dt.table_name) in
+	    <foreach collection="array" item="name" open="(" separator="," close=")">
+ 			#{name}
+        </foreach> 
+	</select>
+
+    <select id="selectTableByName" parameterType="String" resultMap="GenTableResult" databaseId="oracle">
+		select lower(dt.table_name) as table_name, dtc.comments as table_comment, uo.created as create_time, uo.last_ddl_time as update_time
+		from user_tables dt, user_tab_comments dtc, user_objects uo
+		where dt.table_name = dtc.table_name
+		and dt.table_name = uo.object_name
+		and uo.object_type = 'TABLE'
+		AND dt.table_name NOT LIKE 'QRTZ_%' AND dt.table_name NOT LIKE 'GEN_%'
+		AND dt.table_name NOT IN (select table_name from gen_table)
+		and lower(dt.table_name) = #{tableName}
+	</select>
+
+	<select id="selectMenuId" resultType="java.lang.Long" databaseId="oracle">
+	    SELECT S_sys_menu.nextval FROM dual
+	</select>
+	
+	<insert id="insertGenTable" parameterType="GenTable" databaseId="oracle">
+		<selectKey keyProperty="tableId" resultType="long" order="BEFORE">
+			SELECT S_gen_table.NEXTVAL as tableId FROM DUAL
+		</selectKey>
+        insert into gen_table (
+			<if test="tableId != null">table_id,</if>
+			<if test="tableName != null">table_name,</if>
+			<if test="tableComment != null and tableComment != ''">table_comment,</if>
+			<if test="className != null and className != ''">class_name,</if>
+			<if test="tplCategory != null and tplCategory != ''">tpl_category,</if>
+			<if test="packageName != null and packageName != ''">package_name,</if>
+			<if test="moduleName != null and moduleName != ''">module_name,</if>
+			<if test="businessName != null and businessName != ''">business_name,</if>
+			<if test="functionName != null and functionName != ''">function_name,</if>
+			<if test="functionAuthor != null and functionAuthor != ''">function_author,</if>
+			<if test="genType != null and genType != ''">gen_type,</if>
+			<if test="genPath != null and genPath != ''">gen_path,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+ 			<if test="createBy != null and createBy != ''">create_by,</if>
+			create_time
+         )values(
+			<if test="tableId != null">#{tableId},</if>
+			<if test="tableName != null">#{tableName},</if>
+			<if test="tableComment != null and tableComment != ''">#{tableComment},</if>
+			<if test="className != null and className != ''">#{className},</if>
+			<if test="tplCategory != null and tplCategory != ''">#{tplCategory},</if>
+			<if test="packageName != null and packageName != ''">#{packageName},</if>
+			<if test="moduleName != null and moduleName != ''">#{moduleName},</if>
+			<if test="businessName != null and businessName != ''">#{businessName},</if>
+			<if test="functionName != null and functionName != ''">#{functionName},</if>
+			<if test="functionAuthor != null and functionAuthor != ''">#{functionAuthor},</if>
+			<if test="genType != null and genType != ''">#{genType},</if>
+			<if test="genPath != null and genPath != ''">#{genPath},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+ 			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			sysdate
+         )
+    </insert>
+    
+    <update id="updateGenTable" parameterType="GenTable" databaseId="oracle">
+        update gen_table
+        <set>
+            <if test="tableName != null">table_name = #{tableName},</if>
+            <if test="tableComment != null and tableComment != ''">table_comment = #{tableComment},</if>
+            <if test="className != null and className != ''">class_name = #{className},</if>
+            <if test="functionAuthor != null and functionAuthor != ''">function_author = #{functionAuthor},</if>
+            <if test="genType != null and genType != ''">gen_type = #{genType},</if>
+            <if test="genPath != null and genPath != ''">gen_path = #{genPath},</if>
+            <if test="tplCategory != null and tplCategory != ''">tpl_category = #{tplCategory},</if>
+            <if test="packageName != null and packageName != ''">package_name = #{packageName},</if>
+            <if test="moduleName != null and moduleName != ''">module_name = #{moduleName},</if>
+            <if test="businessName != null and businessName != ''">business_name = #{businessName},</if>
+            <if test="functionName != null and functionName != ''">function_name = #{functionName},</if>
+            <if test="options != null and options != ''">options = #{options},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = sysdate
+        </set>
+        where table_id = #{tableId}
+    </update>
+    
+</mapper>

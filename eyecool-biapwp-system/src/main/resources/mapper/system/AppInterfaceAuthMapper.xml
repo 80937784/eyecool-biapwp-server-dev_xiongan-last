@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.system.mapper.AppInterfaceAuthMapper">
+    
+    <resultMap type="AppInterfaceAuth" id="AppInterfaceAuthResult">
+        <result property="id"    column="id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="appDesc"    column="app_desc"    />
+        <result property="transCode"    column="trans_code"    />
+        <result property="transEndTime"    column="trans_end_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectAppInterfaceAuthVo">
+        select auth.id, auth.app_id, app.app_desc, auth.trans_code, auth.trans_end_time, auth.remark, auth.create_by, auth.update_by, auth.create_time, auth.update_time, auth.tenant_id 
+        from app_interface_auth auth
+        left join app_info app on auth.app_id = app.id
+    </sql>
+
+    <select id="selectAppInterfaceAuthList" parameterType="AppInterfaceAuth" resultMap="AppInterfaceAuthResult">
+        <include refid="selectAppInterfaceAuthVo"/>
+        <where>  
+            <if test="appId != null  and appId != ''"> and auth.app_id = #{appId}</if>
+            <if test="transCode != null  and transCode != ''"> and auth.trans_code = #{transCode}</if>
+            <if test="transEndTime != null "> and auth.trans_end_time = #{transEndTime}</if>
+            <if test="tenantId != null  and tenantId != ''"> and auth.tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppInterfaceAuthById" parameterType="String" resultMap="AppInterfaceAuthResult">
+        <include refid="selectAppInterfaceAuthVo"/>
+        where auth.id = #{id}
+    </select>
+        
+    <insert id="insertAppInterfaceAuth" parameterType="AppInterfaceAuth">
+        insert into app_interface_auth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="transCode != null and transCode != ''">trans_code,</if>
+            <if test="transEndTime != null">trans_end_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="transCode != null and transCode != ''">#{transCode},</if>
+            <if test="transEndTime != null">#{transEndTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAppInterfaceAuth" parameterType="AppInterfaceAuth">
+        update app_interface_auth
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="transCode != null and transCode != ''">trans_code = #{transCode},</if>
+            <if test="transEndTime != null">trans_end_time = #{transEndTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAppInterfaceAuthById" parameterType="String">
+        delete from app_interface_auth where id = #{id}
+    </delete>
+
+    <delete id="deleteAppInterfaceAuthByIds" parameterType="String">
+        delete from app_interface_auth where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

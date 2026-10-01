@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrBusiLicLogMapper">
+
+    <resultMap type="OcrBusiLicLog" id="OcrBusiLicLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="busiLicRegisteredNo"    column="busi_lic_registered_no"    />
+        <result property="busiLicOriginationNo"    column="busi_lic_origination_no"    />
+        <result property="busiLicTaxNo"    column="busi_lic_tax_no"    />
+        <result property="busiLicSocialInsuranceNo"    column="busi_lic_social_insurance_no"    />
+        <result property="busiLicStatisticNo"    column="busi_lic_statistic_no"    />
+        <result property="busiLicName"    column="busi_lic_name"    />
+        <result property="busiLicType"    column="busi_lic_type"    />
+        <result property="busiLicAddress"    column="busi_lic_address"    />
+        <result property="busiLicOwner"    column="busi_lic_owner"    />
+        <result property="busiLicForm"    column="busi_lic_form"    />
+        <result property="busiLicRegisteredCapital"    column="busi_lic_registered_capital"    />
+        <result property="busiLicRegistryDate"    column="busi_lic_registry_date"    />
+        <result property="busiLicExpiryDate"    column="busi_lic_expiry_date"    />
+        <result property="busiLicScope"    column="busi_lic_scope"    />
+        <result property="busiLicIssureAuthority"    column="busi_lic_issure_authority"    />
+        <result property="busiLicIssureDate"    column="busi_lic_issure_date"    />
+        <result property="busiLicQrCode"    column="busi_lic_qr_code"    />
+        <result property="result"    column="result"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrBusiLicLogVo">
+        select id, received_seq, received_time, type, type_id, channel_code, scene_image_url, scene_image_name, busi_lic_registered_no, busi_lic_origination_no, busi_lic_tax_no, busi_lic_social_insurance_no, busi_lic_statistic_no, busi_lic_name, busi_lic_type, busi_lic_address, busi_lic_owner, busi_lic_form, busi_lic_registered_capital, busi_lic_registry_date, busi_lic_expiry_date, busi_lic_scope, busi_lic_issure_authority, busi_lic_issure_date, busi_lic_qr_code, result, tenant_id from ocr_busi_lic_log
+    </sql>
+
+    <select id="selectOcrBusiLicLogList" parameterType="OcrBusiLicLog" resultMap="OcrBusiLicLogResult">
+        <include refid="selectOcrBusiLicLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="busiLicRegisteredNo != null  and busiLicRegisteredNo != ''"> and busi_lic_registered_no = #{busiLicRegisteredNo}</if>
+            <if test="busiLicOriginationNo != null  and busiLicOriginationNo != ''"> and busi_lic_origination_no = #{busiLicOriginationNo}</if>
+            <if test="busiLicTaxNo != null  and busiLicTaxNo != ''"> and busi_lic_tax_no = #{busiLicTaxNo}</if>
+            <if test="busiLicSocialInsuranceNo != null  and busiLicSocialInsuranceNo != ''"> and busi_lic_social_insurance_no = #{busiLicSocialInsuranceNo}</if>
+            <if test="busiLicStatisticNo != null  and busiLicStatisticNo != ''"> and busi_lic_statistic_no = #{busiLicStatisticNo}</if>
+            <if test="busiLicName != null  and busiLicName != ''"> and busi_lic_name like concat( concat('%', #{busiLicName}), '%')</if>
+            <if test="busiLicType != null  and busiLicType != ''"> and busi_lic_type = #{busiLicType}</if>
+            <if test="busiLicAddress != null  and busiLicAddress != ''"> and busi_lic_address = #{busiLicAddress}</if>
+            <if test="busiLicOwner != null  and busiLicOwner != ''"> and busi_lic_owner = #{busiLicOwner}</if>
+            <if test="busiLicForm != null  and busiLicForm != ''"> and busi_lic_form = #{busiLicForm}</if>
+            <if test="busiLicRegisteredCapital != null  and busiLicRegisteredCapital != ''"> and busi_lic_registered_capital = #{busiLicRegisteredCapital}</if>
+            <if test="busiLicRegistryDate != null  and busiLicRegistryDate != ''"> and busi_lic_registry_date = #{busiLicRegistryDate}</if>
+            <if test="busiLicExpiryDate != null  and busiLicExpiryDate != ''"> and busi_lic_expiry_date = #{busiLicExpiryDate}</if>
+            <if test="busiLicScope != null  and busiLicScope != ''"> and busi_lic_scope = #{busiLicScope}</if>
+            <if test="busiLicIssureAuthority != null  and busiLicIssureAuthority != ''"> and busi_lic_issure_authority = #{busiLicIssureAuthority}</if>
+            <if test="busiLicIssureDate != null  and busiLicIssureDate != ''"> and busi_lic_issure_date = #{busiLicIssureDate}</if>
+            <if test="busiLicQrCode != null  and busiLicQrCode != ''"> and busi_lic_qr_code = #{busiLicQrCode}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrBusiLicLogById" parameterType="String" resultMap="OcrBusiLicLogResult">
+        <include refid="selectOcrBusiLicLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrBusiLicLog" parameterType="OcrBusiLicLog">
+        insert into ocr_busi_lic_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="busiLicRegisteredNo != null">busi_lic_registered_no,</if>
+            <if test="busiLicOriginationNo != null">busi_lic_origination_no,</if>
+            <if test="busiLicTaxNo != null">busi_lic_tax_no,</if>
+            <if test="busiLicSocialInsuranceNo != null">busi_lic_social_insurance_no,</if>
+            <if test="busiLicStatisticNo != null">busi_lic_statistic_no,</if>
+            <if test="busiLicName != null">busi_lic_name,</if>
+            <if test="busiLicType != null">busi_lic_type,</if>
+            <if test="busiLicAddress != null">busi_lic_address,</if>
+            <if test="busiLicOwner != null">busi_lic_owner,</if>
+            <if test="busiLicForm != null">busi_lic_form,</if>
+            <if test="busiLicRegisteredCapital != null">busi_lic_registered_capital,</if>
+            <if test="busiLicRegistryDate != null">busi_lic_registry_date,</if>
+            <if test="busiLicExpiryDate != null">busi_lic_expiry_date,</if>
+            <if test="busiLicScope != null">busi_lic_scope,</if>
+            <if test="busiLicIssureAuthority != null">busi_lic_issure_authority,</if>
+            <if test="busiLicIssureDate != null">busi_lic_issure_date,</if>
+            <if test="busiLicQrCode != null">busi_lic_qr_code,</if>
+            <if test="result != null">result,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="busiLicRegisteredNo != null">#{busiLicRegisteredNo},</if>
+            <if test="busiLicOriginationNo != null">#{busiLicOriginationNo},</if>
+            <if test="busiLicTaxNo != null">#{busiLicTaxNo},</if>
+            <if test="busiLicSocialInsuranceNo != null">#{busiLicSocialInsuranceNo},</if>
+            <if test="busiLicStatisticNo != null">#{busiLicStatisticNo},</if>
+            <if test="busiLicName != null">#{busiLicName},</if>
+            <if test="busiLicType != null">#{busiLicType},</if>
+            <if test="busiLicAddress != null">#{busiLicAddress},</if>
+            <if test="busiLicOwner != null">#{busiLicOwner},</if>
+            <if test="busiLicForm != null">#{busiLicForm},</if>
+            <if test="busiLicRegisteredCapital != null">#{busiLicRegisteredCapital},</if>
+            <if test="busiLicRegistryDate != null">#{busiLicRegistryDate},</if>
+            <if test="busiLicExpiryDate != null">#{busiLicExpiryDate},</if>
+            <if test="busiLicScope != null">#{busiLicScope},</if>
+            <if test="busiLicIssureAuthority != null">#{busiLicIssureAuthority},</if>
+            <if test="busiLicIssureDate != null">#{busiLicIssureDate},</if>
+            <if test="busiLicQrCode != null">#{busiLicQrCode},</if>
+            <if test="result != null">#{result},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrBusiLicLog" parameterType="OcrBusiLicLog">
+        update ocr_busi_lic_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="busiLicRegisteredNo != null">busi_lic_registered_no = #{busiLicRegisteredNo},</if>
+            <if test="busiLicOriginationNo != null">busi_lic_origination_no = #{busiLicOriginationNo},</if>
+            <if test="busiLicTaxNo != null">busi_lic_tax_no = #{busiLicTaxNo},</if>
+            <if test="busiLicSocialInsuranceNo != null">busi_lic_social_insurance_no = #{busiLicSocialInsuranceNo},</if>
+            <if test="busiLicStatisticNo != null">busi_lic_statistic_no = #{busiLicStatisticNo},</if>
+            <if test="busiLicName != null">busi_lic_name = #{busiLicName},</if>
+            <if test="busiLicType != null">busi_lic_type = #{busiLicType},</if>
+            <if test="busiLicAddress != null">busi_lic_address = #{busiLicAddress},</if>
+            <if test="busiLicOwner != null">busi_lic_owner = #{busiLicOwner},</if>
+            <if test="busiLicForm != null">busi_lic_form = #{busiLicForm},</if>
+            <if test="busiLicRegisteredCapital != null">busi_lic_registered_capital = #{busiLicRegisteredCapital},</if>
+            <if test="busiLicRegistryDate != null">busi_lic_registry_date = #{busiLicRegistryDate},</if>
+            <if test="busiLicExpiryDate != null">busi_lic_expiry_date = #{busiLicExpiryDate},</if>
+            <if test="busiLicScope != null">busi_lic_scope = #{busiLicScope},</if>
+            <if test="busiLicIssureAuthority != null">busi_lic_issure_authority = #{busiLicIssureAuthority},</if>
+            <if test="busiLicIssureDate != null">busi_lic_issure_date = #{busiLicIssureDate},</if>
+            <if test="busiLicQrCode != null">busi_lic_qr_code = #{busiLicQrCode},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

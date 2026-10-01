@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.statistic.mapper.PersonStatisticMapper">
+    
+    <select id="countPerson"  resultType="int">
+        select count(1) from base_person_info where status = 0 and person_type = 'user'
+    </select>
+    
+    <select id="getTradePersonTrend" resultType="StatisticTradePerson">
+        select id, pass_num as passNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_trade_person where statistic_unit = #{statisticUnit} and statistic_date &gt;=#{startDate} and statistic_date &lt;=#{endDate}
+    </select>
+    
+    <select id="getStatisticPersonByDate" resultType="StatisticTradePerson">
+        select id, pass_num as passNum, statistic_unit as statisticUnit,statistic_date as statisticDate, tenant_id as tenantId
+        from statistic_trade_person where statistic_unit = #{statisticUnit} and statistic_date = #{statisticDate}
+        <if test="tenantId != null and tenantId !=''">
+        	and tenant_id = #{tenantId}
+        </if>
+    </select>
+    
+     <insert id="insertStatisticTradePerson" parameterType="StatisticTradePerson">
+        insert into statistic_trade_person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="passNum != null">pass_num,</if>
+            <if test="statisticUnit != null and statisticUnit != ''">statistic_unit,</if>
+            <if test="statisticDate != null and statisticDate !=''">statistic_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="id != null">#{id},</if>
+            <if test="passNum != null">#{passNum},</if>
+            <if test="statisticUnit != null and statisticUnit != ''">#{statisticUnit},</if>
+            <if test="statisticDate != null and statisticDate !=''">#{statisticDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+    
+    
+</mapper>

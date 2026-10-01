@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrDrivingLicLogMapper">
+
+    <resultMap type="OcrDrivingLicLog" id="OcrDrivingLicLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="drivingLicModel"    column="driving_lic_model"    />
+        <result property="drivingLicAddress"    column="driving_lic_address"    />
+        <result property="drivingLicCarNumber"    column="driving_lic_car_number"    />
+        <result property="drivingLicVehicleType"    column="driving_lic_vehicle_type"    />
+        <result property="drivingLicIssueDate"    column="driving_lic_issue_date"    />
+        <result property="drivingLicEngineNo"    column="driving_lic_engine_no"    />
+        <result property="drivingLicVin"    column="driving_lic_vin"    />
+        <result property="drivingLicRegisterDate"    column="driving_lic_register_date"    />
+        <result property="drivingLicUseType"    column="driving_lic_use_type"    />
+        <result property="drivingLicOwner"    column="driving_lic_owner"    />
+        <result property="result"    column="result"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrDrivingLicLogVo">
+        select id, received_seq, received_time, type, type_id, channel_code, scene_image_url, scene_image_name, driving_lic_model, driving_lic_address, driving_lic_car_number, driving_lic_vehicle_type, driving_lic_issue_date, driving_lic_engine_no, driving_lic_vin, driving_lic_register_date, driving_lic_use_type, driving_lic_owner, result, tenant_id from ocr_driving_lic_log
+    </sql>
+
+    <select id="selectOcrDrivingLicLogList" parameterType="OcrDrivingLicLog" resultMap="OcrDrivingLicLogResult">
+        <include refid="selectOcrDrivingLicLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="drivingLicModel != null  and drivingLicModel != ''"> and driving_lic_model = #{drivingLicModel}</if>
+            <if test="drivingLicAddress != null  and drivingLicAddress != ''"> and driving_lic_address = #{drivingLicAddress}</if>
+            <if test="drivingLicCarNumber != null  and drivingLicCarNumber != ''"> and driving_lic_car_number = #{drivingLicCarNumber}</if>
+            <if test="drivingLicVehicleType != null  and drivingLicVehicleType != ''"> and driving_lic_vehicle_type = #{drivingLicVehicleType}</if>
+            <if test="drivingLicIssueDate != null  and drivingLicIssueDate != ''"> and driving_lic_issue_date = #{drivingLicIssueDate}</if>
+            <if test="drivingLicEngineNo != null  and drivingLicEngineNo != ''"> and driving_lic_engine_no = #{drivingLicEngineNo}</if>
+            <if test="drivingLicVin != null  and drivingLicVin != ''"> and driving_lic_vin = #{drivingLicVin}</if>
+            <if test="drivingLicRegisterDate != null  and drivingLicRegisterDate != ''"> and driving_lic_register_date = #{drivingLicRegisterDate}</if>
+            <if test="drivingLicUseType != null  and drivingLicUseType != ''"> and driving_lic_use_type = #{drivingLicUseType}</if>
+            <if test="drivingLicOwner != null  and drivingLicOwner != ''"> and driving_lic_owner = #{drivingLicOwner}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrDrivingLicLogById" parameterType="String" resultMap="OcrDrivingLicLogResult">
+        <include refid="selectOcrDrivingLicLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrDrivingLicLog" parameterType="OcrDrivingLicLog">
+        insert into ocr_driving_lic_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="drivingLicModel != null">driving_lic_model,</if>
+            <if test="drivingLicAddress != null">driving_lic_address,</if>
+            <if test="drivingLicCarNumber != null">driving_lic_car_number,</if>
+            <if test="drivingLicVehicleType != null">driving_lic_vehicle_type,</if>
+            <if test="drivingLicIssueDate != null">driving_lic_issue_date,</if>
+            <if test="drivingLicEngineNo != null">driving_lic_engine_no,</if>
+            <if test="drivingLicVin != null">driving_lic_vin,</if>
+            <if test="drivingLicRegisterDate != null">driving_lic_register_date,</if>
+            <if test="drivingLicUseType != null">driving_lic_use_type,</if>
+            <if test="drivingLicOwner != null">driving_lic_owner,</if>
+            <if test="result != null">result,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="drivingLicModel != null">#{drivingLicModel},</if>
+            <if test="drivingLicAddress != null">#{drivingLicAddress},</if>
+            <if test="drivingLicCarNumber != null">#{drivingLicCarNumber},</if>
+            <if test="drivingLicVehicleType != null">#{drivingLicVehicleType},</if>
+            <if test="drivingLicIssueDate != null">#{drivingLicIssueDate},</if>
+            <if test="drivingLicEngineNo != null">#{drivingLicEngineNo},</if>
+            <if test="drivingLicVin != null">#{drivingLicVin},</if>
+            <if test="drivingLicRegisterDate != null">#{drivingLicRegisterDate},</if>
+            <if test="drivingLicUseType != null">#{drivingLicUseType},</if>
+            <if test="drivingLicOwner != null">#{drivingLicOwner},</if>
+            <if test="result != null">#{result},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrDrivingLicLog" parameterType="OcrDrivingLicLog">
+        update ocr_driving_lic_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="drivingLicModel != null">driving_lic_model = #{drivingLicModel},</if>
+            <if test="drivingLicAddress != null">driving_lic_address = #{drivingLicAddress},</if>
+            <if test="drivingLicCarNumber != null">driving_lic_car_number = #{drivingLicCarNumber},</if>
+            <if test="drivingLicVehicleType != null">driving_lic_vehicle_type = #{drivingLicVehicleType},</if>
+            <if test="drivingLicIssueDate != null">driving_lic_issue_date = #{drivingLicIssueDate},</if>
+            <if test="drivingLicEngineNo != null">driving_lic_engine_no = #{drivingLicEngineNo},</if>
+            <if test="drivingLicVin != null">driving_lic_vin = #{drivingLicVin},</if>
+            <if test="drivingLicRegisterDate != null">driving_lic_register_date = #{drivingLicRegisterDate},</if>
+            <if test="drivingLicUseType != null">driving_lic_use_type = #{drivingLicUseType},</if>
+            <if test="drivingLicOwner != null">driving_lic_owner = #{drivingLicOwner},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

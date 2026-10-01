@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.scene.mapper.ChannelInfoMapper">
+    
+    <resultMap type="ChannelInfo" id="ChannelInfoResult">
+        <result property="id"    column="id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="faceMode"    column="face_mode"    />
+        <result property="fingerMode"    column="finger_mode"    />
+        <result property="irisMode"    column="iris_mode"    />
+        <result property="fveinMode"    column="fvein_mode"    />
+        <result property="faceIrisMode"    column="face_iris_mode"    />
+        <result property="enableMultiFaces"    column="enable_multi_faces"    />
+        <result property="searchN"    column="search_n"    />
+        <result property="deviceNumLimit"    column="device_num_limit"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectChannelInfoVo">
+        select id, channel_code, channel_name, face_mode, finger_mode, iris_mode, fvein_mode, face_iris_mode, enable_multi_faces, search_n, device_num_limit, remark, create_by, update_by, create_time, update_time, batch_date, tenant_id from channel_info
+    </sql>
+
+    <select id="selectChannelInfoList" parameterType="ChannelInfo" resultMap="ChannelInfoResult">
+        <include refid="selectChannelInfoVo"/>
+        <where>  
+        	<if test="id != null and id != ''"> and id = #{id}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="channelName != null  and channelName != ''"> and channel_name like concat(concat('%', #{channelName}), '%')</if>
+            <if test="faceMode != null  and faceMode != ''"> and face_mode = #{faceMode}</if>
+            <if test="fingerMode != null  and fingerMode != ''"> and finger_mode = #{fingerMode}</if>
+            <if test="irisMode != null  and irisMode != ''"> and iris_mode = #{irisMode}</if>
+            <if test="fveinMode != null  and fveinMode != ''"> and fvein_mode = #{fveinMode}</if>
+            <if test="faceIrisMode != null  and faceIrisMode != ''"> and face_iris_mode = #{faceIrisMode}</if>
+            <if test="enableMultiFaces != null  and enableMultiFaces != ''"> and enable_multi_faces = #{enableMultiFaces}</if>
+            <if test="searchN != null  and searchN != ''"> and search_n = #{searchN}</if>
+            <if test="deviceNumLimit != null "> and device_num_limit = #{deviceNumLimit}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectChannelInfoById" parameterType="String" resultMap="ChannelInfoResult">
+        <include refid="selectChannelInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertChannelInfo" parameterType="ChannelInfo">
+        insert into channel_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="channelName != null and channelName != ''">channel_name,</if>
+            <if test="faceMode != null and faceMode != ''">face_mode,</if>
+            <if test="fingerMode != null and fingerMode != ''">finger_mode,</if>
+            <if test="irisMode != null and irisMode != ''">iris_mode,</if>
+            <if test="fveinMode != null and fveinMode != ''">fvein_mode,</if>
+            <if test="faceIrisMode != null and faceIrisMode != ''">face_iris_mode,</if>
+            <if test="enableMultiFaces != null">enable_multi_faces,</if>
+            <if test="searchN != null">search_n,</if>
+            <if test="deviceNumLimit != null">device_num_limit,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="channelName != null and channelName != ''">#{channelName},</if>
+            <if test="faceMode != null and faceMode != ''">#{faceMode},</if>
+            <if test="fingerMode != null and fingerMode != ''">#{fingerMode},</if>
+            <if test="irisMode != null and irisMode != ''">#{irisMode},</if>
+            <if test="fveinMode != null and fveinMode != ''">#{fveinMode},</if>
+            <if test="faceIrisMode != null and faceIrisMode != ''">#{faceIrisMode},</if>
+            <if test="enableMultiFaces != null">#{enableMultiFaces},</if>
+            <if test="searchN != null">#{searchN},</if>
+            <if test="deviceNumLimit != null">#{deviceNumLimit},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChannelInfo" parameterType="ChannelInfo">
+        update channel_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="channelName != null and channelName != ''">channel_name = #{channelName},</if>
+            <if test="faceMode != null and faceMode != ''">face_mode = #{faceMode},</if>
+            <if test="fingerMode != null and fingerMode != ''">finger_mode = #{fingerMode},</if>
+            <if test="irisMode != null and irisMode != ''">iris_mode = #{irisMode},</if>
+            <if test="fveinMode != null and fveinMode != ''">fvein_mode = #{fveinMode},</if>
+            <if test="faceIrisMode != null and faceIrisMode != ''">face_iris_mode = #{faceIrisMode},</if>
+            <if test="enableMultiFaces != null">enable_multi_faces = #{enableMultiFaces},</if>
+            <if test="searchN != null">search_n = #{searchN},</if>
+            <if test="deviceNumLimit != null">device_num_limit = #{deviceNumLimit},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChannelInfoById" parameterType="String">
+        delete from channel_info where id = #{id}
+    </delete>
+
+    <delete id="deleteChannelInfoByIds" parameterType="String">
+        delete from channel_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+     <select id="selectMaxSceneCodeIndex" parameterType="String" resultType="String">
+        select max(channel_code) from channel_info where channel_code like concat('CJ', '____')
+    </select>
+    
+</mapper>

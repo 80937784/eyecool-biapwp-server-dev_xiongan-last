@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+    <groupId>cn.eyecool</groupId>
+    <artifactId>eyecool-biapwp</artifactId>
+    <version>${eyecool.version}</version>
+
+    <name>eyecool-biapwp</name>
+    <url>http://www.eyecool.cn</url>
+    <description>眼神科技智慧园区平台管理系统</description>
+    
+    <properties>
+        <eyecool.version>3.2.12.R</eyecool.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <druid.version>1.2.2</druid.version>
+        <bitwalker.version>1.19</bitwalker.version>
+        <swagger.version>2.9.2</swagger.version>
+		<kaptcha.version>2.3.2</kaptcha.version>
+        <pagehelper.boot.version>1.3.0</pagehelper.boot.version>
+        <fastjson.version>1.2.74</fastjson.version>
+        <oshi.version>5.2.5</oshi.version>
+        <jna.version>5.5.0</jna.version>
+        <commons.io.version>2.5</commons.io.version>
+        <commons.fileupload.version>1.3.3</commons.fileupload.version>
+        <poi.version>3.17</poi.version>
+        <velocity.version>1.7</velocity.version>
+        <jwt.version>0.9.1</jwt.version>
+        <mybatisplus.version>3.4.0</mybatisplus.version>
+        <transmittable.version>2.11.5</transmittable.version>
+        <oracle.version>10.2.0.4.0</oracle.version>
+    </properties>
+	
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- SpringBoot的依赖配置-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.1.17.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!--阿里数据库连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+	        
+            <!-- 解析客户端操作系统、浏览器等 -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
+            </dependency>
+			
+            <!-- pagehelper 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+               <!--  <exclusions>
+	            	<exclusion>
+	            		<groupId>org.mybatis.spring.boot</groupId>
+	            		<artifactId>mybatis-spring-boot-starter</artifactId>
+	            	</exclusion>
+	            </exclusions> -->
+            </dependency>
+			
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna-platform</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
+			
+            <!-- swagger2-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+			
+            <!-- swagger2-UI-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            
+            <!--io常用工具类 -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+	
+            <!--文件上传工具类 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons.fileupload.version}</version>
+            </dependency>
+			
+            <!-- excel工具 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+			
+            <!--velocity代码生成使用模板 -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+	        
+            <!-- 阿里JSON解析器 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+			
+            <!--Token生成与解析-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+			
+            <!--验证码 -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+            
+            <!-- 定时任务-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-quartz</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+	
+            <!-- 代码生成-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-generator</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+			
+            <!-- 核心模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-framework</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+			
+            <!-- 系统模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-system</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+			
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-common</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-thirdparty-video</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            <!-- 基础数据模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-basedata</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            <!-- 考勤模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-attendance</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+
+            <!-- 场景接入模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-scene</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- 区域模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-area</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- 设备模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-device</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- 工具箱模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-tools</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+             
+            <!-- 服务模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-server</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- 消息模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-msg</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- 203设备接入-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-adapter</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+             <!-- 交易日志模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-tradelog</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+
+            <!-- OCR日志模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-ocr</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- 健康码服务模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-healthcode</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- web交易demo模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-webtrade</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+
+            <!-- 无感识别模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-non-inductive</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <!-- 统计模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-statistic</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+
+            <!-- 访客模块-->
+            <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>eyecool-biapwp-visitor</artifactId>
+                <version>${eyecool.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable.version}</version>
+            </dependency>
+
+            <!-- SpringBoot的单元测试-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>2.3.1.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+            
+            <!-- <dependency>
+                <groupId>cn.eyecool</groupId>
+                <artifactId>emqx-spring-boot-starter</artifactId>
+                <version>3.2.4.R</version>
+            </dependency> -->
+
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>eyecool-biapwp-admin</module>
+        <module>eyecool-biapwp-framework</module>
+        <module>eyecool-biapwp-system</module>
+        <module>eyecool-biapwp-quartz</module>
+        <module>eyecool-biapwp-generator</module>
+        <module>eyecool-biapwp-common</module>
+        <module>eyecool-biapwp-basedata</module>
+        <module>eyecool-biapwp-attendance</module>
+        <module>eyecool-biapwp-thirdparty-video</module>
+        <module>eyecool-biapwp-scene</module>
+        <module>eyecool-biapwp-area</module>
+        <module>eyecool-biapwp-device</module>
+        <module>eyecool-biapwp-tools</module>
+        <module>eyecool-biapwp-server</module>
+        <module>eyecool-biapwp-msg</module>
+        <module>eyecool-biapwp-adapter</module>
+        <module>eyecool-biapwp-tradelog</module>
+        <module>eyecool-biapwp-ocr</module>
+        <module>eyecool-biapwp-non-inductive</module>
+        <module>eyecool-biapwp-healthcode</module>
+        <module>eyecool-biapwp-webtrade</module>
+        <module>eyecool-biapwp-statistic</module>
+        <module>eyecool-biapwp-visitor</module>
+        <!-- 暂时用不到 -->
+        <!-- <module>emqx-spring-boot-starter</module>
+        <module>emqx-spring-boot-autoconfigure</module> -->
+    </modules>
+    <packaging>pom</packaging>
+
+
+    <dependencies>
+
+    </dependencies>
+
+    <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://192.168.63.2/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<!--oracle驱动没有发布到中央仓库，只能从此仓库下载-->
+		<!-- <repository>
+			<id>jeecg</id>
+			<name>jeecg Repository</name>
+			<url>http://maven.jeewx.com/nexus/content/repositories/jeecg</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository> -->
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://192.168.63.2/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<distributionManagement>
+		<repository>
+			<id>maven-releases</id>
+			<name>Releases</name>
+			<url>http://192.168.63.2:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>maven-snapshots</id>
+			<name>Snapshot</name>
+			<url>http://192.168.63.2:8081/nexus/content/repositories/snapshots//</url>
+		</snapshotRepository>
+	</distributionManagement>
+    
+
+</project>

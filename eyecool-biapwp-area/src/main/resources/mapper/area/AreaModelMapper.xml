@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.area.mapper.AreaModelMapper">
+    
+    <resultMap type="AreaModel" id="AreaModelResult">
+        <result property="id"    column="id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="areaType"    column="area_type"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectAreaModelVo">
+        select id, parent_id, ancestors, area_name, order_num, area_type, status, create_by, create_time, update_by, update_time, remark, tenant_id from area_model
+    </sql>
+
+    <select id="selectAreaModelList" parameterType="AreaModel" resultMap="AreaModelResult">
+        <include refid="selectAreaModelVo"/>
+        <where>  
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="ancestors != null  and ancestors != ''"> and ancestors = #{ancestors}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat(concat('%', #{areaName}), '%')</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="areaType != null  and areaType != ''"> and area_type = #{areaType}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectAreaModelById" parameterType="Long" resultMap="AreaModelResult">
+        <include refid="selectAreaModelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAreaModel" parameterType="AreaModel" useGeneratedKeys="true" keyProperty="id" databaseId="mysql">
+        insert into area_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="areaType != null">area_type,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="areaType != null">#{areaType},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAreaModel" parameterType="AreaModel">
+        update area_model
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="ancestors != null">ancestors = #{ancestors},</if>
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="areaType != null">area_type = #{areaType},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAreaModelById" parameterType="Long">
+        delete from area_model where id = #{id}
+    </delete>
+
+    <delete id="deleteAreaModelByIds" parameterType="String">
+        delete from area_model where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+     <select id="checkAreaNameUnique" resultMap="AreaModelResult">
+        <include refid="selectAreaModelVo"/>
+        where area_name= #{areaName} and parent_id = #{parentId}
+    </select>
+    
+     <select id="selectChildrenCountById" resultType="int" databaseId="mysql">
+		select count(*) from area_model 
+		 <where>   
+			<if test="status != null "> and status = #{status}</if>
+			<if test="id != null "> and find_in_set(#{id}, ancestors)</if>
+		 </where>  
+	</select>
+
+	<update id="updateAreaChildren" parameterType="java.util.List">
+	    update area_model set ancestors =
+	    <foreach collection="areas" item="item" index="index"
+	        separator=" " open="case id" close="end">
+	        when #{item.id} then #{item.ancestors}
+	    </foreach>
+	    where id in
+	    <foreach collection="areas" item="item" index="index"
+	        separator="," open="(" close=")">
+	        #{item.id}
+	    </foreach>
+	</update>
+	 
+	 <update id="updateAreaStatus" parameterType="AreaModel" >
+ 	    update area_model
+ 	    <set>
+ 	        <if test="status != null and status != ''">status = #{status},</if>
+ 	        <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+ 	        <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+ 	    where id in (${ancestors})
+	</update>
+	
+	<select id="selectChildrenAreaById" parameterType="Long" resultMap="AreaModelResult"  databaseId="mysql">
+		select * from area_model where find_in_set(#{id}, ancestors)
+	</select>
+</mapper>

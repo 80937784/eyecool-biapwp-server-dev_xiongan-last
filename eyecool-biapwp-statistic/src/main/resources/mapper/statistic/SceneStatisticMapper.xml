@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.statistic.mapper.SceneStatisticMapper">
+    
+    <select id="countScene"  resultType="int">
+        select count(1) from channel_info
+    </select>
+    
+    <select id="countSubScene"  resultType="int">
+        select count(1) from channel_subtreasury_info
+    </select>
+    
+    
+</mapper>

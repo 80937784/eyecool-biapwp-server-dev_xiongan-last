@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.msg.mapper.MsgDingApplicationMapper">
+    
+    <resultMap type="MsgDingApplication" id="MsgDingApplicationResult">
+        <result property="id"    column="id"    />
+        <result property="teamId"    column="team_id"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="corpId"    column="corp_id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="agentId"    column="agent_id"    />
+        <result property="appKey"    column="app_key"    />
+        <result property="appSecrect"    column="app_secrect"    />
+        <result property="shortDes"    column="short_des"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectMsgDingApplicationVo">
+        select app.id, app.team_id, t.team_name, app.corp_id, app.app_name, app.agent_id, app.app_key, app.app_secrect, app.short_des, app.create_time, app.update_time, app.tenant_id from msg_ding_application app
+        left join msg_ding_team t on app.team_id = t.id
+    </sql>
+
+    <select id="selectMsgDingApplicationList" parameterType="MsgDingApplication" resultMap="MsgDingApplicationResult">
+        <include refid="selectMsgDingApplicationVo"/>
+        <where>  
+            <if test="teamId != null  and teamId != ''"> and app.team_id = #{teamId}</if>
+            <if test="teamName != null  and teamName != ''"> and t.team_name like concat(concat('%', #{teamName}), '%')</if>
+            <if test="corpId != null  and corpId != ''"> and app.corp_id = #{corpId}</if>
+            <if test="appName != null  and appName != ''"> and app.app_name like concat(concat('%', #{appName}), '%')</if>
+            <if test="agentId != null  and agentId != ''"> and app.agent_id = #{agentId}</if>
+            <if test="appKey != null  and appKey != ''"> and app.app_key = #{appKey}</if>
+            <if test="appSecrect != null  and appSecrect != ''"> and app.app_secrect = #{appSecrect}</if>
+            <if test="shortDes != null  and shortDes != ''"> and app.short_des = #{shortDes}</if>
+            <if test="tenantId != null  and tenantId != ''"> and app.tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsgDingApplicationById" parameterType="String" resultMap="MsgDingApplicationResult">
+        <include refid="selectMsgDingApplicationVo"/>
+        where app.id = #{id}
+    </select>
+        
+    <insert id="insertMsgDingApplication" parameterType="MsgDingApplication">
+        insert into msg_ding_application
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="teamId != null and teamId != ''">team_id,</if>
+            <if test="corpId != null and corpId != ''">corp_id,</if>
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="agentId != null and agentId != ''">agent_id,</if>
+            <if test="appKey != null and appKey != ''">app_key,</if>
+            <if test="appSecrect != null and appSecrect != ''">app_secrect,</if>
+            <if test="shortDes != null">short_des,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="teamId != null and teamId != ''">#{teamId},</if>
+            <if test="corpId != null and corpId != ''">#{corpId},</if>
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="agentId != null and agentId != ''">#{agentId},</if>
+            <if test="appKey != null and appKey != ''">#{appKey},</if>
+            <if test="appSecrect != null and appSecrect != ''">#{appSecrect},</if>
+            <if test="shortDes != null">#{shortDes},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsgDingApplication" parameterType="MsgDingApplication">
+        update msg_ding_application
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teamId != null and teamId != ''">team_id = #{teamId},</if>
+            <if test="corpId != null and corpId != ''">corp_id = #{corpId},</if>
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="agentId != null and agentId != ''">agent_id = #{agentId},</if>
+            <if test="appKey != null and appKey != ''">app_key = #{appKey},</if>
+            <if test="appSecrect != null and appSecrect != ''">app_secrect = #{appSecrect},</if>
+            <if test="shortDes != null">short_des = #{shortDes},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsgDingApplicationById" parameterType="String">
+        delete from msg_ding_application where id = #{id}
+    </delete>
+
+    <delete id="deleteMsgDingApplicationByIds" parameterType="String">
+        delete from msg_ding_application where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+     <select id="checkAgentIdUnique" resultMap="MsgDingApplicationResult">
+	    <include refid="selectMsgDingApplicationVo"/>
+		where app.corp_id = #{corpId} and app.agent_id = #{agentId}
+	</select>
+    
+    
+    <select id="checkAppKeyUnique" resultMap="MsgDingApplicationResult">
+	    <include refid="selectMsgDingApplicationVo"/>
+		where app.corp_id = #{corpId} and app.app_key = #{appKey}
+	</select>
+    
+</mapper>

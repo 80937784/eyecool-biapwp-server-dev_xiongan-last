@@ -1,0 +1,2081 @@
+#error message
+not.null=* not null
+user.jcaptcha.error=verification code error
+user.jcaptcha.expire=verification code invalid
+user.not.exists=user does not exist/password error
+user.password.not.match=user does not exist/password error
+user.password.retry.limit.count=password input error {0} times
+user.password.retry.limit.exceed=password input error {0} times, account would be locked for 10 minutes
+user.password.delete=sorry, your account has been deleted
+user.blocked=user has been banned, please contact administrator
+role.blocked=role has been banned, please contact administrator
+user.logout.success=logout successfully
+user.bio.not.match=failed to pass user biometric information comparison
+user.bio.not.collect=biometric information does not register, please contact administrator to register
+length.not.valid=length must be between {min} to {max} characters
+
+user.username.not.valid=* composed of 2 to 20 Chinese characters, letters, numbers and underlines, cannot be started with number
+user.password.not.valid=* 5-50 characters
+ 
+user.email.not.valid=Email format error
+user.mobile.phone.number.not.valid=mobile number format error
+user.login.success=login successfully
+user.notfound=please re-login
+user.forcelogout=administrator force logout, please re-login
+user.unknown.error=unknown error, please re-login
+
+##file upload message
+upload.exceed.maxSize=size of file uploaded exceeds the limit!<br/>allowed file max size is: {0}MB!
+upload.filename.exceed.length=the max length of uploaded file name is {0} characters
+
+##permission
+no.permission=you don't have permission of data, please contact administrator to add permission [{0}]
+no.create.permission=you don't have permission to create data, please contact administrator to add permission [{0}]
+no.update.permission=you don't have permission to update data, please contact administrator to add permission [{0}]
+no.delete.permission=you don't have permission to delete data, please contact administrator to add permission [{0}]
+no.export.permission=you don't have permission to export data, please contact administrator to add permission [{0}]
+no.view.permission=you don't have permission to see data, please contact administrator to add permission [{0}]
+
+
+##CommonController
+file.name.invalid=file name ({0}) is illegal, not allowed to download
+task.not.exist=task [{0}] result does not exist.
+
+##SysLogininforController
+login.log=login log
+
+##SysOperlogController
+operator.log=operation log
+
+##SysUserOnlineController
+online.user =online user
+
+##AppInfoController
+app.system.info=application system information
+
+##AppInterfaceAuthController
+app.interface.auth=application interface authorization
+
+##SysClientDetailsController
+terminal.device.configuration=terminal configuration
+tenant_no_operation_auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+terminal.exist.msg=failed to add terminal [{0}], terminal number already exists
+
+##SysConfigController
+parameter.management=parameter management
+parameter.data=parameter data
+parameter.add.exist.msg=failed to add parameter [{0}], parameter key name already exists
+parameter.update.exist.msg=failed to update parameter [{0}], parameter key name already exists
+
+##SysDeptController
+department.management=department management
+not.allow.delete.default.dept=default department is not allowed to delete
+not.allow.delete.has.children=exists sub department, not allowed to delete
+not.allow.delete.has.user=there are users in department, not allowed to delete
+parent.dept.not.default.dept=upper class department cannot be default department
+add.fail.code.exist=failed to add department [{0}], department code already exists
+add.fail.name.exist=failed to add department [{0}], department name already exists
+update.fail.code.exist=failed to add department [{0}], department code already exists
+update.fail.name.exist=failed to add department [{0}], department name already exists
+update.fail.parent.not.oneself=failed to update department [{0}], upper class department cannot be itself
+dept.contains.used.sub=the department contains active sub department
+
+##SysDictDataController
+dict.data=dictionary data
+
+##SysDictTypeController
+dict.type=dictionary type
+add.fail.type.exist=failed to add dictionary [{0}], dictionary type already exists
+update.fail.type.exist=failed to update dictionary [{0}], dictionary type already exists
+
+##SysMenuController
+menu.management=menu management
+menu.add.fail.name.exist=failed to add menu [{0}], menu name already exists
+menu.add.fail.start.https=failed to add menu[{0}], address must be started with http(s)://
+menu.update.fail.name.exist=failed to update menu [{0}], menu name already exists
+menu.update.fail.start.https=failed to update menu [{0}], address must be started with http(s)://
+menu.update.fail.parent.oneself=failed to update menu [{0}], upper class menu cannot be itself
+menu.delete.fail.has.children=sub menu exists, not allowed to delete
+menu.delete.fail.has.assign=menu has been assigned, not allowed to delete
+
+##SysNoticeController
+notice.title=notice and announcement
+
+##SysPostController
+post.management=post management
+post.data=post data
+post.add.fail.name.exist=failed to add post [{0}], post name already exists
+post.add.fail.code.exist=failed to add post [{0}], post code already exists
+post.update.fail.name.exist=failed to update post [{0}], post name already exists
+post.update.fail.code.exist=failed to update post [{0}], post code already exists
+
+##SysProfileController
+personal.information=personal information
+personal.head.portrait=user avatar
+personal.information.udpate.fail=update personal information exception, please contact administrator
+password.update.fail.old.wrong=failed to update password, old password error
+password.update.fail.not.equal=new password cannot be the same as old password
+password.update.fail.msg=update password exception, please contact administrator
+image.upload.fail.msg=upload image exception, please contact administrator
+
+##SysRoleController
+role.management=role management
+role.data=role data
+role.add.fail.name.exist=failed to add role [{0}], role name already exists
+role.add.fail.auth.exist=failed to add role [{0}], role permission already exists
+role.update.fail.name.exist=failed to update role [{0}], role name already exists
+role.update.fail.auth.exist=failed to update role [{0}], role permission already exists
+role.update.fail.msg=failed to update role [{0}], please contact administrator
+
+##SysTenantController
+verification.code.expired=verification code does not exist or already expired, please regain verification code!
+verification.code.wrong=verification code error!
+verification.code.not.try=verification code is valid in 5 minutes, please do not obtain repeatedly
+verification.code.sms.title=tenant try out registration mobile phone verification code
+verification.code.send.fail=failed to send verification code, please regain
+verification.code.sent.tip=verification code has been sent, please kindly check
+
+##SysUserController
+user.management=user management
+user.data=user data
+user.add.fail.account.exist=failed to add user [{0}], login account already exists
+user.add.fail.phone.exist=failed to add user [{0}], mobile number already exists
+user.add.fail.email.exist=failed to add user[{0}], Email account already exists
+user.update.fail.phone.exist=failed to update user [{0}], mobile number already exists
+user.update.fail.email.exist=failed to update user [{0}] Email account already exists
+user.face.management=user face management
+user.finger.management=user fingerprint management
+user.iris.management=user iris management
+user.face.iris.management=user face and iris management
+
+##SysUserPwdController
+upgrade.password.fail.user.not.exist=failed to update password, user does not exist
+password.back.fail.verification.code.wrong=failed to retrieve the password, verification code error
+password.back.fail.user.not.exist=failed to retrieve the password, user does not exist
+phone.not.match.bound=mobile number is not consistent with bound mobile number of user, please check!
+verification.code.sent.msg=verification code has been sent, please kindly check!
+verification.code.sent.failed=failed to send verification code, please regain
+password.back.cms.subject=user mobile phone verification code to retrieve password 
+verification.code.doesnot.repeat=verification code is valid in 5 minutes, please do not obtain repeatedly
+verification.code.failed.user.not.exist=failed to get verification code, user does not exist
+
+##SwaggerConfig
+api.file.title=title: Eyecool Technology SAAS backend management system_ interface document
+api.file.description=description: used to manage company staff information, including XXX,XXX module...
+api.file.version.num=version number: 
+
+##AreaModelController
+area.management=area management
+area.delete.fail.has.children=there exists sub area, not allowed to delete
+area.update.fail.name.exist=failed to update area, area name [{0}] already exists
+area.update.fail.contains.used.subarea=the area contains active sub area
+area.add.fail.name.exist=failed to add area [{0}], area name already exists
+area.add.fail.parent.disabled=upper class area is deactive, not allowed to add
+area.name=area name
+area.type=area type
+area.status=area status
+area.status.normal=normal
+area.status.disabled=deactive
+
+##AdapterConstants
+default.permission.group=default permission group 
+
+##DeviceVersionController
+device.upgrade.download.link.expired=device upgrade task download link already expired!
+device.upgrade.version.download.failed.msg=download error: 
+
+##WebsocketController
+device.no.exist.or.create.configuration.failed=203 device does not exist or failed to check and create configuration information
+
+
+##DeviceAccessAdapter
+device.adapter.device.name=Device Name
+device.adapter.serial.number=Device Serial Number
+device.adapter.synchronized.number=Sync Serial Number
+
+##ECF203UpgradeTaskEventListener
+device.203.cannot.upgrade.online=203 device [{0}] has not been integrated online, cannot be upgraded online"
+
+##DeviceAccessAdapterServiceImpl
+health.code.unopened=not open
+health.code.blue=green code
+health.code.yellow=yellow code
+health.code.red=red code
+health.code.orange=orange code
+health.code.null=no health code
+health.code.not.applied=not applied
+health.code.obtain.exception=obtain exception
+health.code.risk.area=medium and high risk area
+health.code.protocol.change=protocol of device docking platform changed, failed to parse
+health.code.verify.failed=failed to verify health code
+health.code.unknown=unknown health code information
+picture.compres.failed.format.wrong=failed to compress file, file real format is not jpg/png, please check!
+
+
+##BasePersonCertController
+base.person.identity.information=personnel identification information
+base.person.identity.information.data=identification information data
+base.person.choose.excel=please choose Excel file!
+base.person.choose.zip=please choose ZIP compressed file!
+base.person.choose.excel.zip=please choose Excel file or image ZIP compressed package!
+base.person.task.in.progress=task is in progress
+
+
+##BasePersonFaceController
+base.person.face.image.information=face image information
+base.person.face.image.not.allow.null=face image information cannot be null
+base.person.face.file.format.wrong=passed-in file format error: [{0}]
+base.person.face.file.name.empty=upload face image compressed package file name is null
+
+##BasePersonFingerController
+base.person.finger.image.information=fingerprint image information
+base.person.finger.image.not.allow.null=fingerprint image information cannot be null
+base.person.finger.file.format.wrong=passed-in file format error: [{0}]
+base.person.finger.file.name.empty=upload fingerprint image compressed package file name is null
+
+##BasePersonInfoController
+base.person.basic.information=personnel basic information
+base.person.basic.information.data=personnel basic information data
+base.person.basic.upload.file.name.null=upload file name is null
+
+##BasePersonIrisController
+base.person.iris.image.information=iris image information
+base.person.iris.file.name.empty=upload iris image compressed package file name is null
+base.person.iris.file.format.wrong=passed-in file format error:[{0}]
+
+##BasePersonIrisFaceController
+base.person.iris.face.multimodal=iris and face multi-modal
+
+##BaseVisitorInfoController
+base.visitor.search.successful=query successfully
+base.visitor.person.basic.information=personnel basic information
+base.visitor.generate.qrcode.error=generate QR code error: 
+base.visitor.download.file.error=failed to download file!
+
+##BasePersonCert
+base.person.cert.unique=Personnel Id
+base.person.cert.type=Identification Type
+base.person.cert.number=Identification Number
+base.person.cert.name=Identification Name
+base.person.cert.validity=Identification Valid Period
+base.person.cert.sex=Sex
+base.person.cert.birthday=Birth Date
+base.person.cert.nation=Nation
+base.person.cert.address=Home Address
+base.person.cert.authority=Issuing Authority
+base.person.cert.encrypted=Encrypt Or Not
+
+##BasePersonFace
+base.person.face.unique=Personnel Id
+base.person.face.feature=Face Feature
+base.person.face.feature.md5=Feature Md5
+base.person.face.alg.version=Algorithm Version
+base.person.face.encrypted=Encrypt Or Not
+base.person.face.data.source=Data Source
+base.person.face.status=Status
+
+
+##BasePersonFinger
+base.person.finger.unique=Personnel Id
+base.person.finger.serial.number=Finger Number
+base.person.finger.duress.bit=Coercive Position
+base.person.finger.feature=Fingerprint Feature
+base.person.finger.feature.md5=Feature Md5
+base.person.finger.quality.score=Image Quality Score
+base.person.finger.alg.version=Algorithm Version
+base.person.finger.encrypted=Encrypt Or Not
+base.person.finger.data.source=Data Source
+base.person.finger.status=Status
+
+##BasePersonInfo
+base.person.info.unique=Personnel Id
+base.person.info.name=Name
+base.person.info.sex=Sex
+base.person.info.phone=Mobile Phone
+base.person.info.card.number=Card Number
+base.person.info.account=Account
+base.person.info.email=Email
+base.person.info.dept.id=Department ID
+base.person.info.dept.code=Department code
+base.person.info.dept.name=Department name
+base.person.info.data.source=Data Source
+base.person.info.person.mark=Personnel Mark
+base.person.info.status=Status
+base.person.info.effective.beginTime=Effective BeginTime
+base.person.info.effective.endTime=Effective EndTime
+
+##BasePersonIris
+base.person.iris.unique=Personnel Id
+base.person.iris.feature=Iris Feature
+base.person.iris.feature.md5=Feature MD5
+base.person.iris.quality.score=Image Quality Score
+base.person.iris.alg.version=Algorithm Version
+base.person.iris.alg.encrypted=Encrypt Or Not
+base.person.iris.data.source=Data Source
+base.person.iris.status=Status
+
+
+##BasePersonIrisFace
+base.person.iris.face.unique=Personnel Id
+base.person.iris.face.fusion.feature=Multi-modal Fusion Feature
+base.person.iris.face.fusion.feature.md5=Multi-modal Feature Md5
+base.person.iris.face.face.feature=Multi-modal Face Feature
+base.person.iris.face.face.feature.md5=Multi-modal Face Feature Md5
+base.person.iris.face.face.quality.score=Face Image Quality Score
+base.person.iris.face.iris.feature=Multi-modal Iris Feature
+base.person.iris.face.iris.feature.md5=Multi-modal Iris Feature Md5
+base.person.iris.face.iris.quality.score=Iris Image Quality Score
+base.person.iris.face.iris.encrypted=Encrypt Or Not
+base.person.iris.face.iris.status=Status
+base.person.iris.face.iris.data.source=Data Source
+base.person.iris.face.iris.data.description=Data Description
+
+##MultiRegistOptionTypeEnum
+match.action.type.failed=operation type that failed to match
+
+##PersonDataManagerLogicServiceImpl
+person.data.manager.save.failed.msg=dataManager save information failure: [{0}]
+person.data.manager.update.failed.msg=dataManager update information failure: [{0}]
+person.data.invoke.service.timeout=call datamanager service time out, please check internet or datamanager service
+person.data.invoke.service.saveupdate.error=call datamanager save(update)personnel information exception: [{0}]
+person.data.datamanager.delete.error=datamanager delete personnel [{0}] exception: [{1}]
+person.data.datamanager.query.error=dataManager query information of personnel [{0}] exception: [{1}]
+person.data.datamanager.delete.face.feature.error=datamanager delete personnel face feature [{0}] exception: [{1}]
+person.data.datamanager.deleter.finger.feature.error=datamanager delete personnel fingerprint feature [{0}] exception: [{1}]
+person.data.datamanager.deleter.iris.feature.error=datamanager delete personnel iris feature [{0}] exception: [{1}]
+person.data.datamanager.save.error.tenant.id.null=dataManager add personnel into database exception: tenant database ID is null
+person.data.datamanager.save.failed.msg=datamanager add personnel [{0}] into database [{1}] failure:[{2}]
+person.data.datamanager.delete.libray.error=datamanager delete database [{0}] exception: [{1}]
+
+
+##PersonFaceRecogLogicServiceImpl
+person.face.recog.extract.feature.timeout=extract face feature time out,please check internet or [ABIS_MATCH] algorithm service
+person.face.recog.extract.feature.error=call [ABIS_MATCH] extract face feature exception: [{0}]
+person.face.recog.image.no.face=no face image has been detected in image!
+person.face.recog.image.multiple.faces=multi face images have been detected in image!
+person.face.recog.detect.quality.timeout=face image quality detection time out, please check internet or [ABIS_DETECT] algorithm service
+person.face.recog.detect.quality.error=face image physical quality detection exception: [{0}]
+person.face.recog.detect.quality.check.failed=face image quality detection score [{0}], less than threshold [{1}], failed to pass detection!
+person.face.recog.detect.quality.threshold.configure=Please configure face image quality detection threshold [{0}] in platform [parameter setting] first!
+person.face.recog.detect.quality.threshold.need.number=Face image quality detection threshold [{0}] in platform [parameter setting] is not numerical value, please re-configure!
+person.face.recog.one.match.one.threshold.configure=Please configure face 1:1 comparison threshold [{0}] in platform [parameter setting] first!
+person.face.recog.one.match.one.threshold.need.number=Face 1:1 comparison threshold [{0}] in platform [parameter setting] is not numerical value, please re-configure!
+person.face.recog.face.match.timeout=face comparison time out,please check internet or [ABIS_MATCH] algorithm service
+person.face.recog.face.match.error=call [ABIS_MATCH] comparison face exception: [{0}]
+person.face.recog.upload.face.error=face image upload exception!
+person.face.recog.upload.face.folder.need=Please configure face image folder [{0}] in platform [parameter setting] first!
+person.face.recog.face.checklive.timeout=face checklive time out, please check internet or [ABIS_CHECKLIVE] algorithm service
+person.face.recog.face.checklive.error=call [ABIS_CHECKLIVE] face checklive exception: [{0}]
+person.face.recog.face.video.checklive.timeout=face video checklive time out, please check internet or [ABIS_CHECKLIVE] algorithm service
+person.face.recog.face.video.checklive.error=call [ABIS_CHECKLIVE] face video checklive exception: [{0}]
+person.face.recog.face.checklive.threshold.configure=Please configure checklive threshold [{0}] in platform [parameter setting] first!
+person.face.recog.face.checklive.threshold.need.number=Checklive threshold [{0}] in platform [parameter setting] is not numerical value, please re-configure!
+person.face.recog.face.1n.timeout=face 1-N search time out, please check internet or [FOX_MINISEARCH] algorithm service
+person.face.recog.face.1n.error=call [FOX_MINISEARCH] face 1-N search exception: [{0}]
+person.face.recog.face.1n.check.failed=failed to pass 1-N check for face registration into database, not registrant's own face, please check!
+person.face.recog.face.1n.threshold.configure=Please configure face 1-N search threshold [{0}] in platform [parameter setting] first!
+person.face.recog.face.1n.threshold.need.number=Face 1-N search threshold [{0}] is not numerical value in platform [parameter setting], please re-configure!
+person.face.recog.one.match.one.check.failed=Face image 1:1 comparison score [{0}], less than comparison threshold [{1}], failed to pass comparison!
+
+##PersonFingerRecogLogicServiceImpl
+person.finger.recog.extract.feature.timeout=extract fingerprint feature time out, please check internet or [ABIS_MATCH] algorithm service
+person.finger.recog.extract.feature.error=call [ABIS_MATCH] extract fingerprint feature exception: [{0}]
+person.finger.recog.image.no.finger=no fingerprint image has been detected in image!
+person.finger.recog.image.multiple.fingers=multi fingerprint images have been detected in image!
+person.finger.recog.detect.quality.timeout=fingerprint image quality detection time out, please check internet or [ABIS_DETECT] algorithm service
+person.finger.recog.detect.quality.error=fingerprint image physical quality detection exception: [{0}]
+person.finger.recog.detect.quality.check.failed=fingerprint image quality detection score [{0}], less than threshold [{1}], failed to pass detection!
+person.finger.recog.detect.quality.threshold.configure=Please configure fingerprint image quality detection threshold [{0}] in platform [parameter setting] first!
+person.finger.recog.detect.quality.threshold.need.number=Fingerprint image quality detection threshold [{0}] is not numerical value in platform [parameter setting], please re-configure!
+person.finger.recog.one.match.one.threshold.configure=Please configure fingerprint 1:1 comparison threshold [{0}] in platform[parameter setting] first!
+person.finger.recog.one.match.one.threshold.need.number=Fingerprint 1:1 comparison threshold [{0}] is not numerical value in platform [parameter setting], please re-configure!
+person.finger.recog.finger.match.timeout=fingerprint comparison time out, please check internet or [ABIS_MATCH] algorithm service
+person.finger.recog.finger.match.error=call [ABIS_MATCH] comparison fingerprint exception: [{0}]
+person.finger.recog.upload.finger.folder.need=Please configure fingerprint image folder [{0}] in platform [parameter setting] first!
+person.finger.recog.upload.error=fingerprint image upload exception!
+person.finger.recog.repeat.threshold.configure=Please configure repeated fingerprint threshold [{0}] in platform [parameter setting] first!
+person.finger.recog.repeat.threshold.need.number=Repeated fingerprint threshold [{0}] is not numerical value in platform [parameter setting], please re-configure!
+person.finger.recog.1n.timeout=fingerprint 1-N search time out, please check internet or [FOX_MINISEARCH] algorithm service
+person.finger.recog.1n.error=call [FOX_MINISEARCH] fingerprint 1-N search exception: [{0}]
+person.finger.recog.check.no.finger=no fingerprint has been detected in image, please upload clear fingerprint image [{0}]
+person.finger.recog.check.multiple.fingers=multi fingerprints have been detected in image, please upload single fingerprint image [{0}]
+person.finger.recog.1n.check.failed=fingerprint[finger number: {0}] failed to pass 1-N check for registration into database, not registrant's own fingerprint, please check!
+person.finger.recog.one.match.one.check.failed=fingerprint image 1:1 comparison score[{0}],less than comparison threshold[{1}], failed to pass comparison!
+person.finger.recog.1n.threshold.configure=Please configure fingerprint 1-N search threshold [{0}] in platform [parameter setting] first!
+person.finger.recog.1n.threshold.need.number=Fingerprint 1-N search threshold [{0}] is not numerical value in platform [parameter setting], please re-configure!
+
+
+##PersonIrisRecogLogicServiceImpl
+person.iris.recog.extract.feature.time=extract iris feature time out, please check internet or [ABIS_MATCH] algorithm service
+person.iris.recog.extract.feature.error=call [ABIS_MATCH] extract iris feature exception: [{0}]
+person.iris.recog.image.no.iris=no iris image has been detected in image
+person.iris.recog.image.multiple.iris=multi iris images have been detected in image
+person.iris.recog.one.match.one.threshold.configure=Please configure iris 1:1 comparison threshold [{0}] in platform [parameter setting] first!
+person.iris.recog.one.match.one.threshold.need.number=Iris 1:1 comparison threshold [{0}] is not numerical value in platform [parameter setting], please re-configure!
+person.iris.recog.match.timeout=iris comparison time out, please check internet or [ABIS_MATCH] algorithm service
+person.iris.recog.match.error=call [ABIS_MATCH] comparison iris exception: [{0}]
+person.iris.recog.upload.iris.folder.need=please configure iris image folder [{0}] in platform [parameter setting] first!
+person.iris.recog.upload.error=iris image upload exception!
+person.iris.recog.repeat.threshold.configure=Please configure repeated iris threshold [{0}] in platform [parameter setting] first!
+person.iris.recog.repeat.threshold.need.number=Repeated iris threshold [{0}] is not numerical value in platform [parameter setting], please re-configure!
+person.iris.recog.1n.timeout=iris 1-N search time out, please check internet or [FOX_MINISEARCH] algorithm service
+person.iris.recog.1n.error=call [FOX_MINISEARCH] iris 1-N search exception: [{0}]
+person.iris.recog.1n.check.failed=failed to pass 1-N check for iris registration into database, not registrant's own fingerprint, please check!
+person.iris.recog.one.match.one.check.failed=iris image 1:1 comparison score [{0}], less than comparison threshold [{1}], failed to pass comparison!
+person.iris.recog.1n.threshold.configure=Please configure iris 1-N search threshold [{0}] in platform [parameter setting]!
+person.iris.recog.1n.threshold.need.number=Iris 1-N search threshold [{0}] is not numerical value in platform[parameter setting], please re-configure!
+
+##BasePersonCertServiceImpl
+base.person.cert.user.not.exists=valid personnel information does not exist!
+base.person.cert.document.exists=identification information already exists!
+base.person.cert.id.photo=identification image
+base.person.cert.imported.document.empty=identification import data cannot be null!
+base.person.cert.import.failed=.failed to import user [{0}]: 
+base.person.cert.import.failed.sumary=sorry, failed to import! Totally [{0}] piece(s) of data failure, errors are as below: 
+base.person.cert.import.success.sumary=Congratulations, all the data have been imported successfully! Totally [{0}] pieces!
+base.person.cert.import.document.exists=.user [{0}] identification information already exists
+base.person.cert.upload.folder.need=Please configure identification image folder [{0}] in platform [parameter setting]!
+base.person.cert.upload.failed.document.not.exist=.failed to upload user [{0}] image, identification information does not exist
+base.person.cert.upload.photo.failed=.failed to upload user [{0}] image
+base.person.cert.upload.failed.sumary=sorry, failed to upload image! Totally [{0}] image(s) upload failure, errors are as below: 
+base.person.cert.upload.success.sumary=Congratulations, all the images have been uploaded successfully! Totally [{0}] pieces!
+
+
+##BasePersonFaceServiceImpl
+base.person.face.user.not.exists=valid personnel information does not exist!
+base.person.face.image.exists=face image information already exists!
+base.person.face.checklive.failed=face image failed to pass liveness check, please check!
+base.person.face.1n.check.failed.not.me=failed to pass 1-N check for face registration into database, not registrant's own face, please check!
+base.person.face.feature.updating=failed to acquire lock, there's thread operating face feature update, please try later
+base.person.face.feature.update.sumary=Totally [{0}] pieces of face feature updated successfully, [{1}] pieces of face feature updated failure!
+base.person.face.feature.update.success.sumary=all the face feature data updated successfully
+base.person.face.upload.photo.failed.no.user=.failed to upload personnel [{0}] face image, valid personnel information does not exist
+base.person.face.upload.photo.failed=.failed to upload personnel [{0}] face image
+base.person.face.upload.failed.sumary=sorry, failed to upload image! Totally [{0}] images uploaded failure, errors are as below: 
+base.person.face.upload.success.sumary=Congratulations, all the images uploaded successfully! Totally [{0}] pieces!
+
+##BasePersonFingerServiceImpl
+base.person.finger.user.not.exists=valid personnel information does not exist!
+base.person.finger.image.exists=fingerprint image information already exists!
+base.person.finger.1n.check.failed.not.me=failed to pass 1-N check for fingerprint registration into database, not registrant's own fingerprint, please check!
+base.person.finger.feature.updating=failed to acquire lock, there's thread operating face feature update, please try later
+base.person.finger.feature.update.sumary=Totally [{0}] pieces of fingerprint feature updated successfully, failed to update [{1}] pieces of fingerprint feature!
+base.person.finger.feature.update.success.sumary=all the fingerprint feature data updated successfully
+base.person.finger.upload.photo.failed.no.user=.failed to upload personnel [{0}] fingerprint image, valid personnel information does not exist
+base.person.finger.upload.photo.failed=.failed to upload personnel [{0}] fingerprint image
+base.person.finger.upload.failed.sumary=sorry, failed to upload image! Totally [{0}] pieces of image upload failure, errors are as below: 
+base.person.finger.upload.success.sumary=Congratulations, all the images are uploaded successfully! Totally [{0}] pieces!
+
+##BasePersonInfoServiceImpl
+base.person.info.updating=failed to acquire lock, there's thread synchronizing, please do not repeat synchronization operation!
+base.person.info.sync.sumary=Totally [{0}] pieces of personnel data synchronized successfully, [{0}] pieces of personnel data synchronized failure!
+base.person.info.sync.success.sumary=all the personnel data synchronized successfully
+base.person.info.valid.info.exists=personnel[{0}] valid information already exists!
+base.person.info.duplicate.account=personnel account [{0}] duplicates!
+base.person.info.duplicate.card.number=personnel card number [{0}] duplicates!
+base.person.info.duplicate.finger.serial=fingerprint number duplicates, please check!
+base.person.info.finger.serial.need=finger number cannot be null, and must be number
+base.person.info.finger.duplicate=There are duplicated fingerprints in fingerprint image, please check!
+base.person.info.multimodal.face.checklive.failed=Multi-modal face image failed to pass liveness check, please check!
+base.person.info.multimodal.match.failed=Failed to pass comparison, please confirm whether it's person's own biometric information!
+base.person.info.multimodal.face.iris.threshold.configure=Please configure face and iris multi-modal fusion 1:1 comparison threshold [{0}] in platform [parameter setting]!
+base.person.info.multimodal.face.iris.threshold.number=Face and iris multi-modal fusion 1:1 comparison threshold [{0}] in platform [parameter setting] is not numerical value, please re-configure!
+base.person.info.multimodal.folder.need=Please configure multi-modal image save folder [{0}] in platform [parameter setting]!
+base.person.info.dept.not.exists=Department with code [{0}] does not exist, please check!
+base.person.info.import.data.empty=imported personnel data cannot be null!
+base.person.info.import.failed.user.exists=.personnel [{0}] information already exists
+base.person.info.import.failed=.failed to import personnel [{0}]:
+base.person.info.import.failed.sumary=sorry, totally [{0}] pieces of data imported failure, errors are as below: 
+base.person.info.import.success.sumary=Congratulations, all the data have been imported successfully! Totally [{0}] pieces!
+base.person.info.invalid.uniqueid=unique ID cannot be null and should be composed of letters, numbers, Chinese characters and underlines!
+base.person.info.invalid.name=name cannot be null and length cannot be greater than 60!
+base.person.info.invalid.phone=mobile number format is illegal!
+base.person.info.invalid.email=Email format is illegal!
+base.person.info.invalid.account=account length cannot be greater than 48!
+base.person.info.invalid.cardno=card number length cannot be greater than 48!
+
+
+##BasePersonIrisFaceServiceImpl
+base.person.iris.face.valid.user.not.exists=valid personnel information does not exist!
+base.person.iris.face.multimodal.exists=multi-modal information already exists!
+base.person.iris.face.multimodal.feature.error=Handle multi-modal feature exception:[{0}]
+base.person.iris.face.multimodal.folder.need=Please configure multi-modal image save folder [{0}] in platform [parameter setting]!
+base.person.iris.face.feature.failed.face=face feature is null or extract feature from image failure
+base.person.iris.face.feature.failed.iris=iris feature is null or extract feature from image failure
+
+
+##BaseVisitorInfoServiceImpl
+base.visitor.info.qrcode.error=generate QR code error: [{0}]
+
+
+##BasePersonIrisServiceImpl
+base.person.iris.valid.user.not.exists=valid personnel information does not exist!
+base.person.iris.feature.updating=failed to acquire lock, there's thread operating feature update, please do not repeatedly update
+base.person.iris.update.feature.sumary=Totally [{0}] pieces of iris feature updated successfully, [{1}] pieces of iris feature updated failure!
+base.person.iris.update.feature.success.sumary=all the iris feature data updated successfully
+base.person.iris.upload.failed.valid.user.not.exists=.personnel [{0}] iris image uploaded failure, valid personnel information does not exist
+base.person.iris.upload.failed=.failed to upload personnel [{0}] face image
+base.person.iris.upload.failed.sumary=sorry, failed to upload image! Totally [{0}] pieces of image uploaded failure, errors are as below: 
+base.person.iris.upload.success.sumary=Congratulations, all the images uploaded successfully! Totally [{0}] pieces!
+base.person.iris.image.exists=iris image information already exists!
+base.person.iris.1n.iris.isnull=passed-in iris information for adding iris 1vN check is null
+base.person.iris.1n.check.failed.not.me=failed to pass 1-N check for iris registration into database, not registrant's own iris, please check!
+
+##BaseController
+base.controller.query.success=query successfully
+
+
+##SysDept
+sys.dept.code.empty=department code cannot be null
+sys.dept.code.max.length.limit=department code length cannot exceed 30 characters
+sys.dept.name.empty=department name cannot be null
+sys.dept.name.max.length.limit=department name length cannot exceed 30 characters
+sys.dept.display.order.empty=display order cannot be null
+sys.dept.phone.max.length.limit=contact number length cannot exceed 11 characters
+sys.dept.email.format.wrong=Email format is wrong
+sys.dept.email.max.length.limit=Email length cannot exceed 50 characters
+
+##SysDictData
+sys.dict.data.dictcode=dictionary code
+sys.dict.data.dictsort=dictionary sort
+sys.dict.data.dictlabel=dictionary label
+sys.dict.data.dictvalue=dictionary key value
+sys.dict.data.dicttype=dictionary type
+sys.dict.data.isdefault=default or not
+sys.dict.data.isdefault.y=yes
+sys.dict.data.isdefault.n=no
+sys.dict.data.status=status
+sys.dict.data.status.normal=normal
+sys.dict.data.status.disabled=deactive
+sys.dict.data.label.empty=dictionary label cannot be null
+sys.dict.data.label.max.length.limit=dictionary label length cannot exceed 100 characters
+sys.dict.data.value.max.length.limit=dictionary key value length cannot exceed 100 characters
+sys.dict.data.value.empty=dictionary key value cannot be null
+sys.dict.data.type.empty=dictionary type cannot be null
+sys.dict.data.type.max.length.limit=dictionary type length cannot exceed 100 characters
+sys.dict.data.class.max.length.limit=style attributes length cannot exceed 100 characters
+
+##SysDictType
+sys.dict.type.dictid=dictionary primary key
+sys.dict.type.dictname=dictionary name
+sys.dict.type.dicttype=dictionary type
+sys.dict.type.status=status
+sys.dict.type.status.normal=normal
+sys.dict.type.status.disabled=deactive
+sys.dict.type.name.empty=dictionary name cannot be null
+sys.dict.type.name.max.length.limit=dictionary type name length cannot exceed 100 characters
+sys.dict.type.dicttype.empty=dictionary type cannot be null
+sys.dict.type.dicttype.max.length.limit=dictionary type length cannot exceed 100 characters
+
+##SysMenu
+sys.menu.name.empty=menu name cannot be null
+sys.menu.name..max.length.limit=menu name length cannot exceed 50 characters
+sys.menu.ordernum.empty=display order cannot be null
+sys.menu.path.mex.length.limit=routing address cannot exceed 200 characters
+sys.menu.component.max.length.limit=component path cannot exceed 255 characters
+sys.menu.type.empty=menu type cannot be null
+sys.menu.perms.max.length.limit=permission identification length cannot exceed 100 characters
+
+
+##SysRole
+sys.role.roleid=role id
+sys.role.rolename=role name
+sys.role.rolekey=role permission
+sys.role.rolesort=role sort
+sys.role.datascope=data range
+sys.role.datascope1=all the data permissions
+sys.role.datascope2=customized data permissions
+sys.role.datascope3=department data permissions
+sys.role.datascope4=department and sub departments data permissions
+sys.role.status=role status
+sys.role.status.normal=normal
+sys.role.status.disabled=deactive
+sys.role.name.empty=role name cannot be null
+sys.role.name.max.length.limit=role name length cannot exceed 30 characters
+sys.role.key.empty=permission characters cannot be null
+sys.role.key.max.length.limit=permission character length cannot exceed 100 characters
+sys.role.sort.empty=display order cannot be null
+
+##SysTenant
+sys.tenant.id=Tenant Id
+sys.tenant.name=Tenant Name
+sys.tenant.description=Tenant Description
+sys.tenant.status=Tenant Status
+sys.tenant.source=Create Source
+sys.tenant.active.time=Go Into Effective Time
+sys.tenant.inactive.time=Expiry Time
+sys.tenant.type=Tenant Type
+sys.tenant.contact.name=Contact Person
+sys.tenant.contact.phone=Contact Number
+sys.tenant.contact.email=Email
+
+##SysTenantRole
+sys.tenant.role.id=role ID
+sys.tenant.role.name=role name
+sys.tenant.role.key=role permission
+sys.tenant.role.sort=role sort
+sys.tenant.role.status=role status
+sys.tenant.role.name.empty=role name cannot be null
+sys.tenant.role.name.max.length.limit=role name length cannot exceed 30 characters
+sys.tenant.role.key.empty=permission characters cannot be null
+sys.tenant.role.key.max.length.limit=permission characters length cannot exceed 100 characters
+sys.tenant.role.sort.empty=display order cannot be null
+
+
+##SysUser
+sys.user.userid=user number
+sys.user.userid.prompt=user number
+sys.user.deptid=department ID
+sys.user.username=login name
+sys.user.nickname=user nickname
+sys.user.email=user Email
+sys.user.phone=mobile number
+sys.user.sex=user sex
+sys.user.sex.male=male
+sys.user.sex.female=female
+sys.user.sex.unknown=unknown
+sys.user.status=account status
+sys.user.status.normal=normal
+sys.user.status.disabled=deactive
+sys.user.deptname=department name
+sys.user.deptleader=person in charge of department
+sys.user.nickname.max.length.limit=user nickname length cannot exceed 30 characters
+sys.user.username.empty=user account cannot be null
+sys.user.username.max.length.limit=user account length cannot exceed 30 characters
+sys.user.email.format.wrong=Email format is wrong
+sys.user.email.max.length.limit=Email length cannot exceed 50 characters
+sys.user.phone.max.length.limit=mobile number length cannot exceed 11 characters
+
+
+##HttpAjaxResult
+http.ajax.result.operator.success=operated successfully!
+http.ajax.result.operator.failed=operated failed!
+http.ajax.result.time.invalid=request timestamp[timestamp] range is invalid, server current time [{0}]
+http.ajax.result.nonce.invalid=repeated request, request unique code [nonce] is invalid
+http.ajax.result.appkey.not.exists=application system[appKey] does not exist
+http.ajax.result.transcode.interface.not.exists=corresponding interface of request interface transaction code [{0}] does not exist
+http.ajax.result.sign.check.failed=failed to pass signature verification
+http.ajax.result.interface.no.auth=no access rights to interface [{0}]
+http.ajax.result.interface.expired=interface[{0}] access rights already expired
+http.ajax.result.system.busy=system is busy, please try later
+
+
+##StandardHttpParam
+http.param.appkey.empty=application id[appKey] cannot be null
+http.param.appkey.max.length.limit=application id[appKey] length is illegal, must be 8 digits
+http.param.sign.empty=request signature[sign] cannot be null
+http.param.timestamp.empty=request timestamp[timestamp] cannot be null
+http.param.timestamp.max.length.limit=request timestamp[timestamp] length is illegal, must be 13 digits number
+http.param.nonce.empty=request unique ID[nonce] cannot be null
+http.param.nonce.max.length.limit=request unique ID[nonce] length is illegal, maximum 48 digits
+http.param.transcode.empty=request interface transaction code[transCode] cannot be null
+http.param.transcode.max.length.limit=request interface transaction code[transCode] length is illegal, maximum 48 digits
+http.param.bizcontent.empty=request parameter collection[bizContent] cannot be null
+
+
+##AjaxResult
+ajax.result.operator.success=operated successfully
+ajax.result.operator.failed=failed to operate
+
+##BaseEntity
+base.entity.createtime=Create Time
+base.entity.updatetime=Update Time
+
+
+##DatamanageFeatureType
+data.feature.type.other.unknown=other Unknown
+data.feature.type.other.unknown.msg=if has multi types of biometric feature, don't use Unknown
+data.feature.type.iris.unknown=iris Unknown
+data.feature.type.left.eye=left eye
+data.feature.type.right.eye=right eye
+data.feature.type.two.eye=two eyes
+data.feature.type.finger.unknown=fingerprint Unknown
+data.feature.type.left.thumb=left thumb
+data.feature.type.left.index=left index finger
+data.feature.type.left.middle=left middle finger
+data.feature.type.left.ring=left ring finger
+data.feature.type.left.little=left little finger
+data.feature.type.right.thumb=right thumb
+data.feature.type.right.index=right index finger
+data.feature.type.right.middle=right middle finger
+data.feature.type.right.ring=right ring finger
+data.feature.type.right.little=right little finger
+data.feature.type.dictcode.empty=corresponding platform dictionary code cannot be null
+data.feature.type.not.found.type=no proper Datamanager feature enumeration matched
+
+##PersonTypeEnum
+person.type.enum.not.found.type=no operation type matched
+
+##UserStatus
+user.status.normal=normal
+user.status.disabled=deactive
+user.status.deleted=deleted
+
+##FileUploadUtils
+file.upload.filename.empty=uploaded file name is null
+file.upload.create.file.failed=uploaded file create empty file error
+
+##PlatformFileUtils
+platform.file.utils.filename.empty=passed-in file name is null
+platform.file.utils.file.format.error=passed-in file format error: [{0}]
+platform.file.utils.zip.format.error=failed to read compressed package file content, please ensure compressed package format is correct: [{0}]
+platform.file.utils.zip.not.allow.subfolders=passed-in file format error, compressed package cannot contain folder!
+platform.file.utils.zip.subfile.format.wrong=name format of sub file in compressed file is wrong
+
+
+##AddressUtils
+address.utils.intranet.ip=internal internet IP
+
+##IpUtils
+ip.utils.unknown=unknown
+
+##ExcelUtil
+excel.util.sheet.not.exists=file sheet does not exist
+excel.util.export.excel.error=Failed to export Excel, please contact website administrator!
+excel.util.total=total
+
+##SqlUtil
+sql.util.arg.invalid=parameter does not comply with codes, cannot query
+
+##AESUtils
+aes.utils.encrypt.error=data AES encryption failure: [{0}]
+
+##PlatformCryptUtils
+platform.crypt.utils.decrypt.error=failed to decrypt data
+
+##SecurityUtils
+security.utils.get.user.error=get user account exception
+
+##ServletUtils
+servlet.utils.get.request.attributes.error=failed to get context request attributes
+
+##BigScreenWebSocketServer
+big.screen.websocket.connect.success=connected successfully
+
+##WebSocketServer
+websocket.connect.success=connected successfully
+
+##RepeatSubmitInterceptor
+repeat.interceptor.not.allow.repeat.submit=repeated submit is not allowed, please try later
+
+##BioDataLoginAuthenticationFilter
+login.auth.get.user.authentication.failed=CustomUsernamePasswordAuthenticationFilter get user authentication information failure
+
+##ClientAuthenticationFilter
+client.auth.filter.get.user.authentication.failed=request access: [{0}], failed to get client side authentication information, cannot access system resources
+client.auth.filter.user.authentication.format.failed=request access: [{0}], client side authentication information format is wrong, cannot access system resources
+client.auth.filter.client.unauth=request access: [{0}], client side has not been authorized, cannot access system resources
+client.auth.filter.secret.key.illegal=request access: [{0}], client side authorization secret key is illegal, cannot access system resources
+
+
+##AuthenticationEntryPointImpl
+auth.entry.auth.failed=request access: [{0}], authentication failure, cannot access system resources
+
+
+##GlobalExceptionHandler
+gloabl.exception.handler.path.not.exists=path does not exist, please check path exists or not
+gloabl.exception.handler.no.auth=no permission, please contact administrator for authorization
+gloabl.exception.handler.not.allow.operator=demo mode, operation is not allowed
+
+##BioDataUserDetailsServiceImpl
+bio.data.user.account.not.exists=login user: [{0}] does not exist
+bio.data.user.account.deleted=sorry, your account: [{0}] has been deleted
+bio.data.user.account.disabled=sorry, your account: [{0}] is deactive
+bio.data.user.account.no.tenant=sorry, your account: [{0}] does not have tenant that it belongs
+bio.data.user.account.tenant.not.exists=sorry, your account: [{0}] tenant that it belongs does not exist
+bio.data.user.account.tenant.disabled=sorry, your account: [{0}] tenant it belongs to has been frozen
+bio.data.user.account.tenant.invalid=sorry, your account: [{0}] tenant it belongs has not gone into effective
+bio.data.user.account.tenant.expired=sorry, your account: [{0}] tenant it belongs to has expired
+
+##BioDataValidateService
+bio.data.validate.upload.face.image=please upload single person face image
+bio.data.validate.upload.clear.face.image=please upload personal clear face image
+bio.data.validate.upload.finger.image=please upload fingerprint image
+bio.data.validate.upload.onehand.finger.image=please upload single finger fingerprint image
+bio.data.validate.upload.iris.image=please upload iris image
+bio.data.validate.upload.iris.image.one=please upload single iris image
+
+##UserDetailsServiceImpl
+user.detail.account.no.exists=login user: [{0}] does not exist
+user.detail.account.deleted=sorry, your account: [{0}] has been deleted
+user.detail.account.disabled=sorry, your account: [{0}]" is deactive
+user.detail.account.no.tenant=sorry, your account: [{0}] does not have tenant that it belongs
+user.detail.account.not.allow.login=sorry, your account: [{0}] cannot login the platform
+user.detail.account.tenant.not.exists=sorry, your account: [{0}] tenant it belongs to does not exist
+user.detail.account.tenant.invalid=sorry, your account: [{0}] tenant it belongs has not gone into effective
+user.detail.account.tenant.expired=sorry, your account: [{0}] tenant it belongs to has expired
+user.detail.account.tenant.disabled=sorry, your account: [{0}] tenant it belongs to has been frozen
+
+
+##DeviceActionLogController
+device.action.log.name=device action log
+
+##DeviceBatchLogController
+device.batch.log.name=device batch
+device.batch.log.tenant.no.auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+
+##DeviceInfoController
+device.info.name=device information
+device.info.tenant.no.auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+device.info.data=device information data
+device.info.import.batch.empty=device importation batch number cannot be null, please check!
+device.info.import.filename.empty=upload file name is null
+device.info.import.choose.excel=please choose Excel file!
+device.info.tenant.no.exists=tenant [{0}] information does not exist!
+device.info.task.processing=task is executing......
+
+##DeviceModelController
+device.model.name=device model information
+device.model.tenant.no.auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+
+
+#DeviceParamDistributeLogController
+device.param.distribute.name=parameter issue log
+device.param.distribute.failed=device parameter issuing failure
+
+##DeviceParamInfoController
+device.param.info.name=device parameter information
+device.param.info.tenant.no.auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+
+##DeviceParamModelRelController
+device.param.model.rel.name=parameter and model relationship
+device.param.model.rel.tenant.no.auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+
+
+##DeviceUpgradeLogController
+device.upgrade.log.name=upgrade log
+
+##DeviceUpgradeTaskController
+device.upgrade.task.name=upgrade task
+device.upgrade.task.publish=upgrade task publishment
+
+##DeviceUpgradeVersionController
+device.upgrade.version.name=version information
+device.upgrade.version.download=version download
+device.upgrade.version.tenant.no.auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+
+##DeviceActionLog
+device.name=Device Name
+device.code=Device Number
+device.channel.code=Device Group Code
+device.model.code=Device Model Code
+device.action.type=Action Type
+
+##DeviceBatchLog
+device.batch.num=Device Batch
+device.batch.description=Batch Description
+device.batch.rollback=Rollback Or Not
+device.batch.rollback.time=Rollback Time
+
+##DeviceInfo
+device.info.deviceno=Device Number Sn
+device.info.address=Installation Location
+device.info.model.code=Model Code
+device.info.ip=Device IP
+device.info.mac=Device Mac
+device.info.longitude=Device Longitude
+device.info.latitue=Device Latitude
+device.sub.channel.code=Sub Group Code
+device.primary.sub.code=Primary And Sub Group Code
+device.info.import.batch=Import Batch
+device.info.match.deduplication.time=Deduplication Time Of Backend Comparison(ms)
+device.info.type=Device Type
+device.info.extinfo=Extension Information
+device.info.direction=Device In/out Type
+
+##DeviceModel
+device.model.name=Device Model Name
+device.model.description=Device Model Description
+
+##DeviceParamDistributeLog
+device.param.code=Parameter Code
+device.param.value=Parameter Value
+device.param.distribute.result=Issue Result
+device.param.distribute.sort=Issue Sort
+
+##DeviceParamInfo
+device.param.info.code=Device Parameter Code
+device.param.info.name=Device Parameter Name
+device.param.info.description=Device Parameter Description
+
+
+##DeviceUpgradeLog
+devcie.upgrade.log.before.name=App Name Before Upgrade
+devcie.upgrade.log.after.name=App Name After Upgrade
+devcie.upgrade.log.before.version=Version Before Upgrade
+devcie.upgrade.log.after.version=Version After Upgrade
+devcie.upgrade.log.upgrade.status=Update Status
+devcie.upgrade.log.upgrade.client.time=Frontend Time During Upgrade
+devcie.upgrade.log.upgrade.server.time=Backend Time During Upgrade
+device.upgrade.time.used=Time Used Of Upgrade(s)
+device.upgrade.faile.reason=Failure Reason
+
+##DeviceUpgradeTask
+device.upgrade.app.name=App Name
+device.upgrade.app.version=App Version
+device.upgrade.time=Upgrade Time
+device.upgrade.upper.limit=Upgrade Upper Limit(times)
+device.upgrade.execute.count=Execution Times
+device.upgrade.execute.result=Execution Result
+device.upgrade.publish.count=Publishment Times
+device.upgrade.task.sort=Task Sort
+device.upgrade.rollback.install=Whether To Degradedly Install
+
+##DeviceUpgradeVersion
+device.version.appname=App Name
+device.version.number=Version Number
+device.version.description=Version Description
+device.version.file.size=Version Size(B)
+device.version.file.name=Source File Name
+device.version.file.md5=File Md5
+device.version.enabled=Enable Or Not
+
+
+##DeviceInfoServiceImpl
+device.info.service.deviceno.exists=device number already exist!
+device.info.service.device.mqtt.authenticate=failed to set up device Mqtt authenticate information: [{0}]
+device.info.service.system.busying=System is busy, there's thread importing device information, please try again later!
+device.info.service.import.data.empty=imported device information data cannot be null!
+device.info.service.import.device.exists=.device [{0}] information already exists
+device.info.service.import.failed=failed to import device [{0}]:
+device.info.service.import.failed.sumary=Sorry, failed to import! Totally [{0}] pieces data, errors are as below: 
+device.info.service.import.success.sumary=Congratulations, all the data have been imported successfully! Totally [{0}] pieces!
+device.info.service.devicesn.empty=device code(SN) cannot be null
+device.info.service.device.model.code.empty=device model code cannot be null
+device.info.service.device.model.not.exists=device model does not exist!
+device.info.service.device.code.empty=device code cannot be null
+
+##DeviceModelServiceImpl
+device.model.service.model.code.exists=device model [{0}] already exists, please do not repeatedly add!
+device.model.service.not.allow.deleted=There are device information maintained under device model [{0}], not allowed to delete
+device.model.service.image.folder.need=Please configure device appearance image save folder [{0}] in platform [parameter setting] first!
+
+
+##DeviceParamDistributeLogServiceImpl
+device.param.distribute.not.find.mqtt=No mqtt client side instances have been detected, please ensure mqtt function is enabled
+device.param.distribute.params.empty=Number of device issuing parameters cannot be null
+device.param.distribute.params.distribute.failed=failed to publish all the device parameters!
+
+
+##DeviceParamInfoServiceImpl
+device.param.info.param.exists=parameter [{0}] already exists, please do not repeatedly add
+
+##DeviceUpgradeTaskServiceImpl
+device.upgrade.device.not.exists=Device information [deviceNo=[{0}]] does not exist, please check!
+device.upgrade.version.not.exists=Version does not exist, please check!
+device.upgrade.version.disabled=version is deactive, not allowed to download!
+device.upgrade.task.not.exists=Upgrade task that needs upgrade result returned does not exist, please check!
+device.upgrade.task.not.exists.not.allow.download=upgrade task does not exist, not allowed to download!
+device.upgrade.multi.failed.not.allow.download="Failed to upgrade [{0}] times continuously already, not allowed to download!"
+device.upgrade.time.not.yet.now.allow.publish=Setting device update time has not yet come, not allowed to publish
+device.upgrade.not.find.mqtt=No mqtt client side instances have been detected, please ensure mqtt function is enabled
+device.upgrade.publish.failed=Failed to publish, please try again later!
+
+##DeviceUpgradeVersionServiceImpl
+device.version.info.exists=version information already exists ,not allowed to repeatedly add!
+device.version.app.folder.need=Please configure APPversion save folder [{0}] in platform [parameter setting] first!
+device.version.before.delete.first.disabled=Please disable version first before delete version!
+
+##HealthCodeConstants
+health.code.constants.idcard.empty=ID card number is null
+health.code.constants.name.empty=personnel name is null
+health.code.constants.devicecode.empty=device number cannot be null
+health.code.constants.devicecode.not.exists=device number does not exist
+health.code.constants.region.empty=request area cannot be null
+health.code.constants.request.serial.empty=request serial number cannot be null
+health.code.constants.yellowcode=yellow code
+health.code.constants.redcode=red code
+health.code.constants.greencode=green code
+health.code.constants.nocheck.pass=not check, please pass
+health.code.constants.pass=please pass
+health.code.constants.request.failed=health code request error, please contact administrator
+health.code.constants.request.region.error=request area is illegal, please request according to supported value of healthcode.request.url in dictionary
+
+
+##HealthCodeServiceImpl
+health.code.service.folder.need=please configure card image folder [{0}] in platform [parameter setting] first!
+health.code.service.exception.tip=electronic health code exception notice
+health.code.service.msg.remark=please contact related personnel to solve in time
+
+##SDHealthCodeServiceImpl
+health.code.service.sd.more.request=Hello, too many requests, please try later
+health.code.service.sd.no.health.info=health code information has not been reported
+
+
+
+##PlatformDingTalk
+platform.dingtalk.actioncard.markdown=### test123111
+platform.dingtalk.actioncard.title=test
+
+
+##MsgDingApplicationController
+ding.app.name=dingding micro application
+
+##MsgDingTeamController
+ding.team.name=dingding team(enterprise)
+
+##MsgLogAnnexController
+msg.log.annex.name=message log attachment
+msg.log.version.download=version download
+
+##MsgLogController
+msg.log.name=message log
+
+##MsgMailPropertyController
+msg.email.name=Email configuration
+
+##MsgOfficalAccountController
+msg.offical.account.name=wechat official account
+msg.offical.account.upload.filename.empty=uploaded file name is null!
+msg.offical.account.upload.file.format.wrong=file name format error!
+msg.offical.account.upload.file.max.size=file size is not allowed to exceed 100KB!
+msg.offical.account.upload.file.error=file upload exception!
+
+##MsgOfficalAccountUserController
+msg.offical.account.user.name=wechat user
+msg.offical.account.user.weixinuser=official account user
+msg.offical.account.user.phone.bind.another=the mobile number is already bound with other wechat account!
+
+##MsgSmsCloudAccountController
+msg.send.clound.account.title=short message cloud account
+
+##MsgTemplateController
+msg.template.title=message template
+
+##MsgWeixinMenuController
+msg.weixin.menu.title=wechat official account menu
+
+##MsgWeixinMenuReplyController
+msg.weixin.menu.reply.title=wechat official account menu reply
+
+
+##WeixinMsgHandleController
+weixin.msg.handler.account.not.exists=current official account is not maintained on cloud platform\, please contact platform administrator to maintain information!
+weixin.msg.handler.bind.account=please follow official account first
+weixin.msg.handler.phone.empty=mobile number cannot be null!
+weixin.msg.handler.phone.been.bind=the mobile number has been bound already, no need to repeatedly bind!
+weixin.msg.handler.phone.been.bind.another=the mobile number has been bound with wechat account already!
+weixin.msg.handler.captcha.wrong=verification code error, please check!
+weixin.msg.handler.bind.success=bound successfully, please back to wechat manually
+weixin.msg.handler.input.phone=please input mobile number
+weixin.msg.handler.input.right.phone=please input correct mobile number
+weixin.msg.handler.captcha.valid.msg=verification code is valid in 5 minutes, please do not repeatedly obtain
+weixin.msg.handler.msg.subject=verification code for wechat official account user to bind with mobile number
+weixin.msg.handler.captcha.send.failed=failed to send verification code, please re-obtain
+weixin.msg.handler.captcha.send.success=verification code has been sent, please kindly check!
+
+
+##MsgDingApplication
+msg.ding.app.teamname=team name
+msg.ding.app.corpid=team CorpI d
+msg.ding.app.appname=micro application name
+msg.ding.app.agentid=micro application agent Id
+msg.ding.app.appkey=micro application AppKey
+msg.ding.app.appsecret=micro application AppSecrect
+msg.ding.app.shortdesc=micro application short description
+
+##MsgDingTeam
+msg.ding.team.corpid=team Corp Id
+msg.ding.team.teamname=team name
+msg.ding.team.teamdesc=team description
+
+##MsgLog
+msg.log.receivedseq=business serial number
+msg.log.noticemethod=notice mode
+msg.log.msgsubject=message theme
+msg.log.msgcontent=message content
+msg.log.hasannext=whether to contain attachment
+msg.log.fromuser=sender identification
+msg.log.touser=receiver identification
+msg.log.offical.accountname=official(enterprise) account
+msg.log.scene.remark=scene identification
+msg.log.result.status=send status
+msg.log.errmsg=error information
+msg.log.json.response=send result json
+
+##MsgLogAnnex
+msg.log.annex.logid=message log ID
+msg.log.annex.filename=source file name
+msg.log.annex.file.md5=file MD5
+
+##MsgMailProperty
+msg.mail.host=SMTP service address
+msg.mail.port=SMTP service port
+msg.mail.username=login user name
+msg.mail.password=login authorization code
+msg.mail.address=sender Email
+
+
+##MsgOfficalAccount
+msg.offical.account.appname=official account name
+
+
+##MsgOfficalAccountUser
+msg.offical.account.user.appid=official account AppId
+msg.offical.account.user.accountname=official account name
+msg.offical.account.user.openid=wechat id
+msg.offical.account.user.wxname=wechat name
+msg.offical.account.user.phone=bind mobile phone
+
+
+##MsgSmsCloudAccount
+msg.sms.appname=account description
+
+
+##MsgTemplate
+msg.template.name=template name
+msg.template.officalid=template official ID
+msg.template.content=template content
+msg.template.notice.method=notice mode
+msg.template.officalaccount.name=official account
+
+##MsgWeixinMenu
+msg.weixin.menu.officalaccount.name=official account name
+msg.weixin.menu.appid=official account AppId
+msg.weixin.menu.json=menu JSON
+
+##MsgWeixinMenuReply
+msg.weixin.menu.reply.officalaccount.name=official account name
+msg.weixin.menu.reply.appid=official account AppId
+msg.weixin.menu.reply.btnkey=menu button Key
+msg.weixin.menu.reply.restype=response type
+msg.weixin.menu.reply.content=reply content
+
+
+##MsgDingApplicationServiceImpl
+msg.ding.service.agentid.exists=dingding micro application agentId already exists, please check!
+msg.ding.service.appkey.exists=dingding micro application appKey already exists, please check!
+
+##MsgDingTeamServiceImpl
+msg.ding.team.service.corpid.exists=dingding CorpId already exists, please check!
+
+##MsgLogAnnexServiceImpl
+msg.logannex.service.file.not.exists=message attachment information does not exist!
+
+##MsgMailPropertyServiceImpl
+msg.mail.service.mail.exists=sender Email already exists, please do not repeatedly add!
+
+##MsgOfficalAccountServiceImpl
+msg.officalaccount.service.name.exists=official account name already exists, please do not repeatedly add
+msg.officalaccount.service.appid.exists=official account AppId already exists, please do not repeatedly add
+msg.officalaccount.service.appid.exists.check=official account AppId already exists, please check
+msg.officalaccount.service.name.exists.check=official account name already exists, please check
+msg.officalaccount.service.menu.delete.error=wechat official account menu delete exception:[{0}]
+
+##MsgOfficalAccountUserServiceImpl
+msg.officalaccount.user.service.pull.user.error=failed to pull part of user information, failure number: [{0}]
+
+##MsgSmsCloudAccountServiceImpl
+msg.sms.service.appid.exists=cloud account AppId already exists, please do not repeatedly add!
+
+
+##MsgWeixinMenuReplyServiceImpl
+msg.weixin.menu.reply.service.menu.been.add.repeat=official account menu response has been added already, please do not repeatedly add!
+
+##MsgWeixinMenuServiceImpl
+msg.weixin.menu.service.been.add.repeat=official account menu has been added already, please do not repeatedly add!
+msg.weixin.menu.service.officalaccount.not.exists=official account does not exist or isn't maintained on biometric platform!
+msg.weixin.menu.service.json.format.error=official account menu JSON format error, please check!
+msg.weixin.menu.service.create.menu.error=wechat official account menu create exception:[{0}]
+msg.weixin.menu.service.delete.menu.error=wechat official account menu delete exception:[{0}]
+
+
+##WeixinEventMessageHandler
+weixin.event.handler.msg.received=Your message has been received already!
+
+##WeixinMessageHandler
+weixin.msg.handler.inputstream.convert.error=input stream conversion error: 
+weixin.msg.handler.not.found.method=not found corresponding method: 
+weixin.msg.handler.security.error=security error: 
+weixin.msg.handler.system.error=system error: 
+weixin.msg.handler.response.convert.error=convert reply message to xml error: 
+
+##MsgDingTalkSendServiceImpl
+msg.ding.send.service.msgtype.unsupported=dingding send mode is not supported [ message type code:[{0}]]!
+msg.ding.send.service.user.phone.all.empty=message receiver userId and phoneStr cannot be null simultaneously
+msg.ding.send.service.corpid.empty=enterprise(team) corpId cannot be null
+msg.ding.send.service.agentid.empty=enterprise(team) application agentId cannot be null
+msg.ding.send.service.appkey.empty=enterprise(team) application appKey cannot be null
+msg.ding.send.service.appsecret.empty=enterprise(team) application appSecrect cannot be null
+msg.ding.send.service.media.upload.failed=failed to upload media file:[{0}]
+
+##MsgMailSendServiceImpl
+msg.mai.send.service.mailtype.unsupported=not supported mail type [mail type code:[{0}]]
+msg.mai.send.service.property.empty=sender Email attributes configuration cannot be null
+msg.mai.send.service.host.empty=sender Email [ serviceaddress] attributes configuration cannot be null
+msg.mai.send.service.username.empty=sender Email[user name] attributes configuration cannot be null
+msg.mai.send.service.password.empty=sender Email[login authorization code] attributes configuration cannot be null
+msg.mai.send.service.touser.empty=mail receiver cannot be null
+msg.mai.send.service.fromuser.empty=mail receiver cannot be null
+msg.mai.send.service.subject.empty=mail theme cannot be null
+
+##MsgSendServiceImpl
+msg.send.service.first.add.sms.info=please maintain short message cloud account information(AppId|AppSecrect) on biometric platform first
+msg.send.service.first.add.weixin.info=please maintain wechat official account information on biometric platform first
+msg.send.service.first.add.ding.info=please maintain dingding application information on biometric platform first
+msg.send.service.first.add.mail.info=please configure sender Email attributes information on biometric platform first
+msg.send.service.all.user=all the user
+
+##MsgTencentSmsSendServiceImpl
+msg.sms.send.service.touser.empty=receiver cannot be null
+msg.sms.send.service.msgtype.unsupported=not supported short message send mode[ message type code:[{0}]]!
+msg.sms.send.service.appid.empty=short message cloud account AppId cannot be null
+msg.sms.send.service.appsecret.empty=short message cloud account appSecrect cannot be null
+msg.sms.send.service.appid.need.number=AppId must be integer
+msg.sms.send.service.touser.need.single=receiver of short message sent individually is not allowed to be multiple
+msg.sms.send.service.templateid.empty=template ID cannot be null
+msg.sms.send.service.templateid.need.number=short message template ID must be integer
+msg.sms.send.service.templatedata.empty=template data cannot be null
+msg.sms.send.service.smssign.empty=short message signature cannot be null
+
+
+##MsgWeixinSendServiceImpl
+msg.weixin.send.service.officalaccount.empty=official account user cannot be null, please check user information is correct or not
+msg.weixin.send.service.msgtype.unsupported=not supported wechat send mode[ message type code:[{0}]]!
+msg.weixin.send.service.appid.empty=wechat official account AppId cannot be null
+msg.weixin.send.service.appsecret.empty=wechat official account appSecrect cannot be null
+msg.weixin.send.service.openid.empty=official account fans openId cannot be null~
+msg.weixin.send.service.msg.content.empty=message content cannot be null~
+msg.weixin.send.service.templateid.empty=template ID cannot be null
+msg.weixin.send.service.templatedata.empty=template data cannot be null
+msg.weixin.send.service.string.format.wrong=template data character string format error, please check!
+msg.weixin.send.service.fan.openid.more.one=official account fans openId cannot be more than one
+
+##SysJobController
+sys.job.title=cron job
+sys.job.tenant.no.auth=tenant does not have operation permission, if you have any doubts, please contact system administrator!
+sys.job.cron.wrong=cron expression is wrong
+
+##SysJobLogController
+sys.job.log.title=task scheduling log
+
+##SysJob
+sys.job.jobid=task id
+sys.job.jobame=task name
+sys.job.jobgroup.name=task group name
+sys.job.invoke.target=call target character string
+sys.job.cron.expression=execution expression
+sys.job.cron.misfire.policy=plan strategy
+sys.job.cron.misfire.policy0=default
+sys.job.cron.misfire.policy1=immediately trigger execution
+sys.job.cron.misfire.policy2=trigger one time execution
+sys.job.cron.misfire.policy3=not trigger execution immediately
+sys.job.concurrent=concurrent execution
+sys.job.concurrent0=allow
+sys.job.concurrent1=forbidden
+sys.job.task.status=task status
+sys.job.task.status0=normal
+sys.job.task.status1=pause
+sys.job.jobname.notblank=task name cannot be null
+sys.job.jobname.max.length=task name cannot exceed 64 characters
+sys.job.invoketarget.max.length=length of target character string called cannot exceed 500 characters
+sys.job.invoketarget.notblank=target character string called cannot be null
+sys.job.cronexpression.notblank=Cron execution expression cannot be null
+sys.job.cronexpression.max.length=Cron execution expression cannot exceed 255 characters
+
+##SysJobLog
+sys.job.log.logid=log id
+sys.job.log.jobname=task name
+sys.job.log.jobgroup=task group name
+sys.job.log.invoketarget=call target character string
+sys.job.log.jobmessage=log information
+sys.job.log.execute.status=execution status
+sys.job.log.execute.status0=normal
+sys.job.log.execute.status1=fail
+sys.job.log.exception.msg=exception information
+
+
+##SysJobServiceImpl
+sys.job.service.job.function.enabled=JOB function is not opened, please update configuration file and restart service first!
+
+##EcTask
+ec.task.multi.params.msg=method of execution with multi-parameters: character string type0, boolen type[{1}], long integer type[{2}], float type[{3}], integer type[{4}]
+ec.task.params.msg=method of execution with parameters: [{0}]
+ec.task.noparams.msg=method of execution without parameters
+
+##ChannelBusinessController
+channel.business.person.title=group personnel
+channel.business.task.processing=task is executing.......
+channel.business.person.import.filename.empty=uploaded file name is null
+channel.business.person.import.file.format.wrong=please choose Excel file!
+
+
+##ChannelInfoController
+channel.info.scene.title=group information
+
+##ChannelParamController
+channel.scene.param.title=group parameter
+
+
+#ChannelSubtreasuryBusiController
+channel.sub.scene.person.title=sub group personnel
+channel.sub.scene.task.processing=task is executing.......
+
+
+##ChannelSubtreasuryInfoController
+channel.sub.scene.title=sub group information
+
+##ChannelBusiness
+channel.business.uniqueid=Personnel Unique Id
+channel.business.codefirst=Business Number1
+channel.business.codesecond=Business Number2
+channel.business.codethird=Business Number3
+channel.business.facemode=Open Face
+channel.business.fingermode=Open Fingerprint
+channel.business.irismode=Open Iris
+channel.business.fveinmode=Open Fingervein
+channel.business.faceirismode=Open Face And Iris Multi-modal
+channel.business.datasource=Data Source
+channel.business.status=Status
+channel.business.channelname=Group Name
+channel.business.channelcode=Group Code
+
+##ChannelBusiParam
+channel.param.type.empty=add type cannot be null
+channel.param.type.unsupported=cannot matched type:[{0}]
+
+##ChannelInfo
+channel.info.channelcode=Group Code
+channel.info.channelname=Group Name
+channel.info.facemode=Open Face
+channel.info.fingermode=Open Fingerprint
+channel.info.irismode=Open Iris
+channel.info.fveinmode=Open Fingervein
+channel.info.faceirismode=Open Face And Iris Multi-modal
+channel.info.search.1n=1-n Recognition Mode
+channel.info.devicesum.limit=Mount Device Number Upper Limit
+
+
+##ChannelParam
+channel.param.code=Parameter Code
+channel.param.name=Parameter Name
+channel.param.value=Parameter Key Value
+channel.param.auth.type=Authentication Type
+channel.param.channelname=Group Name
+
+##ChannelSubtreasuryBusi
+channel.sub.sceneid=Sub Group Primary Key
+channel.sub.uniqueid=Personnel Unique Id
+channel.sub.datasource=Data Source
+channel.sub.status=Status
+channel.sub.channelname=Group Name
+channel.sub.subchannelname=Sub Group Name
+
+###ChannelSubtreasuryInfo
+channel.sub.scenecode=Sub Group Code
+channel.sub.subscenename=Sub Group Name
+
+
+##ChannelParamEnum
+channel.param.enum.face.compare.checklive.name=whether to check liveness for face 1:1 comparison
+channel.param.enum.face.compare.checklive.description=whether to execute checklive for face 1-1, parameter value is one of [Y/N], strictly letter case sensitive
+channel.param.enum.face.searchN.checklive.name=whether to check liveness for face 1:N search
+channel.param.enum.face.searchN.checklive.description=whether to execute checklive for face 1-N, parameter value is one of [Y/N], strictly letter case sensitive
+channel.param.enum.face.compare.checklive.threshold.name=face 1:1 comparison silent checklive threshold
+channel.param.enum.face.compare.checklive.threshold.description=face 1-1 silent checklive threshold, parameter value must be number
+channel.param.enum.face.searchN.checklive.threshold.name=face 1:N search silent checklive threshold
+channel.param.enum.face.searchN.checklive.threshold.description=face 1-N silent checklive threshold, parameter value must be number
+channel.param.enum.face.compare.video.checklive.threshold.name=face 1:1 comparison video checklive threshold
+channel.param.enum.face.compare.video.checklive.threshold.description=face 1-1 video checklive threshold, parameter value must be number
+channel.param.enum.face.searchN.video.checklive.threshold.name=face 1:N search video checklive threshold
+channel.param.enum.face.searchN.video.checklive.threshold.description=face 1-Nexecution checklive threshold, parameter value must be number
+channel.param.enum.face.compare.threshold.name=face 1:1 comparison threshold
+channel.param.enum.face.compare.threshold.description=face 1-1 comparison threshold, parameter value must be number
+channel.param.enum.face.compare.uniqueId.validate.name=whether to check personnel is legal for face 1:1 comparison
+channel.param.enum.face.compare.uniqueId.validate.description=whether to check personnel is legal and open face mode in current group for face 1-1 comparison, parameter value is one of [Y/N], strictly letter case sensitive
+channel.param.enum.face.searchN.threshold.name=face 1:N search threshold
+channel.param.enum.face.searchN.threshold.description=face 1-N search threshold, parameter value must be number
+channel.param.enum.finger.compare.threshold.name=fingerprint 1:1 comparison threshold
+channel.param.enum.finger.compare.threshold.description=fingerprint 1-1 comparison threshold, parameter value must be number
+channel.param.enum.finger.searchN.threshold.name=fingerprint 1:N search threshold
+channel.param.enum.finger.searchN.threshold.description=fingerprint 1-N search threshold, parameter value must be number
+channel.param.enum.iris.compare.threshold.name=iris 1:1 comparison threshold
+channel.param.enum.iris.compare.threshold.description=iris 1-1 comparison threshold, parameter value must be number
+channel.param.enum.iris.searchN.threshold.name=iris 1:N search threshold
+channel.param.enum.iris.searchN.threshold.description=iris 1-N search threshold, parameter value must be number
+
+##BusiLiveUpdateSeqServiceImpl
+busi.live.update.service.scene.staff=group personnel
+busi.live.update.service.subscene.staff=sub group personnel
+
+##ChannelBusinessServiceImpl
+channel.busi.service.unknown.type=Type added is unknown!
+channel.busi.service.bind.person.scene.success=Totally [{0}] people added to group database successfully
+channel.busi.service.bind.person.scene.failed=Totally [{0}] people added to group database failure
+channel.busi.service.syn.taks.busy=There is synchronization task in progress, please try again later!
+channel.busi.service.syn.scene.sumary=Totally [{0}] pieces of group database personnel data sync successfully, [{1}] pieces of group database personnel data sync failure!
+channel.busi.service.syn.scene.all.success=all the personnel data in group database sync successfully
+channel.busi.service.scene.not.exist=The group that needs to import personnel does not exist, please check!
+channel.busi.service.scene.person.empty=group personnel data imported cannot be null!
+channel.busi.service.scene.person.uniqueid.format.invalid=unique ID cannot be null and composed of letters, number, Chinese characters and underlines!
+channel.busi.service.import.person.baseinfo.not.exists=personnel [{0}] basic information does not exist
+channel.busi.service.import.person.baseinfo.exists=personnel [{0}] information already exists
+channel.busi.service.import.person.failed=failed to import personnel [{0}]: [{1}]
+channel.busi.service.import.person.failed.sumary=sorry, failed to import! Totally [{0}] pieces of data format is wrong, errors are as below: 
+channel.busi.service.import.person.success.sumary=Congratulations, data have been all imported successfully! Totally [{0}] pieces!
+
+##ChannelInfoServiceImpl
+channel.info.service.scenecode.exists=group code [{0}] already exists, please check!
+channel.info.service.deletescene.subscene.exists=There are sub groups under group, please delete sub group first, then delete the group
+
+##ChannelParamServiceImpl
+channel.param.service.param.exists=parameter already exists, please do not repeatedly add!
+
+##ChannelSubtreasuryBusiServiceImpl
+channel.sub.busi.service.type.unknown=Type added is unknown!
+channel.sub.busi.service.bind.person.scene.success=Totally [{0}] people added to sub group database successfully [{1}]
+channel.sub.busi.service.bind.person.scene.failed=Totally [{0}] people added to sub group database failure
+
+##ChannelSubtreasuryInfoServiceImpl
+channel.sub.info.service.sub.scenecode.exists=sub group code[{0}] already exists, not allowed to repeatedly add!
+
+##ChannelBusiCommonHttpServiceImpl
+channel.common.service.scene.face.not.open=corresponding group of group code [{0}] does not open face mode!
+channel.common.service.scene.finger.not.open=corresponding group of group code [{0}] does not open fingerprint mode!
+channel.common.service.scene.iris.not.open=corresponding group of group code [{0}] does not open iris mode!
+channel.common.service.scene.verify.face=face
+channel.common.service.scene.verify.finger=fingerprint
+channel.common.service.scene.verify.iris=iris
+channel.common.service.scene.verify.fvein=fingervein
+channel.common.service.scene.verify.faceiris=face and iris multi-modal
+channel.common.service.scene.person.locked=According to group code[{0}], personnel [{1}] is locked under the group and not allowed to operate!
+channel.common.service.channelcode.not.exists=group information of group code [{0}] does not exist!
+channel.common.service.person.not.exists=corresponding personnel basic information of unique number [{0}] does not exist
+channel.common.service.subscene.not.exists=sub group with sub group code [{0}] does not exist, failed to operate!
+channel.common.service.delete.uniqueIds.empty=personnel unique ID[uniqueIds] to be deleted cannot be null!
+channel.common.service.delete.subscene.failed=failed to handle publishment of deleting sub group event: [{0}]
+
+
+##ChannelBusiFaceHttpServiceImpl
+channel.face.service.video.base64.failed=get video base64 error
+channel.face.service.basephoto.not.exists=face image does not exist in comparison database, failed to compare!
+channel.face.service.scene.person.not.exists=under corresponding group of group code [{0}], personnel [{1}] does not exist!
+channel.face.service.scene.person.face.notopened=under corresponding group of group code[{0}], personnel [{1}] does not open face mode!
+channel.face.service.liveimage.no.face=no face image has been detected in scene image
+channel.face.service.liveimage.multi.face=multi face images have been detected in scene image
+channel.face.service.onlineverify.multi.face=no face image has been detected in online verification image
+channel.face.service.onlineverify.no.face=multi face images have been detected in online verification image
+channel.face.service.chipimage.no.face=no face image has been detected in chip image
+channel.face.service.chipimage.multi.face=multi face images have been detected in chip image
+channel.face.service.obtain.livephoto.feature.timeout=get scene image feature extraction result time out
+channel.face.service.obtain.livephoto.feature.error=get scene image feature extraction result error
+channel.face.service.obtain.onlineverify.feature.timeout=get online verification image feature extraction result time out
+channel.face.service.obtain.onlineverify.feature.error=get online verification image feature extraction result error
+channel.face.service.obtain.chipimage.feature.timeout=get chip image feature extraction result time out
+channel.face.service.obtain.chipimage.feature.error=get chip image feature extraction result error
+channel.face.service.image.match.error=image comparison failure!
+channel.face.service.image.match.folder.need=Please configure face 1:1 comparison image save folder [{0}] in platform [parameter setting] first!
+channel.face.service.1n.search.not.opened=1:N recognition function support is not opened on biometric platform, please contact administrator
+channel.face.service.scenesearch.subscene.scenecode.empty=group search mode is sub group retrieval, search sub group code cannot be null, please check!
+channel.face.service.scene.subscene.not.exists=sub group [{0}] under the group does not exist, please check!
+channel.face.service.face.checklive.error=face checklive error
+channel.face.service.checklive.failed=Failed to pass checklive, search failure!
+channel.face.service.image.search.folder.need=Please configure 1-N search image folder [{0}] in platform [parameter setting] first!
+channel.face.service.onlineverify.interface.address.not.configure=Online verification interface address [{0}] is not configured in platform [parameter setting], please contact administrator!
+channel.face.service.onlineverify.interface.authcode.not.configure=online verification interface authorization code [{0}] is not configured in platform [parameter setting], please contact administrator!
+channel.face.service.onlineverify.response.empty=personnel verification request error, response is null, please check!
+channel.face.service.onlineverify.error=personnel verification exception: [{0}]
+channel.face.service.image.checklive.folder.need=Please configure face checklive image save folder [{0}] in platform [parameter setting]!
+
+
+
+##ChannelBusiFingerHttpServiceImpl
+channel.busi.finger.service.scene.not.open.finger=corresponding group of group code [{0}] does not open fingerprint mode!
+channel.busi.finger.service.scene.person.not.open.finger=under corresponding group of group code [{0}], personnel [{1}] does not open fingerprint mode!
+channel.busi.finger.service.liveimage.no.fingerprint=no fingerprint image has been detected in scene image
+channel.busi.finger.service.liveimage.multi.fingerprint=multi fingerprint images have been detected in scene image
+channel.busi.finger.service.matchimage.not.exists=fingerprint image does not exist in personnel comparison database, comparison failure!
+channel.busi.finger.service.match.folder.need=Please configure fingerprint 1:1 comparison image save folder [{0}] in platform[parameter setting] first!
+channel.busi.finger.service.search.not.opened=1:N recognition function support is not opened on biometric platform, please contact administrator
+channel.busi.finger.service.scene.subscene.not.opened=corresponding group of group code [{0}] does not open fingerprint mode!
+channel.busi.finger.service.search.folder.need=Please configure fingerprint 1-N search image folder [{0}] in platform[parameter setting] first!
+
+
+##ChannelBusiIrisFaceHttpServiceImpl
+channel.busi.iris.service.scene.not.open.iris=Corresponding group of group code [{0}] does not open face and iris multi-modal mode!
+channel.busi.iris.service.match.feature.not.exists=Personnel database template feature information does not exist, failed to compare!
+channel.busi.iris.service.match.threshold.not.configure=Please pass in checklive threshold or platform - parameter setting scene face checklive threshold!
+channel.busi.iris.service.base.feature.not.exists=Database [{0}] template feature information does not exist, failed to compare!
+channel.busi.iris.service.multimodal.feature.error=multi-modal [{0}] extract feature exception: [{1}]
+channel.busi.iris.service.multimodal.base.feature.not.exists=Database multi-modal fusion template feature information does not exist, failed to compare!
+channel.busi.iris.service.multimodal.face.feature.error=multi-modal face extract feature exception:[{0}]
+channel.busi.iris.service.multimodal.iris.feature.error=multi-modal iris extract feature exception:[{0}]
+channel.busi.iris.service.multimodal.iris.match.threshold.need=Please configure multi-modal iris 1v1 comparison threshold[{0}] in platform[parameter setting] first!
+channel.busi.iris.service.multimodal.iris.match.threshold.format.error=Multi-modal iris 1v1 comparison threshold[{0}] in platform[parameter setting] format error!
+channel.busi.iris.service.multimodal.face.match.threshold.need=Please configure multi-modal face 1v1 comparison threshold[{0}] in platform[parameter setting] first!
+channel.busi.iris.service.multimodal.face.match.threshold.format.error=Multi-modal face 1v1 comparison threshold[{0}] platform[parameter setting] format error!
+channel.busi.iris.service.multimodal.irisface.match.threshold.need=Please configure multi-modal iris and face 1v1 comparison threshold[{0}] in platform[parameter setting] first!
+channel.busi.iris.service.multimodal.irisface.match.threshold.format.error=Multi-modal iris and face 1v1 comparison threshold[{0}] in platform[parameter setting] format error!
+channel.busi.iris.service.multimodal.match.folder.need=Please configure multi-modal 1v1 log image save folder [{0}] in platform[parameter setting] first!
+
+
+##ChannelBusiIrisHttpServiceImpl
+channel.busi.iris.service.scene.not.open=Corresponding group of group code[{0}] does not open iris!
+channel.busi.iris.service.scene.person.not.open.iris=Under corresponding group of group code[{0}], personnel [{1}] does not open iris!
+channel.busi.iris.service.base.image.not.exists=Comparison database iris image does not exist
+channel.busi.iris.service.liveimage.no.iris=no iris image has been detected in scene image[sceneImage]
+channel.busi.iris.service.liveimage.multi.iris=multi iris images have been detected in scene image[sceneImage]
+channel.busi.iris.service.iris.image.match.error=iris image comparison failure!
+channel.busi.iris.service.match.folder.need=Please configure iris 1:1 comparison image save folder [{0}] in platform [parameter setting] first!
+channel.busi.iris.service.search.folder.need=Please configure iris 1-N search image folder[{0}] in platform [parameter setting] first!
+channel.busi.iris.service.iris.not.open=Corresponding group of group code[{0}] does not open iris mode!
+
+##HttpLogAspect
+http.log.aspect.tip=tips: Not save!!!!!
+
+##BasePersonInfoHttpHandler
+base.person.handler.request.param.format.wrong=request parameter collection [bizContent] parameter format error!
+base.person.handler.uniqueid.max.length.limit=personnel id[uniqueId] cannot be null and length cannot be greater than 48
+base.person.handler.deptcode.max.length.limit=department code[deptCode] length cannot be greater than 48
+base.person.handler.receivedseq.max.length.limit=business serial number[receivedSeq] cannot be null and length cannot be greater than 48
+base.person.handler.person.name.empty=personnel name[name] cannot be null
+base.person.handler.person.name.max.length.limit=personnel name[name] length cannot be greater than 60
+base.person.handler.phone.max.length.limit=mobile number[phone] length must be 11 and must be number
+base.person.handler.sex.max.length.limit=personnel sex[sex] length cannot be greater than 1, and must be number
+base.person.handler.cardno.max.length.limit=card number[cardNo] length cannot be greater than 48
+base.person.handler.account.max.length.limit=account[account] length cannot be greater than 48
+base.person.handler.person.flag.invalid=personnel flag[flag] parameter is illegal, please check!
+base.person.handler.finger.upload.max=maximum uploaded 3 images at once
+base.person.handler.fingerno.invalid=finger number[fingerNo] cannot be null and must be legal number
+base.person.handler.iris.feature.image.empty=iris image cannot be null when transmitting iris feature
+base.person.handler.person.not.exists=valid information of personnel[{0}] does not exist!
+base.person.handler.biotype.invalid=biometric modal type[bioType] is illegal, please check!
+base.person.handler.device.tenant.error=tenant that device[{0}] belongs to and authorization appKey tenant are not consistent
+base.person.handler.device.not.bind.scene=device[{0}] has not been bound with group, please operate device group binding first
+base.person.handler.device.not.bind.subscene=device[{0}] has not been bound with sub group, please operate device sub group binding first
+base.person.handler.device.not.exists=The device [{0}] information does not exist, please maintain the device information on the platform
+base.person.handler.devicecdoe.empty=device code[deviceCode] cannot be null
+base.person.handler.uniqueid.empty=personnel unique id[uniqueId] cannot be null
+base.person.handler.optiontype.empty=operation type[optionType] cannot be null
+base.person.handler.optiontype.invalid=operation type[optionType] is illegal
+base.person.handler.face.feature.image.all.empty=face image and feature cannot be null simultaneously
+base.person.handler.iris.feature.image.all.empty=iris image and feature cannot be null simultaneously
+base.person.handler.receivedseq.empty=business serial number[receivedSeq] cannot be null
+base.person.handler.uniqueIds.empty=personnel id[uniqueIds] cannot be null
+base.person.handler.person.flag.empty=personnel flag[flag] cannot be null
+
+
+
+##BioTradeHttpHandler
+bio.trade.handler.device.not.exists=corresponding device of device code[{0}] does not exist
+bio.trade.handler.multipart.format.wrong=data request format error, please check whether it's multipart/form-data
+bio.trade.handler.video.empty=scene video[video] cannot be null, please check
+bio.trade.handler.video.max.limit=scene video[video] size cannot exceed[{0}] bytes
+bio.trade.handler.sceneimage.empty=scene image[sceneImage] cannot be null
+bio.trade.handler.scenecode.empty=group code[channelCode] cannot be null
+bio.trade.handler.livedetect.yn=whether checklive[liveDetection] value can only be one of [Y/N] when it's not null
+bio.trade.handler.livedetect.threshold.empty.number=when checklive threshold[liveDetectionThreshold] value is not null, it must be number
+bio.trade.handler.compare.threshold.empty.number=when comparison threshold[compareThreshold] value is not null, it must be number
+bio.trade.handler.temperature.result.error=Temperature measurement result[{0}] format error, please check!
+bio.trade.handler.temperature.min.error=Temperature threshold lower limit[temperatureFloor] must be numerical value, please check!
+bio.trade.handler.temperature.max.error=Temperature threshold upper limit[temperatureTop] must be numerical value, please check!
+bio.trade.handler.temperature.error=Temperature[temperature] must be numerical value, please check!
+bio.trade.handler.1n.threshold.empty.number=when 1-N search comparison threshold[searchNThreahold] is not null, it must be number
+bio.trade.handler.topn.return.num.format=when return quantity[topN] is not null, it must be integer number[1~10]
+bio.trade.handler.subscene.format=sub group code format must be[group code_sub group code]
+bio.trade.handler.device.longitude.format=when device longitude[deviceLongitude] is not null, it must be numerical value[0~180]
+bio.trade.handler.device.latitue.format=when device dimension[deviceDimension] is not null, it must be numerical value[0~90]
+bio.trade.handler.finger.image.empty=fingerprint image[scnenImage] cannot be null
+bio.trade.handler.finger.fingerno.format=when finger number[fingerNo] is not null, it must be legal number
+bio.trade.handler.iris.feature.image.all.empty=iris image[scnenImage] and iris feature[sceneFeature] cannot be null simultaneously
+bio.trade.handler.person.name.empty=personnel name[name] cannot be null!
+bio.trade.handler.verify.type.invalid=verification comparison mode[verifyType] parameter is illegal, please check
+
+##BioTradeToolHttpHandler
+bio.tradetool.handler.sceneimage1.sceneimage2.empty=neither scene image[sceneImage1] or [sceneImage2] cannot be null
+bio.tradetool.handler.threshold.format.number=comparison threshold[threshold] must be numerical value
+bio.tradetool.handler.checklive.threshold.format.number=checklive threshold[threshold] must be numerical value
+bio.tradetool.handler.mediatype.empty=media type[mediaType] cannot be null and must be one of [{0}]
+bio.tradetool.handler.quality.check.threshold.format=quality detection threshold[threshold] must be numerical value
+bio.tradetool.handler.sceneimage.scenevideo.empty=neither scene image[sceneImage] or video[sceneVideo] cannot be null
+bio.tradetool.handler.video.checklive.threshold.format=video checklive threshold[checkliveThreshold] must be numerical value
+
+##ChannelBusiHttpHandler
+channel.busi.handler.busicodefirst.max.limit=business number[busiCodeFirst] length cannot exceed 25
+channel.busi.handler.busicodesecond.max.limit=business number[busiCodeSecond] length cannot exceed 25 digits
+channel.busi.handler.busicodethird.max.limit=business number[busiCodeThird] length cannot exceed 25 digits
+
+
+##DeviceHttpHandler
+device.handler.devicecode.max.limit=device code[deviceNo] cannot be null and length cannot be greater than 48
+device.handler.deviceno.not.exists=device information[deviceNo={0}] does not exist!
+device.handler.no.upgrade.task=no task need to be upgraded
+device.handler.versionname.max.limit=version name[versionName] cannot be null and length cannot be greater than 48
+device.handler.version.max.limit=version number[version] cannot be null and length cannot be greater than 48
+device.handler.updateversion.max.limit=update version number[updateVersion] cannot be null and length cannot be greater than 48
+device.handler.beforeversion.max.limit=when version number before update[beforeVersion] is not null, length cannot be greater than 48
+device.handler.update.result.empty=update result[updateResult] cannot be null
+device.handler.starttime.empty=update start time[startTime] cannot be null
+device.handler.starttime.format.error=update start time[startTime] format error
+device.handler.update.timeused.empty=update time used[timeUsed] cannot be null
+device.handler.update.timeused.format.error=update time used[timeUsed] must be numerical value character string
+device.handler.nextpage.empty=next page number[nextPage] cannot be null
+device.handler.nextpage.format.error=next page number[nextPage] can only be number!
+
+##MsgSendHttpHandler
+msg.handler.scene.remark.max.limit=scene remark[sceneRemark] cannot be null and length cannot be greater than 48
+msg.handler.appid.empty=short message cloud account[appId] cannot be null
+msg.handler.tosuer.phonestr.empty=receiver[toUserPhoneStr] cannot be null
+msg.handler.msg.subject.empty=message theme(description)[msgSubject] cannot be null
+msg.handler.msg.content.empty=short message content[msgContent] cannot be null
+msg.handler.templateid.empty=short message official template ID[templateId] cannot be null
+msg.handler.template.paramstr.empty=short message template data[templateParamStr] cannot be null
+msg.handler.sign.empty=short message signature[sign] cannot be null
+msg.handler.send.type.empty=send mode [msgType] cannot be null, can only be one of [1|2]
+msg.handler.mail.type.empty=mail type[mailType] cannot be null
+msg.handler.mail.form.empty=sender Email[from] cannot be null
+msg.handler.mail.tomailstr.empty=receiver Email[toMailStr] cannot be null
+msg.handler.mail.type.format.error=mail type[mailType] can only be one of [1|2]
+msg.handler.mail.subject.empty=mail theme[subject] cannot be null
+msg.handler.wechat.appid.empty=wechat official account[appId] cannot be null
+msg.handler.wechat.phone.str.empty=official account fan's wechat mobile number[phoneStr] cannot be null
+msg.handler.wechat.msg.subject.empty=message theme(description)[msgSubject] cannot be null
+msg.handler.wechat.msg.content.empty=message content[txtContent] cannot be null
+msg.handler.wechat..templateid.empty=message templateID[templateId] cannot be null
+msg.handler.wechat.template.datastr.empty=message template data[templateDataStr] cannot be null
+msg.handler.wechat.msg.type.format=message type[msgType] cannot be null, can only be one of [1|2]
+msg.handler.ding.corpid.empty=dingding enterprise[CoprId] cannot be null
+msg.handler.ding.agentid.empty=dingding application[agentId] cannot be null
+msg.handler.ding.agentid.format=dingding application[agentId] cannot be null and must be integer
+msg.handler.ding.appkey.empty=dingding application[appKey] cannot be null
+msg.handler.ding.toalluser.flag=whether to send to all the users[toAllUser] cannot be null and value must be one of [Y|N]
+msg.handler.ding.phonestr.empty=usermobile number[phoneStr] cannot be null
+msg.handler.ding.msg.subject.empty=message theme[msgSubject] cannot be null
+msg.handler.ding.msg.type.empty=message type[msgType] cannot be null
+msg.handler.ding.taskid.format=dingding message taskID[taskId] cannot be null and must be integer
+msg.handler.ding.mediatype.empty=media type[mediaType] cannot be null
+msg.handler.ding.file.empty=mediafile[file] cannot be null
+
+
+
+##OcrLogHttpHandler
+ocr.handler.base84.empty=Base64 to be saved is null!
+ocr.handler.folder.need=Please configure OCR image folder[{0}] in platform[parameter setting] first!
+ocr.handler.image.upload.error=OCR image upload exception!
+ocr.handler.privide.channelcode=please provide channelCode
+ocr.handler.ocrtype.empty=request parameter collection[bizContent] parameter format error, please provide ocrType!
+ocr.handler.image.max.limit=image name[imageName] to be recognized cannot be null and length cannot be greater than 48
+ocr.handler.privide.imageb64=please provide image BASE64 data
+ocr.handler.privide.ocrtype=please provide recognition type ocrType
+
+
+##PersonLiveUpdateHandler
+person.lu.handler.sub.serial.empty=sub group personnel update id serial number[sbusiUpdateSeriaNum] cannot be null
+person.lu.handler.sub.serial.format=sub group personnel update serial number[sbusiUpdateSeriaNum] must be integer
+person.lu.handler.device.not.configure.scene=corresponding device of device code[{0}] is not distributed to the group that it belongs to
+person.lu.handler.device.not.configure.subscene=corresponding device of device code[{0}] is not bound with sub group, cannot pull personnel
+person.lu.handler.device.not.configure.subscene.not.exists=bound sub group with corresponding device of device code[{0}] does not exist, cannot pull personnel
+person.lu.handler.device.primary.lib.invalid=main database bound with corresponding device of device code [{0}] is invalid, cannot pull personnel
+person.lu.handler.scene.serial.empty=group personnel update serial number[busiUpdateSeriaNum] cannot be null
+person.lu.handler.scene.serial.format=group personnel update serial number[busiUpdateSeriaNum] must be integer
+person.lu.handler.fvein.not.open=platform hasn't turn fingervein function on yet, please stay tuned!
+person.lu.handler.face.finger.iris.multimodal.not.open=corresponding group of group code[{0}] does not open face, fingerprint, iris, multi-modal function
+
+##RequestDistributeHandler
+request.dis.handler.timestamp.format.error=Timestamp format is wrong, please check!
+request.dis.handler.sign.empty=request signature[sign] cannot be null
+request.dis.handler.timestamp.empty=request timestamp[timestamp] cannot be null
+request.dis.handler.timestamp.length.invalid=request timestamp[timestamp] length is illegal, must be 13 digits number
+request.dis.handler.nonce.empty=request unique ID[nonce] cannot be null
+request.dis.handler.nonce.length.invalid=request unique ID[nonce] length is illegal, maximun 48 digits
+request.dis.handler.transcode.empty=request interface transaction code[transCode] cannot be null
+request.dis.handler.transcode.length.invalid=request interface transaction code[transCode] length is illegal, maximun 48 digits
+request.dis.handler.bizcontent.empty=request parameter collection[bizContent] cannot be null
+request.dis.handler.appkey.empty=application id[appKey] cannot be null
+request.dis.handler.appkey.length.invalid=application id[appKey]length is illegal, must be 8 digits
+request.dis.handler.tenant.not.exists=tenant information does not exist, please contact administrator!
+request.dis.handler.tenant.locked=tenant has been frozen, please contact administrator!
+request.dis.handler.tenant.invalid=tenant is invalid, please contact administrator!
+request.dis.handler.tenant.expired=tenant already expired, please contact administrator!
+
+
+##SubtreasuryBusiHttpHandler
+sub.busi.handler.subscene.length.limit=sub group code[subTreasuryCode] length cannot be greater than 80
+sub.busi.handler.optiontype=please pass in correct operation type[operateType]
+sub.busi.handler.isappend.invalid=whether to append[isAppend], please pass in legal parameter[Y/N]
+sub.busi.handler.uniqueIds.min.one=at least pass in one personnel unique ID[uniqueIds], multi separated by [,]
+sub.busi.handler.part.success=part of data operated successfully
+sub.busi.handler.subscene.empty=sub group name cannot be null[subTreasuryName]
+sub.busi.handler.subscene.length.limit=sub group name[subTreasuryName] length cannot be greater than 50
+sub.busi.handler.remark.length.limit=remark information[remark] length cannot be greater than 100
+sub.busi.handler.update.subscene.not.exists=when update, [subTreasuryCode]sub group does not exist
+sub.busi.handler.delete.subscene.not.exists=when delete, [subTreasuryCode]sub group does not exist
+
+
+
+##TradelogHttpHandler
+trade.log.handler.uniqueid.length.limit=personnel id[uniqueId] length cannot be greater than 48
+trade.log.handler.query.scope.limit=query time range is not allowed to exceed 5 days, please check!
+trade.log.handler.endtime.format.error=end time[endTime] format error, must be [{0}]
+trade.log.handler.endtime.empty=end time[endTime] cannot be null, please check!
+trade.log.handler.starttime.format.error=start time[startTime] format error, must be [{0}]
+trade.log.handler.starttime.empty=start time[startTime] cannot be null, please check!
+trade.log.handler.current.page.format.error=page number[currPage] must be integer, please check!
+trade.log.handler.page.empty=page number[pageNum] cannot be null
+trade.log.handler.scene.image.b64.empty=scene image[sceneImageBase64] cannot be null, please check!
+trade.log.handler.timeused.format.error=request time used[timeUsed] format error, must be integer
+trade.log.handler.received.time.format.error=request time[receivedTime] format error, must be [{0}]
+trade.log.handler.received.time.empty=request time[receivedTime] cannot be null
+trade.log.handler.match.result.format.error=comparison result[result] value is illegal, must be [0|1]!
+trade.log.handler.checklive.result.format.error=scene image checklive result[checkliveResult] value is illegal, must be [0|1]!
+trade.log.handler.checklive.result.number=when checklive score[checkliveScore] is not null, it must be numerical value
+trade.log.handler.online.chip.match.result.invalid=online verification image and chip image comparison result[onlineChipResult] value is illegal, must be [0|1]!
+trade.log.handler.scene.stock.match.result.invalid=scene image and database image comparison result[sceneStockResult] value is illegal, must be [0|1]!
+trade.log.handler.scene.chip.match.result.invalid=scene image and chip image comparison result[sceneChipResult] value is illegal, must be[0|1]!
+trade.log.handler.scene.online.match.result.invalid=scene image and online verification image comparison result[sceneOnlineResult] value is illegal, must be[0|1]!
+trade.log.handler.fir.timeused.format=face comparison time used[firTimeUsed] format error, must be integer
+trade.log.handler.iris.match.score.format=when iris comparison score[sceneSecAlgoScore] is not null, it must be number
+trade.log.handler.face.match.score.format=when face comparison score[sceneFirAlgoScore] is not null, it must be numerical value
+trade.log.handler.match.score.format=when comparison score[matchScore] is not null, it must be number
+trade.log.handler.checklive.result.format=when checklive result[checkliveResult] is not null, must be[0|1]
+trade.log.handler.checklive.score.format=when checklive score[checkliveScore] is not null, must be numerical value
+trade.log.handler.match.mode.empty=comparison mode[matchMode] is null or parameter is illegal, please check
+trade.log.handler.cardno.length.limit=card number[cardNo] length cannot be greater than 48
+trade.log.handler.bio.recognized.format=biometric recognition or not[bioRecognized] is illegal, please check whether it's [Y|N]!
+trade.log.handler.scene.stock.score.format=when score[sceneStockScore] is not null, it must be numerical value
+trade.log.handler.result.notempty.must.been=when result[result] is not null, it must be[0|1]
+
+
+##MqttAuthParam
+mqtt.param.clientid.msg=client side Id cannot be null
+mqtt.param.username.msg=user name cannot be null
+mqtt.param.password.msg=identification password cannot be null
+
+##StandardHttpServer
+standard.server.request.path.empty=request parameter path is null
+standard.server.request.path.image.not.exists=corresponding image of request parameter path[{0}] does not exist
+standard.server.request.path.image.error=corresponding image to get realPath[{0}] error
+
+##BigScreenStatisticController
+big.screen.stat.user.not.login=failed to get user login information, please login first!
+big.screen.stat.user.invalid=user login information is illegal, please re-login
+big.screen.stat.healthcode.blue=green code
+big.screen.stat.healthcode.yellow=yellow code
+big.screen.stat.healthcode.red=red code
+big.screen.stat.get.exception=get exception
+
+
+##PersonFaceIrisMatchController
+person.faceiris.multimodal.uniqueid.empty=unique ID cannot be null!
+person.faceiris.multimodal.match.threshold.empty=comparison threshold cannot be null
+person.faceiris.multimodal.match.threshold.format.error=passed in comparison threshold format error, please check!
+person.faceiris.multimodal.multiinfo.empty=personnel [{0}] does not exist face and iris multi-modal iris data!
+person.faceiris.multimodal.match.error=failed to compare:[{0}]
+
+##PersonFaceMatchController
+person.face.match.uniqueid.empty=unique ID cannot be null!
+person.face.match.scene.empty=group code cannot be null!
+person.face.match.checklive.threshold.error=passed in checklive threshold format error, please check!
+person.face.match.need.two.images=please upload two pieces of face images!
+
+##AppInfo
+app.info.appdesc.name=application name
+app.info.buildin.name=built-in or not
+app.info.status.name=status
+
+
+
+##AppInterfaceAuth
+app.auth.transcode.name=interface transaction code
+app.auth.transendtime.name=transaction valid end time
+
+
+##SysClientDetails
+sys.client.resourceids.name=resources ID
+sys.client.clientsecret.name=terminal security code
+sys.client.scope.name=terminal authorization range
+sys.client.serverredirecturl.name=server callback address
+sys.client.authorities.name=permission needed to access resources
+sys.client.additionalinformation.name=additional information
+sys.client.originsecret.name=terminal text security code
+
+
+##SysConfig
+sys.config.configid.name=parameter primary key
+sys.config.configname.name=parameter name
+sys.config.configkey.name=parameter key name
+sys.config.configvalue.name=parameter key value
+sys.config.configtype.name=system built-in
+sys.config.configtype.y=yes
+sys.config.configtype.n=no
+sys.config.tenantmaintain.name=allow tenant to maintain
+sys.config.tenantmaintain.y=yes
+sys.config.tenantmaintain.n=no
+sys.config.configname.msg=parameter name cannot be null
+sys.config.configname.msg.length=parameter name cannot exceed 100 characters
+sys.config.configkey.msg=parameter key name length cannot be null
+sys.config.configkey.msg.length=parameter key name length cannot exceed 100 characters
+sys.config.configvalue.msg=parameter key value cannot be null
+sys.config.configvalue.msg.length=parameter key value length cannot exceed 500 characters
+
+
+##SysLogininfor
+sys.login.info.infoid=order number
+sys.login.info.username=user account
+sys.login.info.status=login status
+sys.login.info.status.success=successfully
+sys.login.info.status.fail=fail
+sys.login.info.ipaddress=login address
+sys.login.info.location=login location
+sys.login.info.browser=browser
+sys.login.info.os=operation system
+sys.login.info.msg=prompt message
+sys.login.info.logintime=access time
+
+##SysNotice
+sys.notice.title.msg=announcement title cannot be null
+sys.notice.title.msg.length=announcement title cannot exceed 50 characters
+
+##SysOperLog
+sys.oper.log.operid=operation order number
+sys.oper.log.title=operation module
+sys.oper.log.busitype=business type
+sys.oper.log.busitype0=other
+sys.oper.log.busitype1=add
+sys.oper.log.busitype2=update
+sys.oper.log.busitype3=delete
+sys.oper.log.busitype4=authorization
+sys.oper.log.busitype5=export
+sys.oper.log.busitype6=import
+sys.oper.log.busitype7=force logout
+sys.oper.log.busitype8=generate code
+sys.oper.log.busitype9=clear data
+sys.oper.log.method=request method
+sys.oper.log.method.request=request mode
+sys.oper.log.oper.type=operation type
+sys.oper.log.oper.type0=other
+sys.oper.log.oper.type1=backend user
+sys.oper.log.oper.type2=mobile phone end user
+sys.oper.log.opername=operation personnel
+sys.oper.log.deptname=department name
+sys.oper.log.operurl=request address
+sys.oper.log.operip=operation address
+sys.oper.log.operlocation=operation location
+sys.oper.log.operparam=request parameter
+sys.oper.log.jsonresult=parameter returned
+sys.oper.log.status=status
+sys.oper.log.status0=normal
+sys.oper.log.status1=exception
+sys.oper.log.errormsg=error message
+sys.oper.log.opertime=operation time
+
+
+
+##SysPost
+sys.post.postid=post order number
+sys.post.postcode=post code
+sys.post.postsort=post sort
+sys.post.postname=post name
+sys.post.status=status
+sys.post.status0=normal
+sys.post.status1=deactive
+sys.post.postcode.msg=post code cannot be null
+sys.post.postcode.msg.length=post code length cannot exceed 64 characters
+sys.post.postname.msg.length=post name length cannot exceed 50 characters
+sys.post.postname.msg=post name cannot be null
+sys.post.postsort.msg=display order cannot be null
+
+
+##SysUserFace
+sys.user.face.userid=user primary key(related user table)
+sys.user.face.featuremd5=face feature MD5
+sys.user.face.feature=face feature
+sys.user.face.qualityscore=image quality score
+sys.user.face.imageurl=face image path
+sys.user.face.vendorcode=vendor
+sys.user.face.algversion=algorithm version
+sys.user.face.status=status: 0- valid  1: invalid
+
+##SysUserFinger
+sys.user.finger.fingerno=finger number
+sys.user.finger.feature=fingerprint feature
+sys.user.finger.featuremd5=fingerprint feature MD5
+sys.user.finger.imageurl=fingerprint image path
+
+#SysUserIris
+sys.user.iris.feature=iris feature
+sys.user.iris.featuremd5=iris feature MD5
+sys.user.iris.imageurl=iris image path
+
+
+##SysUserIrisFace
+sys.user.irisface.userid=user primary key
+sys.user.irisface.fusionfeature=fusion feature
+sys.user.irisface.fusionfeature.md5=fusion feature md5
+sys.user.irisface.face.quality=face quality score
+
+
+
+##AppInfoServiceImpl
+appinfo.service.app.exists=application system information already exists, no need to redistribute APP_KEY and APP_SECRET!
+appinfo.service.appkey.exists=APP_KEY already exists, cannot repeatedly add!
+appinfo.service.appkey.not.allow.delete=built-in application system[appKey={0}] is not allowed to delete!
+
+
+##AppInterfaceAuthServiceImpl
+appinterface.auth.service.been.auth=interface [{0}] authorization information already exists,please do not repeatedly authorize!
+
+##PlatformConcurrentServiceImpl
+platform.service.concurrent.empty=please configure platform interface request concurrent number [{0}] in platform[parameter setting]!
+platform.service.concurrent.format.error==platform interface request concurrent number [{0}] in platform[parameter setting] is not integer, please re-configure!
+
+##SysConfigServiceImpl
+sysconfig.service.tenant.prohibit.param=tenant is forbade to update the parameter, if you have any doubts, please contact system administrator!
+sysconfig.service.param.not.delete=built-in parameter[{0}] cannot be deleted
+
+
+##SysDeptServiceImpl
+sysdept.service.dept.disabled=department is deactive, not allowed to add
+
+##SysDictTypeServiceImpl
+sysdict.service.assigned.not.delete=[{0}] has been distributed, cannot be deleted
+
+##SysRoleServiceImpl
+sysrole.service.prohibit.operate.super.user=not allowed to operate super administrator role
+
+##SysTenantRoleServiceImpl
+systenant.role.service.prohibit.operate.tryout.role=not allowed to operate trial tenant role
+
+
+##SysTenantServiceImpl
+systenant.service.tenantname.duplicate=tenant name is not allowed to repeat, please check
+systenant.service.tenantphone.used=tenant contact mobile number is already used, please check!
+systenant.service.tenantphone.used.need.update=the tenant mobile number [{0}] is already used by other users, please update tenant mobile number and recreate!
+systenant.service.default.deptname=default department
+systenant.service.tenantemail.used=the tenant Email[{0}] has been used by other users, please update tenant Email and recreate!
+systenant.service.system.exception=system exception, please contact customer service personnel to solve!
+systenant.service.supertenant.prohibit.delete=super tenant is not allowed to be deleted
+
+##SysUserFingerRecogLogicServiceImpl
+sysuser.finger.service.match.not.pass=fingerprint image [number: {0}] image 1:1 comparison score[{1}], is less than comparison threshold[{2}], failed to pass comparison
+
+##SysUserServiceImpl
+sysuser.service.prohibit.operate.super.user=not allowed to operate super administrator user
+sysuser.service.prohibit.operate.tenant.super.user=not allowed to operate super administrator user under tenant
+sysuser.service.import.userdata.empty=user data imported cannot be null!
+sysuser.service.import.dept.not.exists=account [{0}] department does not exist
+sysuser.service.import.phone.used=account [{0}] mobile number [{1}] has been used
+sysuser.service.import.email.used=account [{0}] Email [{1}] has been used
+sysuser.service.import.success=account [{0}] has been imported successfully
+sysuser.service.update.success=acccount [{0}] has been updated successfully
+sysuser.service.import.account.exists=account [{0}] already exists
+sysuser.service.import.failed=failed to import account [{0}]
+sysuser.service.user.not.exists=designated user does not exist
+sysuser.service.multimodal.save.error=multi-modal information save exception:[{0}]
+
+
+
+
+##QrCodeController
+utils.qrcode.generate.error=generate QR code error: [{0}]
+
+
+##SysSdkFileController
+util.sdk.file.upload=SDK file upload
+
+##SysSdkFile
+sys.sdkfile.filename=uploaded file name
+sys.sdkfile.filepath=file save path
+sys.sdkfile.filemd5=file MD5
+sys.sdkfile.filetype=SDK type
+sys.sdkfile.file.sort=version sort
+
+##PersonFaceCheckliveLogController
+tradelog.face.checklive.title=personnel face checklive log
+
+##PersonFaceirisMatchLogController
+tradelog.faceiris.match.title=face and iris multi-modal comparison log
+
+
+##PersonFaceirisSearchLogController
+tradelog.faceiris.search.title=face and iris search log
+
+##PersonFaceMatchLogController
+tradelog.face.match.title=face comparison log
+
+##PersonFaceSearchLogController
+tradelog.face.search.title=face search log
+tradelog.face.search.export.large=amount of exported data is too large, please separate to batch by time then export!
+
+##PersonFingerMatchLogController
+tradelog.finger.match.title=fingerprint comparison log
+
+##PersonFingerSearchLogController
+tradelog.finger.search.title=fingerprint search log
+
+##PersonHealthCodeLogController
+tradelog.healthcode.title=health code request
+
+##PersonIrisMatchLogController
+tradelog.iris.match.title=iris comparison log
+
+##PersonIrisSearchLogController
+tradelog.iris.search.title=iris search log
+
+##PersonFaceCheckliveLog
+domain.person.face.checklive.score=Checklive Score
+domain.person.face.checklive.result.msg=Checklive Result Information
+domain.person.face.checklive.result=Checklive Result
+domain.person.face.checklive.threshold=Checklive Threshold
+domain.person.face.request.time=Request Time
+
+##PersonFaceirisMatchLog
+domain.person.faceiris.busi.req=Business Serial Number
+domain.person.faceiris.uniqueid=Personnel ID
+domain.person.faceiris.deptid=Department ID
+domain.person.faceiris.personname=Personnel Name
+domain.person.faceiris.deptname=Department Name
+domain.person.faceiris.face.matchscore=Face Comparison Score
+domain.person.faceiris.iris.matchscore=Iris Comparison Score
+domain.person.faceiris.matchscore=Comparison Score
+domain.person.faceiris.checklive.score=Checklive Score
+domain.person.faceiris.checklive.result=Scene Image Checklive Result
+domain.person.faceiris.match.result=Comparison Result
+domain.person.faceiris.timeused=Time Used(ms)
+domain.person.faceiris.face.timeused=Face Comparison Time Used ms
+domain.person.faceiris.iris.timeused=Iris Comparison Time Used ms
+domain.person.faceiris.temperature=Temperature(â)
+domain.person.faceiris.temperature.floor=Temperature Lower Limit
+domain.person.faceiris.temperature.top=Temperature Upper Limit
+domain.person.faceiris.devicesn=Device Code
+domain.person.faceiris.devicemodel=Device Model
+domain.person.faceiris.devicename=Device Name
+domain.person.faceiris.deviceip=Device IP
+domain.person.faceiris.device.longitude=Device Longitude(east longitude)
+domain.person.faceiris.device.latitue=Device Latitude(north latitude)
+domain.person.faceiris.device.direction=Device Direction
+
+##PersonFaceirisSearchLog
+domain.person.faceiris.match.mode=Comparison Mode
+
+##PersonFaceMatchLog
+domain.person.face.sceneonlinescore=Scene Image And Online Verification Image Comparison Score
+domain.person.face.scenechipscore=Scene Image And Chip Image Comparison Score
+domain.person.face.scenestockscore=Scene Image And Database Image Comparison Score
+domain.person.face.onlinechipscore=Online Verification Image And Chip Image Comparison Score
+domain.person.face.sceneonlineresult=Scene Image And Online Verification Image Comparison Result
+domain.person.face.scenechipresult=Scene Image And Chip Image Comparison Result
+domain.person.face.onlinechipresult=Online Verification Image And Chip Image Comparison Result
+domain.person.face.checkliveresult=Scene Image Checklive Result
+
+
+##PersonFaceSearchLog
+domain.person.face.scene.type=Type
+domain.person.face.bio.recognized=Biometric Recognition or Not
+domain.person.face.search.result=Recognition Result
+
+##PersonFingerMatchLog
+domain.person.finger.fingerno=Finger Code
+domain.person.finger.scenestockresult=Scene Image And Database Image Comparison Result
+
+##PersonHealthCodeLog
+domain.healthcode.result=Result
+domain.healthcode.result.desc=Result Description
+domain.healthcode.carno=Car Number
+domain.healthcode.region=Area
+
+##PersonFaceSearchLogServiceImpl
+person.face.search.temperature.abnormal=temperature exception notice
+
+person.face.image.not.clear=please upload a clear face photo
+

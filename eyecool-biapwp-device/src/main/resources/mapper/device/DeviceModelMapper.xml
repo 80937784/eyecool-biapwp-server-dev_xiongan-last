@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceModelMapper">
+    
+    <resultMap type="DeviceModel" id="DeviceModelResult">
+        <result property="id"    column="id"    />
+        <result property="modelCode"    column="model_code"    />
+        <result property="modelName"    column="model_name"    />
+        <result property="exteriorImage"    column="exterior_image"    />
+        <result property="modelDesc"    column="model_desc"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectDeviceModelVo">
+        select id, model_code, model_name, exterior_image, model_desc, create_by, update_by, create_time, update_time, tenant_id from device_model
+    </sql>
+
+    <select id="selectDeviceModelList" parameterType="DeviceModel" resultMap="DeviceModelResult">
+        <include refid="selectDeviceModelVo"/>
+        <where>  
+            <if test="modelCode != null  and modelCode != ''"> and model_code = #{modelCode}</if>
+            <if test="modelName != null  and modelName != ''"> and model_name like concat(concat('%', #{modelName}), '%')</if>
+            <if test="exteriorImage != null  and exteriorImage != ''"> and exterior_image = #{exteriorImage}</if>
+            <if test="modelDesc != null  and modelDesc != ''"> and model_desc = #{modelDesc}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceModelById" parameterType="String" resultMap="DeviceModelResult">
+        <include refid="selectDeviceModelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceModel" parameterType="DeviceModel">
+        insert into device_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="modelCode != null and modelCode != ''">model_code,</if>
+            <if test="modelName != null and modelName != ''">model_name,</if>
+            <if test="exteriorImage != null">exterior_image,</if>
+            <if test="modelDesc != null">model_desc,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="modelCode != null and modelCode != ''">#{modelCode},</if>
+            <if test="modelName != null and modelName != ''">#{modelName},</if>
+            <if test="exteriorImage != null">#{exteriorImage},</if>
+            <if test="modelDesc != null">#{modelDesc},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceModel" parameterType="DeviceModel">
+        update device_model
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modelCode != null and modelCode != ''">model_code = #{modelCode},</if>
+            <if test="modelName != null and modelName != ''">model_name = #{modelName},</if>
+            <if test="exteriorImage != null">exterior_image = #{exteriorImage},</if>
+            <if test="modelDesc != null">model_desc = #{modelDesc},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceModelById" parameterType="String">
+        delete from device_model where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceModelByIds" parameterType="String">
+        delete from device_model where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

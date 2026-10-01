@@ -1,0 +1,1 @@
+INSERT INTO sys_dict_data (dict_code,dict_sort,dict_label,dict_value,dict_type,css_class,list_class,is_default,STATUS,create_by,create_time,update_time,remark)VALUES( 467, 6, 'Face REGISTER', 'PERSON_FACE_REGISTER', 'http_interface', NULL, NULL, 'Y', '0', 'admin', sysdate(), sysdate(), NULL );

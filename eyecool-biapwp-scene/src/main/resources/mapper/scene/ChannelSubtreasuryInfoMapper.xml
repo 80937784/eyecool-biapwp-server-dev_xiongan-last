@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.scene.mapper.ChannelSubtreasuryInfoMapper">
+    
+    <resultMap type="ChannelSubtreasuryInfo" id="ChannelSubtreasuryInfoResult">
+        <result property="id"    column="id"    />
+        <result property="channelId"    column="channel_id"    />
+        <result property="subTreasuryCode"    column="sub_treasury_code"    />
+        <result property="subTreasuryName"    column="sub_treasury_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectChannelSubtreasuryInfoVo">
+        select id, channel_id, sub_treasury_code, sub_treasury_name, remark, create_by, update_by, create_time, update_time, batch_date, tenant_id from channel_subtreasury_info
+    </sql>
+
+    <select id="selectChannelSubtreasuryInfoList" parameterType="ChannelSubtreasuryInfo" resultMap="ChannelSubtreasuryInfoResult">
+        <include refid="selectChannelSubtreasuryInfoVo"/>
+        <where>  
+            <if test="channelId != null  and channelId != ''"> and channel_id = #{channelId}</if>
+            <if test="subTreasuryCode != null  and subTreasuryCode != ''"> and sub_treasury_code = #{subTreasuryCode}</if>
+            <if test="subTreasuryName != null  and subTreasuryName != ''"> and sub_treasury_name like concat(concat('%', #{subTreasuryName}), '%')</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="params.subtreasuryCodes != null  and params.subtreasuryCodes.length > 0">
+            	and sub_treasury_code in 
+            	<foreach collection="params.subtreasuryCodes" index="index" item="item" open="(" separator="," close=")">
+		            #{item}
+		        </foreach>
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectChannelSubtreasuryInfoById" parameterType="String" resultMap="ChannelSubtreasuryInfoResult">
+        <include refid="selectChannelSubtreasuryInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertChannelSubtreasuryInfo" parameterType="ChannelSubtreasuryInfo">
+        insert into channel_subtreasury_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="channelId != null and channelId != ''">channel_id,</if>
+            <if test="subTreasuryCode != null and subTreasuryCode != ''">sub_treasury_code,</if>
+            <if test="subTreasuryName != null and subTreasuryName != ''">sub_treasury_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="channelId != null and channelId != ''">#{channelId},</if>
+            <if test="subTreasuryCode != null and subTreasuryCode != ''">#{subTreasuryCode},</if>
+            <if test="subTreasuryName != null and subTreasuryName != ''">#{subTreasuryName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChannelSubtreasuryInfo" parameterType="ChannelSubtreasuryInfo">
+        update channel_subtreasury_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="channelId != null and channelId != ''">channel_id = #{channelId},</if>
+            <if test="subTreasuryCode != null and subTreasuryCode != ''">sub_treasury_code = #{subTreasuryCode},</if>
+            <if test="subTreasuryName != null and subTreasuryName != ''">sub_treasury_name = #{subTreasuryName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChannelSubtreasuryInfoById" parameterType="String">
+        delete from channel_subtreasury_info where id = #{id}
+    </delete>
+
+    <delete id="deleteChannelSubtreasuryInfoByIds" parameterType="String">
+        delete from channel_subtreasury_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="selectMaxSubsceneCodeIndex" parameterType="String" resultType="String">
+        select max(SUBSTR(sub_treasury_code, 11)) from channel_subtreasury_info where sub_treasury_code like concat(concat('CJ','____'),'%')
+    </select>
+    
+</mapper>

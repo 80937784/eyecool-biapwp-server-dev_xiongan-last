@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrBankCardLogMapper">
+
+    <resultMap type="OcrBankCardLog" id="OcrBankCardLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="bankCardExpiryDate"    column="bank_card_expiry_date"    />
+        <result property="bankCardBankName"    column="bank_card_bank_name"    />
+        <result property="bankCardBankCode"    column="bank_card_bank_code"    />
+        <result property="bankCardName"    column="bank_card_name"    />
+        <result property="bankCardType"    column="bank_card_type"    />
+        <result property="bankCardNumber"    column="bank_card_number"    />
+        <result property="result"    column="result"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrBankCardLogVo">
+        select id, received_seq, received_time, type, type_id, channel_code, scene_image_url, scene_image_name, bank_card_expiry_date, bank_card_bank_name, bank_card_bank_code, bank_card_name, bank_card_type, bank_card_number, result, tenant_id from ocr_bank_card_log
+    </sql>
+
+    <select id="selectOcrBankCardLogList" parameterType="OcrBankCardLog" resultMap="OcrBankCardLogResult">
+        <include refid="selectOcrBankCardLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="bankCardExpiryDate != null  and bankCardExpiryDate != ''"> and bank_card_expiry_date = #{bankCardExpiryDate}</if>
+            <if test="bankCardBankName != null  and bankCardBankName != ''"> and bank_card_bank_name like concat(concat('%', #{bankCardBankName}), '%')</if>
+            <if test="bankCardBankCode != null  and bankCardBankCode != ''"> and bank_card_bank_code = #{bankCardBankCode}</if>
+            <if test="bankCardName != null  and bankCardName != ''"> and bank_card_name like concat(concat('%', #{bankCardName}), '%')</if>
+            <if test="bankCardType != null  and bankCardType != ''"> and bank_card_type = #{bankCardType}</if>
+            <if test="bankCardNumber != null  and bankCardNumber != ''"> and bank_card_number = #{bankCardNumber}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrBankCardLogById" parameterType="String" resultMap="OcrBankCardLogResult">
+        <include refid="selectOcrBankCardLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrBankCardLog" parameterType="OcrBankCardLog">
+        insert into ocr_bank_card_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="bankCardExpiryDate != null">bank_card_expiry_date,</if>
+            <if test="bankCardBankName != null">bank_card_bank_name,</if>
+            <if test="bankCardBankCode != null">bank_card_bank_code,</if>
+            <if test="bankCardName != null">bank_card_name,</if>
+            <if test="bankCardType != null">bank_card_type,</if>
+            <if test="bankCardNumber != null">bank_card_number,</if>
+            <if test="result != null">result,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="bankCardExpiryDate != null">#{bankCardExpiryDate},</if>
+            <if test="bankCardBankName != null">#{bankCardBankName},</if>
+            <if test="bankCardBankCode != null">#{bankCardBankCode},</if>
+            <if test="bankCardName != null">#{bankCardName},</if>
+            <if test="bankCardType != null">#{bankCardType},</if>
+            <if test="bankCardNumber != null">#{bankCardNumber},</if>
+            <if test="result != null">#{result},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrBankCardLog" parameterType="OcrBankCardLog">
+        update ocr_bank_card_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="bankCardExpiryDate != null">bank_card_expiry_date = #{bankCardExpiryDate},</if>
+            <if test="bankCardBankName != null">bank_card_bank_name = #{bankCardBankName},</if>
+            <if test="bankCardBankCode != null">bank_card_bank_code = #{bankCardBankCode},</if>
+            <if test="bankCardName != null">bank_card_name = #{bankCardName},</if>
+            <if test="bankCardType != null">bank_card_type = #{bankCardType},</if>
+            <if test="bankCardNumber != null">bank_card_number = #{bankCardNumber},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

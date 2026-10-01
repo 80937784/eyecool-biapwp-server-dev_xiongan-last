@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.eyecool</groupId>
+    <artifactId>eyecool-biapwp</artifactId>
+    <version>${eyecool.version}</version>
+  </parent>
+  <artifactId>eyecool-biapwp-tradelog</artifactId>
+  
+  <dependencies>
+        <!-- 核心模块 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-framework</artifactId>
+		</dependency>
+		<!-- 通用工具 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-common</artifactId>
+		</dependency>
+		<!-- 基础数据模块 -->
+		<dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>eyecool-biapwp-basedata</artifactId>
+        </dependency>
+        <!-- 消息通知模块 -->
+		<dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>eyecool-biapwp-msg</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xa.cardpass</groupId>
+            <artifactId>EcpAESCipherTools</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+  </dependencies>
+</project>

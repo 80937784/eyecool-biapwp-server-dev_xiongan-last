@@ -1,0 +1,3 @@
+# 是否验证设备编码
+check:
+  device: false

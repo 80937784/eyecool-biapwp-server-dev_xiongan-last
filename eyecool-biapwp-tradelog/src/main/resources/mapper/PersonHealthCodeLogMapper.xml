@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tradelog.mapper.PersonHealthCodeLogMapper">
+    
+    <resultMap type="PersonHealthCodeLog" id="PersonHealthCodeLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="result"    column="result"    />
+        <result property="message"    column="message"    />
+        <result property="deviceCode"    column="device_code"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="carNo"    column="car_no"    />
+        <result property="region"    column="region"    />
+        <result property="timeUsed"    column="time_used"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectPersonHealthCodeLogVo">
+        select id, received_seq, unique_id, received_time, result, message, device_code, temperature, car_no, region, time_used, create_time, batch_date, tenant_id from person_health_code_log
+    </sql>
+
+    <select id="selectPersonHealthCodeLogList" parameterType="PersonHealthCodeLog" resultMap="PersonHealthCodeLogResult" databaseId="mysql">
+        <include refid="selectPersonHealthCodeLogVo"/>
+        <where>  
+      		<if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="message != null  and message != ''"> and message = #{message}</if>
+            <if test="deviceCode != null  and deviceCode != ''"> and device_code = #{deviceCode}</if>
+            <if test="temperature != null  and temperature != ''"> and temperature = #{temperature}</if>
+            <if test="carNo != null  and carNo != ''"> and car_no = #{carNo}</if>
+            <if test="region != null  and region != ''"> and region = #{region}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+			</if>
+			<if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+				and date_format(received_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+			</if>
+        </where>
+    </select>
+    
+    <select id="selectPersonHealthCodeLogById" parameterType="String" resultMap="PersonHealthCodeLogResult">
+        <include refid="selectPersonHealthCodeLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPersonHealthCodeLog" parameterType="PersonHealthCodeLog">
+        insert into person_health_code_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="result != null">result,</if>
+            <if test="message != null">message,</if>
+            <if test="deviceCode != null">device_code,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="carNo != null">car_no,</if>
+            <if test="region != null">region,</if>
+            <if test="timeUsed != null">time_used,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="uniqueId != null and uniqueId != ''">#{uniqueId},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="result != null">#{result},</if>
+            <if test="message != null">#{message},</if>
+            <if test="deviceCode != null">#{deviceCode},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="carNo != null">#{carNo},</if>
+            <if test="region != null">#{region},</if>
+            <if test="timeUsed != null">#{timeUsed},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePersonHealthCodeLog" parameterType="PersonHealthCodeLog">
+        update person_health_code_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="message != null">message = #{message},</if>
+            <if test="deviceCode != null">device_code = #{deviceCode},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="carNo != null">car_no = #{carNo},</if>
+            <if test="region != null">region = #{region},</if>
+            <if test="timeUsed != null">time_used = #{timeUsed},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePersonHealthCodeLogById" parameterType="String">
+        delete from person_health_code_log where id = #{id}
+    </delete>
+
+    <delete id="deletePersonHealthCodeLogByIds" parameterType="String">
+        delete from person_health_code_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <insert id="addPartition" databaseId="mysql">
+		 CALL sp_create_partition(DATE_ADD(NOW(), INTERVAL + (#{offsetDay}) DAY), #{schemaName}, #{tableName},'%Y%m%d')
+    </insert>
+    
+    <delete id="dropPartition" databaseId="mysql">
+		 CALL sp_drop_partition(#{holdDate}, #{schemaName}, #{tableName},'%Y%m%d')
+    </delete>
+</mapper>

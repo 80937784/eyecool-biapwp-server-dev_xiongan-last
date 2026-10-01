@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.ocr.mapper.OcrIdcardBackLogMapper">
+
+    <resultMap type="OcrIdcardBackLog" id="OcrIdcardBackLogResult">
+        <result property="id"    column="id"    />
+        <result property="receivedSeq"    column="received_seq"    />
+        <result property="receivedTime"    column="received_time"    />
+        <result property="type"    column="type"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="sceneImageUrl"    column="scene_image_url"    />
+        <result property="sceneImageName"    column="scene_image_name"    />
+        <result property="idcardDateIssue"    column="idcard_date_issue"    />
+        <result property="idcardAuthorityIssue"    column="idcard_authority_issue"    />
+        <result property="idcardLimit"    column="idcard_limit"    />
+        <result property="idcardExpiryDate"    column="idcard_expiry_date"    />
+        <result property="idcardOcrFirmType"    column="idcard_ocr_firm_type"    />
+        <result property="result"    column="result"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectOcrIdcardBackLogVo">
+        select id, received_seq, received_time, type, type_id, channel_code, scene_image_url, scene_image_name, idcard_date_issue, idcard_authority_issue, idcard_limit, idcard_expiry_date, idcard_ocr_firm_type, result, tenant_id from ocr_idcard_back_log
+    </sql>
+
+    <select id="selectOcrIdcardBackLogList" parameterType="OcrIdcardBackLog" resultMap="OcrIdcardBackLogResult">
+        <include refid="selectOcrIdcardBackLogVo"/>
+        <where>  
+            <if test="receivedSeq != null  and receivedSeq != ''"> and received_seq = #{receivedSeq}</if>
+            <if test="receivedTime != null "> and received_time = #{receivedTime}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
+            <if test="sceneImageUrl != null  and sceneImageUrl != ''"> and scene_image_url = #{sceneImageUrl}</if>
+            <if test="sceneImageName != null  and sceneImageName != ''"> and scene_image_name = #{sceneImageName}</if>
+            <if test="idcardDateIssue != null  and idcardDateIssue != ''"> and idcard_date_issue = #{idcardDateIssue}</if>
+            <if test="idcardAuthorityIssue != null  and idcardAuthorityIssue != ''"> and idcard_authority_issue = #{idcardAuthorityIssue}</if>
+            <if test="idcardLimit != null  and idcardLimit != ''"> and idcard_limit = #{idcardLimit}</if>
+            <if test="idcardExpiryDate != null  and idcardExpiryDate != ''"> and idcard_expiry_date = #{idcardExpiryDate}</if>
+            <if test="idcardOcrFirmType != null  and idcardOcrFirmType != ''"> and idcard_ocr_firm_type = #{idcardOcrFirmType}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectOcrIdcardBackLogById" parameterType="String" resultMap="OcrIdcardBackLogResult">
+        <include refid="selectOcrIdcardBackLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOcrIdcardBackLog" parameterType="OcrIdcardBackLog">
+        insert into ocr_idcard_back_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq,</if>
+            <if test="receivedTime != null">received_time,</if>
+            <if test="type != null">type,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="channelCode != null and channelCode != ''">channel_code,</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url,</if>
+            <if test="sceneImageName != null">scene_image_name,</if>
+            <if test="idcardDateIssue != null">idcard_date_issue,</if>
+            <if test="idcardAuthorityIssue != null">idcard_authority_issue,</if>
+            <if test="idcardLimit != null">idcard_limit,</if>
+            <if test="idcardExpiryDate != null">idcard_expiry_date,</if>
+            <if test="idcardOcrFirmType != null">idcard_ocr_firm_type,</if>
+            <if test="result != null">result,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
+            <if test="receivedTime != null">#{receivedTime},</if>
+            <if test="type != null">#{type},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">#{sceneImageUrl},</if>
+            <if test="sceneImageName != null">#{sceneImageName},</if>
+            <if test="idcardDateIssue != null">#{idcardDateIssue},</if>
+            <if test="idcardAuthorityIssue != null">#{idcardAuthorityIssue},</if>
+            <if test="idcardLimit != null">#{idcardLimit},</if>
+            <if test="idcardExpiryDate != null">#{idcardExpiryDate},</if>
+            <if test="idcardOcrFirmType != null">#{idcardOcrFirmType},</if>
+            <if test="result != null">#{result},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOcrIdcardBackLog" parameterType="OcrIdcardBackLog">
+        update ocr_idcard_back_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receivedSeq != null and receivedSeq != ''">received_seq = #{receivedSeq},</if>
+            <if test="receivedTime != null">received_time = #{receivedTime},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+            <if test="sceneImageUrl != null and sceneImageUrl != ''">scene_image_url = #{sceneImageUrl},</if>
+            <if test="sceneImageName != null">scene_image_name = #{sceneImageName},</if>
+            <if test="idcardDateIssue != null">idcard_date_issue = #{idcardDateIssue},</if>
+            <if test="idcardAuthorityIssue != null">idcard_authority_issue = #{idcardAuthorityIssue},</if>
+            <if test="idcardLimit != null">idcard_limit = #{idcardLimit},</if>
+            <if test="idcardExpiryDate != null">idcard_expiry_date = #{idcardExpiryDate},</if>
+            <if test="idcardOcrFirmType != null">idcard_ocr_firm_type = #{idcardOcrFirmType},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+        </trim>
+    </update>
+
+</mapper>

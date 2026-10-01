@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.visitor.mapper.VisitorMapper">
+
+    <resultMap type="cn.eyecool.basedata.domain.BasePersonInfo" id="BasePersonInfoResult">
+        <result property="id"    column="id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="phone"    column="phone"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="account"    column="account"    />
+        <result property="email"    column="email"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="datasource"    column="datasource"    />
+        <result property="flag"    column="flag"    />
+        <result property="status"    column="status"    />
+        <result property="personType"    column="person_type"    />
+        <result property="inviterId"    column="inviter_id"    />
+        <result property="visitorStatus"    column="visitor_status"    />
+        <result property="effectiveBeginTime"    column="effective_begin_time"    />
+        <result property="effectiveEndTime"    column="effective_end_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="extAttrs"    column="ext_attrs"    />
+    </resultMap>
+
+    <resultMap type="cn.eyecool.visitor.dto.UserSubSceneDTO" id="UserSubSceneResult">
+        <result property="channelName"    column="channel_name"    />
+        <result property="channelId"    column="channel_id"    />
+        <result property="subName"    column="sub_name"    />
+        <result property="subId"    column="sub_id"    />
+    </resultMap>
+
+    <resultMap type="cn.eyecool.basedata.domain.BasePersonFace" id="BasePersonFaceResult">
+        <result property="id"    column="id"    />
+        <result property="personId"    column="person_id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="feature"    column="feature"    />
+        <result property="featureMd5"    column="feature_md5"    />
+        <result property="qualityScore"    column="quality_score"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="vendorCode"    column="vendor_code"    />
+        <result property="algsVersion"    column="algs_version"    />
+        <result property="encrypted"    column="encrypted"    />
+        <result property="datasource"    column="datasource"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="faceImageMd5"    column="face_image_md5"    />
+    </resultMap>
+
+    <sql id="selectBasePersonFaceVoUseLeftJoin">
+        select face.id, face.person_id, face.unique_id, face.feature, face.feature_md5, face.quality_score, face.image_url, face.vendor_code, face.algs_version, face.encrypted, face.datasource, face.remark, face.status, face.create_by, face.update_by, face.create_time, face.update_time, face.batch_date, face.tenant_id, face.face_image_md5 from base_person_face face
+    </sql>
+
+    <sql id="selectBasePersonInfoVo">
+        select id, unique_id, name, sex, phone, card_no, account, email, dept_id, datasource, flag, status, remark, create_by, update_by, create_time, update_time, batch_date, tenant_id, ext_attrs, effectiveBeginTime, effectiveEndTime from base_person_info
+    </sql>
+
+    <select id="selectBasePersonInfoList"  resultMap="BasePersonInfoResult">
+        <include refid="selectBasePersonInfoVo"/>
+        <where>
+            <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and unique_id = #{uniqueId}</if>
+            <if test="name != null  and name != ''"> and name = #{name}</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="datasource != null  and datasource != ''"> and datasource = #{datasource}</if>
+            <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="personType != null  and personType != ''"> and person_type = #{personType}</if>
+            <if test="inviterId != null  and inviterId != ''"> and inviter_id = #{inviterId}</if>
+            <if test="visitorStatus != null  and visitorStatus != ''"> and visitor_status = #{visitorStatus}</if>
+            <if test="effectiveBeginTime != null "> and effective_begin_time =  #{effectiveBeginTime}</if>
+            <if test="effectiveEndTime != null "> and effective_end_time =  #{effectiveEndTime}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+
+    <!--查找该用户下的子场景以及场景-->
+    <select id="getPersonSubScene" resultMap="UserSubSceneResult">
+    select b.channel_name ,b.id  channel_id,c.sub_treasury_name sub_name,c.id sub_id
+    from channel_subtreasury_busi a
+    LEFT JOIN  channel_info b on a.channel_id=b.id
+    LEFT JOIN	channel_subtreasury_info c on a.sub_treasury_id=c.id
+    where a.person_id=#{personInfoId}
+    </select>
+
+    <!--查找是否有相同的访客人脸-->
+    <select id="findRepeatFaceImage" resultMap="BasePersonFaceResult">
+        <include refid="selectBasePersonFaceVoUseLeftJoin"/>
+        LEFT JOIN
+        base_person_info info
+        on face.person_id=info.id
+        <where>
+            info.effective_end_time > now()
+            <if test="personType != null and personType != ''">and info.person_type = #{personType}</if>
+            <if test="status != null and status != ''">and face.`status` = #{status}</if>
+            <if test="faceImageMd5 != null and faceImageMd5 != ''">and face.face_image_md5 = #{faceImageMd5}</if>
+        </where>
+    </select>
+
+
+
+
+</mapper>

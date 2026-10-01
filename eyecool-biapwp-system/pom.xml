@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>eyecool-biapwp</artifactId>
+        <groupId>cn.eyecool</groupId>
+        <version>${eyecool.version}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>eyecool-biapwp-system</artifactId>
+
+    <description>
+        system系统模块
+    </description>
+
+    <dependencies>
+
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>eyecool-biapwp-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.eyecool</groupId>
+            <artifactId>callmicroservice</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.eyecool</groupId>
+            <artifactId>abis-match-service-definitions</artifactId>
+            <version>1.6.8.V.alpha</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.grpc</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-all</artifactId>
+			<version>1.22.1</version>
+		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.teso</groupId>
+            <artifactId>teso-algs</artifactId>
+            <version>1.20.1.A1</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool.algs</groupId>
+            <artifactId>ss-fusion</artifactId>
+            <version>1.0.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.eyecool.algs</groupId>
+            <artifactId>ss-fusion-plugin</artifactId>
+            <version>1.0.1.4</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.device.mapper.DeviceUpgradeLogMapper">
+    
+    <resultMap type="DeviceUpgradeLog" id="DeviceUpgradeLogResult">
+        <result property="id"    column="id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="deviceNo"    column="device_no"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="beforeAppName"    column="before_app_name"    />
+        <result property="afterAppName"    column="after_app_name"    />
+        <result property="beforeVersion"    column="before_version"    />
+        <result property="afterVersion"    column="after_version"    />
+        <result property="upgradeStatus"    column="upgrade_status"    />
+        <result property="clientTime"    column="client_time"    />
+        <result property="serverTime"    column="server_time"    />
+        <result property="timeUsed"    column="time_used"    />
+        <result property="failReason"    column="fail_reason"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectDeviceUpgradeLogVo">
+        select id, task_id, device_no, device_name, before_app_name, after_app_name, before_version, after_version, upgrade_status, client_time, server_time, time_used, fail_reason, create_time, update_time, batch_date, tenant_id from device_upgrade_log
+    </sql>
+
+    <select id="selectDeviceUpgradeLogList" parameterType="DeviceUpgradeLog" resultMap="DeviceUpgradeLogResult">
+        <include refid="selectDeviceUpgradeLogVo"/>
+        <where>  
+            <if test="taskId != null  and taskId != ''"> and task_id = #{taskId}</if>
+            <if test="deviceNo != null  and deviceNo != ''"> and device_no = #{deviceNo}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="beforeAppName != null  and beforeAppName != ''"> and before_app_name like concat(concat('%', #{beforeAppName}), '%')</if>
+            <if test="afterAppName != null  and afterAppName != ''"> and after_app_name like concat(concat('%', #{afterAppName}), '%')</if>
+            <if test="beforeVersion != null  and beforeVersion != ''"> and before_version = #{beforeVersion}</if>
+            <if test="afterVersion != null  and afterVersion != ''"> and after_version = #{afterVersion}</if>
+            <if test="upgradeStatus != null  and upgradeStatus != ''"> and upgrade_status = #{upgradeStatus}</if>
+            <if test="clientTime != null "> and client_time = #{clientTime}</if>
+            <if test="serverTime != null "> and server_time = #{serverTime}</if>
+            <if test="timeUsed != null "> and time_used = #{timeUsed}</if>
+            <if test="failReason != null  and failReason != ''"> and fail_reason = #{failReason}</if>
+            <if test="batchDate != null "> and batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeviceUpgradeLogById" parameterType="String" resultMap="DeviceUpgradeLogResult">
+        <include refid="selectDeviceUpgradeLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDeviceUpgradeLog" parameterType="DeviceUpgradeLog">
+        insert into device_upgrade_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="taskId != null and taskId != ''">task_id,</if>
+            <if test="deviceNo != null and deviceNo != ''">device_no,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="beforeAppName != null">before_app_name,</if>
+            <if test="afterAppName != null and afterAppName != ''">after_app_name,</if>
+            <if test="beforeVersion != null">before_version,</if>
+            <if test="afterVersion != null and afterVersion != ''">after_version,</if>
+            <if test="upgradeStatus != null and upgradeStatus != ''">upgrade_status,</if>
+            <if test="clientTime != null">client_time,</if>
+            <if test="serverTime != null">server_time,</if>
+            <if test="timeUsed != null">time_used,</if>
+            <if test="failReason != null">fail_reason,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="taskId != null and taskId != ''">#{taskId},</if>
+            <if test="deviceNo != null and deviceNo != ''">#{deviceNo},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="beforeAppName != null">#{beforeAppName},</if>
+            <if test="afterAppName != null and afterAppName != ''">#{afterAppName},</if>
+            <if test="beforeVersion != null">#{beforeVersion},</if>
+            <if test="afterVersion != null and afterVersion != ''">#{afterVersion},</if>
+            <if test="upgradeStatus != null and upgradeStatus != ''">#{upgradeStatus},</if>
+            <if test="clientTime != null">#{clientTime},</if>
+            <if test="serverTime != null">#{serverTime},</if>
+            <if test="timeUsed != null">#{timeUsed},</if>
+            <if test="failReason != null">#{failReason},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeviceUpgradeLog" parameterType="DeviceUpgradeLog">
+        update device_upgrade_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskId != null and taskId != ''">task_id = #{taskId},</if>
+            <if test="deviceNo != null and deviceNo != ''">device_no = #{deviceNo},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="beforeAppName != null">before_app_name = #{beforeAppName},</if>
+            <if test="afterAppName != null and afterAppName != ''">after_app_name = #{afterAppName},</if>
+            <if test="beforeVersion != null">before_version = #{beforeVersion},</if>
+            <if test="afterVersion != null and afterVersion != ''">after_version = #{afterVersion},</if>
+            <if test="upgradeStatus != null and upgradeStatus != ''">upgrade_status = #{upgradeStatus},</if>
+            <if test="clientTime != null">client_time = #{clientTime},</if>
+            <if test="serverTime != null">server_time = #{serverTime},</if>
+            <if test="timeUsed != null">time_used = #{timeUsed},</if>
+            <if test="failReason != null">fail_reason = #{failReason},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceUpgradeLogById" parameterType="String">
+        delete from device_upgrade_log where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceUpgradeLogByIds" parameterType="String">
+        delete from device_upgrade_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <update id="skipDeviceUpgradeLogByTaskIds">
+        update device_upgrade_log set upgrade_status = '5', update_time = #{updateTime} 
+        where task_id in 
+         <foreach item="taskId" collection="taskIds" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+         and (upgrade_status='1' or upgrade_status = '2');
+        
+    </update>
+    
+    <update id="skipUpgradeLogByDeviceNo">
+        update device_upgrade_log set upgrade_status = '5', update_time = #{updateTime} where device_no = #{deviceNo} and (upgrade_status='1' or upgrade_status = '2');
+    </update>
+    
+    <update id="skipUpgradeLogByAppInfo">
+        update device_upgrade_log set upgrade_status = '5', update_time = #{updateTime} where after_app_name = #{appName} and after_version = #{appVersion} and (upgrade_status='1' or upgrade_status = '2');
+    </update>
+    
+</mapper>

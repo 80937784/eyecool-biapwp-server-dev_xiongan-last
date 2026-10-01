@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.tool.mapper.SysSdkFileMapper">
+
+    <resultMap type="SysSdkFile" id="SysSdkFileResult">
+        <result property="id"    column="id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="md5"    column="md5"    />
+        <result property="sdkType"    column="sdk_type"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="sortedNo"    column="sorted_no"    />
+    </resultMap>
+
+    <sql id="selectSysSdkFileVo">
+        select id, file_name, file_path, md5, sdk_type, create_by, update_by, create_time, update_time, tenant_id, sorted_no from sys_sdk_file
+    </sql>
+
+    <select id="selectSysSdkFileList" parameterType="SysSdkFile" resultMap="SysSdkFileResult">
+        <include refid="selectSysSdkFileVo"/>
+        <where>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat(concat('%', #{fileName}), '%')</if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+            <if test="md5 != null  and md5 != ''"> and md5 = #{md5}</if>
+            <if test="sdkType != null  and sdkType != ''"> and sdk_type = #{sdkType}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="sortedNo != null "> and sorted_no = #{sortedNo}</if>
+        </where>
+    </select>
+
+    <select id="selectSysSdkFileById" parameterType="String" resultMap="SysSdkFileResult">
+        <include refid="selectSysSdkFileVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectLastSdkUploads" resultMap="SysSdkFileResult">
+        select  * from sys_sdk_file
+        f WHERE ( SELECT COUNT( 1 ) FROM sys_sdk_file WHERE sdk_type = f.sdk_type AND sorted_no &gt; f.sorted_no )=0
+    </select>
+    <insert id="insertSysSdkFile" parameterType="SysSdkFile">
+        insert into sys_sdk_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="filePath != null and filePath != ''">file_path,</if>
+            <if test="md5 != null and md5 != ''">md5,</if>
+            <if test="sdkType != null and sdkType != ''">sdk_type,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id,</if>
+            <if test="sortedNo != null">sorted_no,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="filePath != null and filePath != ''">#{filePath},</if>
+            <if test="md5 != null and md5 != ''">#{md5},</if>
+            <if test="sdkType != null and sdkType != ''">#{sdkType},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+            <if test="sortedNo != null">#{sortedNo},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysSdkFile" parameterType="SysSdkFile">
+        update sys_sdk_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="filePath != null and filePath != ''">file_path = #{filePath},</if>
+            <if test="md5 != null and md5 != ''">md5 = #{md5},</if>
+            <if test="sdkType != null and sdkType != ''">sdk_type = #{sdkType},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+            <if test="sortedNo != null">sorted_no = #{sortedNo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysSdkFileById" parameterType="String">
+        delete from sys_sdk_file where id = #{id}
+    </delete>
+
+    <delete id="deleteSysSdkFileByIds" parameterType="String">
+        delete from sys_sdk_file where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

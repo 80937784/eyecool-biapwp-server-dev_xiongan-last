@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.scene.mapper.ChannelSubtreasuryBusiMapper">
+    
+    <resultMap type="ChannelSubtreasuryBusi" id="ChannelSubtreasuryBusiResult">
+        <result property="id"    column="id"    />
+        <result property="channelId"    column="channel_id"    />
+        <result property="channelCode"    column="channel_code"    />
+        <result property="channelName"    column="channel_name"    />
+        <result property="subTreasuryId"    column="sub_treasury_id"    />
+        <result property="subTreasuryCode"    column="sub_treasury_code"    />
+        <result property="subTreasuryName"    column="sub_treasury_name"    />
+        <result property="personId"    column="person_id"    />
+        <result property="uniqueId"    column="unique_id"    />
+        <result property="datasource"    column="datasource"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="batchDate"    column="batch_date"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="updateSeriaNum"    column="update_seria_num"    />
+        <result property="deviceMgr"    column="device_mgr"    />
+    </resultMap>
+
+    <sql id="selectChannelSubtreasuryBusiVo">
+        select sbusi.id, sbusi.channel_id, sbusi.sub_treasury_id, sbusi.person_id, sbusi.unique_id, sbusi.datasource, sbusi.device_mgr, sbusi.status, sbusi.remark, sbusi.create_by, sbusi.update_by, sbusi.create_time, sbusi.update_time, sbusi.batch_date, sbusi.tenant_id, sbusi.update_seria_num, channel.channel_code, channel.channel_name, sub.sub_treasury_code, sub.sub_treasury_name from channel_subtreasury_busi sbusi
+        left join channel_subtreasury_info sub on sbusi.sub_treasury_id = sub.id
+        left join channel_info channel on sbusi.channel_id = channel.id
+    </sql>
+
+    <select id="selectChannelSubtreasuryBusiList" parameterType="ChannelSubtreasuryBusi" resultMap="ChannelSubtreasuryBusiResult">
+        <include refid="selectChannelSubtreasuryBusiVo"/>
+        <where>  
+            <if test="channelId != null  and channelId != ''"> and sbusi.channel_id = #{channelId}</if>
+            <if test="subTreasuryId != null  and subTreasuryId != ''"> and sbusi.sub_treasury_id = #{subTreasuryId}</if>
+            <if test="personId != null  and personId != ''"> and sbusi.person_id = #{personId}</if>
+            <if test="uniqueId != null  and uniqueId != ''"> and sbusi.unique_id = #{uniqueId}</if>
+            <if test="datasource != null  and datasource != ''"> and sbusi.datasource = #{datasource}</if>
+            <if test="status != null  and status != ''"> and sbusi.status = #{status}</if>
+            <if test="batchDate != null "> and sbusi.batch_date = #{batchDate}</if>
+            <if test="tenantId != null  and tenantId != ''"> and sbusi.tenant_id = #{tenantId}</if>
+            <if test="updateSeriaNum != null "> and sbusi.update_seria_num = #{updateSeriaNum}</if>
+        </where>
+    </select>
+    
+    <select id="selectChannelSubtreasuryBusiById" parameterType="String" resultMap="ChannelSubtreasuryBusiResult">
+        <include refid="selectChannelSubtreasuryBusiVo"/>
+        where sbusi.id = #{id}
+    </select>
+        
+    <insert id="insertChannelSubtreasuryBusi" parameterType="ChannelSubtreasuryBusi">
+        insert into channel_subtreasury_busi
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="channelId != null and channelId != ''">channel_id,</if>
+            <if test="subTreasuryId != null and subTreasuryId != ''">sub_treasury_id,</if>
+            <if test="personId != null and personId != ''">person_id,</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id,</if>
+            <if test="datasource != null and datasource != ''">datasource,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="batchDate != null">batch_date,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="updateSeriaNum != null">update_seria_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="channelId != null and channelId != ''">#{channelId},</if>
+            <if test="subTreasuryId != null and subTreasuryId != ''">#{subTreasuryId},</if>
+            <if test="personId != null and personId != ''">#{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">#{uniqueId},</if>
+            <if test="datasource != null and datasource != ''">#{datasource},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="batchDate != null">#{batchDate},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="updateSeriaNum != null">#{updateSeriaNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateChannelSubtreasuryBusi" parameterType="ChannelSubtreasuryBusi">
+        update channel_subtreasury_busi
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="channelId != null and channelId != ''">channel_id = #{channelId},</if>
+            <if test="subTreasuryId != null and subTreasuryId != ''">sub_treasury_id = #{subTreasuryId},</if>
+            <if test="personId != null and personId != ''">person_id = #{personId},</if>
+            <if test="uniqueId != null and uniqueId != ''">unique_id = #{uniqueId},</if>
+            <if test="datasource != null and datasource != ''">datasource = #{datasource},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="batchDate != null">batch_date = #{batchDate},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="updateSeriaNum != null">update_seria_num = #{updateSeriaNum},</if>
+            <if test="deviceMgr != null and deviceMgr != ''">device_Mgr = #{deviceMgr},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteChannelSubtreasuryBusiById" parameterType="String">
+        delete from channel_subtreasury_busi where id = #{id}
+    </delete>
+
+    <delete id="deleteChannelSubtreasuryBusiByIds" parameterType="String">
+        delete from channel_subtreasury_busi where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+	<delete id="deleteChannelSubtreasuryBusiByChannelIds" parameterType="String">
+        delete from channel_subtreasury_busi where channel_id in
+        <foreach collection="array" item="channelId" open="(" separator="," close=")">
+            #{channelId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteChannelSubtreasuryBusiBySubIds" parameterType="String">
+        delete from channel_subtreasury_busi where sub_treasury_id in
+        <foreach collection="array" item="subTreasuryId" open="(" separator="," close=")">
+            #{subTreasuryId}
+        </foreach>
+    </delete>
+    
+    <!-- 实时同步分库业务更新数据标识最大流水码查询 -->
+    <select id="selectLiveUpdateMaxSeriaNum" resultType="Long">
+        select max(update_seria_num) from channel_subtreasury_busi
+    </select>
+    
+    <select id="selectUnbindPersonInfoList" resultMap="cn.eyecool.basedata.mapper.BasePersonInfoMapper.BasePersonInfoResult" databaseId="mysql">
+         select
+			base.id,
+			base.unique_id,
+			base.name,
+			base.sex,
+			base.phone,
+			base.card_no,
+			base.account,
+			base.email,
+			base.dept_id,
+			base.flag,
+			base.status,
+			base.create_by,
+			base.update_by,
+			base.create_time,
+			base.update_time,
+			base.tenant_id 	
+		from
+			base_person_info base
+		inner join  
+			channel_business busi
+		on
+			busi.person_id = base.id
+		where
+			not exists ( select sub.person_id from channel_subtreasury_busi sub where sub.person_id = busi.person_id and sub.status = '0' and sub.sub_treasury_id = #{subTreasuryId} and sub.channel_id = #{channelId}) 
+			and base.status = '0' 
+			and busi.status = '0'
+            and base.person_type='user'
+			and busi.channel_id = #{channelId}
+			<if test="basePersonInfo != null">
+				<if test="basePersonInfo.uniqueId != null  and basePersonInfo.uniqueId != ''"> and base.unique_id = #{basePersonInfo.uniqueId}</if>
+	            <if test="basePersonInfo.name != null  and basePersonInfo.name != ''"> and base.name like concat(concat('%', #{basePersonInfo.name}), '%')</if>
+	            <if test="basePersonInfo.phone != null  and basePersonInfo.phone != ''"> and base.phone = #{basePersonInfo.phone}</if>
+	            <if test="basePersonInfo.deptId != null "> and (base.dept_id = #{basePersonInfo.deptId} or base.dept_id in ( select t.dept_id from sys_dept t where find_in_set(#{basePersonInfo.deptId}, ancestors)))</if>
+			</if>
+    </select>
+</mapper>

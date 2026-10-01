@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.eyecool</groupId>
+    <artifactId>eyecool-biapwp</artifactId>
+    <version>${eyecool.version}</version>
+  </parent>
+  <artifactId>eyecool-biapwp-server</artifactId>
+  <dependencies>
+		<!-- 场景子系统 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-scene</artifactId>
+		</dependency>
+		<!-- 设备子系统 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-device</artifactId>
+		</dependency>
+		<!-- 消息子系统 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-msg</artifactId>
+		</dependency>
+		<!-- OCR系统 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-ocr</artifactId>
+		</dependency>
+		<!-- 健康码查询 -->
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-healthcode</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.eyecool</groupId>
+			<artifactId>eyecool-biapwp-non-inductive</artifactId>
+		</dependency>
+		 <dependency>
+            <groupId>com.xa.cardpass</groupId>
+            <artifactId>EcpAESCipherTools</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+	</dependencies>
+</project>

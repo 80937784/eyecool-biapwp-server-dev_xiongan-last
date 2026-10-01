@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.noninductive.mapper.NonInductivePersonFaceSearchLogMapper">
+
+
+    <select id="selectLogsByTime" resultMap="DfrsPersonFaceSearchLogResult" databaseId="postgresql">
+        <include refid="selectDfrsPersonFaceSearchLogVo"/>
+        WHERE create_time &lt; to_date(#{createTime},'YYYY-MM-DD')
+        <if test="channelCode!=null and channelCode !=''">
+            and channel_code = #{channelCode}
+        </if>
+    </select>
+
+    <select id="selectLogByDeviceIdLimit" resultMap="DfrsPersonFaceSearchLogResult" databaseId="postgresql">
+        SELECT * FROM person_face_search_log WHERE
+        device_code=#{deviceCode} and to_date(#{createTime},'YYYY-MM-DD') = sysdate()
+        <choose>
+            <when test="result!=null and result!=''">
+                and result in (#{result})
+            </when>
+            <otherwise>
+                and decision_result ='1'
+            </otherwise>
+        </choose>
+        <if test="channelCode!=null and channelCode !=''">
+            and channel_code = #{channelCode}
+        </if>
+
+        <where>
+            <if test="alarmTem !=null and alarmTem !=''">
+                and temperature &gt;= #{alarmTem}
+            </if>
+        </where>
+        order by create_time desc limit 8 offset 0
+    </select>
+
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eyecool.noninductive.mapper.NonInductivePersonFaceSearchLogMapper">
+    <resultMap type="PersonFaceSearchLog" id="DfrsPersonFaceSearchLogResult">
+        <result property="id" column="id" />
+        <result property="handleSeq" column="handle_seq" />
+        <result property="receivedSeq" column="received_seq" />
+        <result property="sceneType" column="scene_type" />
+        <result property="uniqueId" column="unique_id" />
+        <result property="deptId" column="dept_id" />
+        <result property="channelCode" column="channel_code" />
+        <result property="subTreasuryCode" column="sub_treasury_code" />
+        <result property="subTreasuryName" column="sub_treasury_name" />
+        <result property="sceneImage" column="scene_image" />
+        <result property="stockImage" column="stock_image" />
+        <result property="takePhoto1" column="take_photo1" />
+        <result property="takePhoto2" column="take_photo2" />
+        <result property="sceneVideo" column="scene_video" />
+        <result property="sceneStockScore" column="scene_stock_score" />
+        <result property="temperature" column="temperature" />
+        <result property="checkliveResult" column="checklive_result" />
+        <result property="result" column="result" />
+        <result property="belongToStrangerLib" column="belong_to_stranger_lib" />
+        <result property="laterUpdatePerson" column="later_update_person" />
+        <result property="broker" column="broker" />
+        <result property="receivedTime" column="received_time" />
+        <result property="timeUsed" column="time_used" />
+        <result property="serverId" column="server_id" />
+        <result property="vendorCode" column="vendor_code" />
+        <result property="algsVersion" column="algs_version" />
+        <result property="tenant" column="tenant" />
+        <result property="createTime" column="create_time" />
+        <result property="batchDate" column="batch_date" />
+        <result property="deviceCode" column="device_code" />
+        <result property="deviceName" column="device_name" />
+        <result property="deviceIp" column="device_ip" />
+        <result property="deviceLongitude" column="device_longitude" />
+        <result property="deviceDimension" column="device_dimension" />
+    </resultMap>
+
+    <sql id="selectDfrsPersonFaceSearchLogVo">
+       select id, handle_seq, received_seq, scene_type, unique_id, dept_id, channel_code, sub_treasury_code, sub_treasury_name, scene_image, stock_image, take_photo1, take_photo2, scene_video, scene_stock_score, temperature, checklive_result, result, belong_to_stranger_lib, later_update_person, broker, received_time, time_used, server_id, vendor_code, algs_version, tenant, create_time, batch_date, device_code, device_name, device_ip, device_longitude, device_dimension from person_face_search_log l
+    </sql>
+
+    <select id="selectLogsByTime" resultMap="DfrsPersonFaceSearchLogResult" databaseId="mysql">
+        <include refid="selectDfrsPersonFaceSearchLogVo" />
+        WHERE create_time &lt; #{createTime}
+        <if test="channelCode!=null and channelCode !=''">
+           and channel_code = #{channelCode}
+        </if>
+    </select>
+
+    <select id="selectLogByDeviceIdLimit" resultMap="DfrsPersonFaceSearchLogResult" databaseId="mysql">
+        SELECT *  FROM person_face_search_log  WHERE device_code=#{deviceCode} and date(create_time) = curdate()
+        <if test="result!=null and result!=''">
+           and result in (#{result})
+        </if>
+        <if test="channelCodes!=null">
+            and channel_code in
+            <foreach collection="array" item="channelCode" open="(" separator="," close=")">
+               #{channelCode}
+            </foreach>
+        </if>
+
+        <where>
+            <if test="alarmTem !=null and alarmTem !=''">
+               and temperature &gt;= #{alarmTem}
+            </if>
+        </where>
+        order by create_time desc limit 0,8
+    </select>
+
+</mapper>
