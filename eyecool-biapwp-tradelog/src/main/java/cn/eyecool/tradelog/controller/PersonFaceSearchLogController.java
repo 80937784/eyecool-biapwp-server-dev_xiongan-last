@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
+import cn.eyecool.tradelog.service.IXAPoliceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +59,8 @@ public class PersonFaceSearchLogController extends BaseController {
     private IPersonFaceSearchLogService personFaceSearchLogService;
     @Autowired
     private IPersonHealthCodeLogService healthCodeLogService;
+    @Autowired
+    private IXAPoliceService xaPoliceService;
     @Autowired
     private RedisCache redisCache;
 
@@ -187,5 +190,24 @@ public class PersonFaceSearchLogController extends BaseController {
         }
         return AjaxResult.success(faceSearchLog);
     }
-
+    @GetMapping(value = "/pushToPolice")
+    public AjaxResult pushToPolice(String id) {
+        System.out.println(id+"===============");
+        PersonFaceSearchLog faceLog = personFaceSearchLogService.selectPersonFaceSearchLogById(id);
+        if (StringUtils.isNotBlank(faceLog.getSceneImage())) {
+            String stringBase64 = PlatformFileUtils.getImageBase64(faceLog.getSceneImage());
+            if (StringUtils.isNotBlank(stringBase64)) {
+                stringBase64 = PlatformCryptUtils.decryptImageBase64(stringBase64);
+                faceLog.setSceneImageBase64(stringBase64);
+            }
+            faceLog.setSceneImage("");
+            return xaPoliceService.sendToPolice(faceLog);
+        }else{
+            PersonFaceSearchLog faceSearchLog = new PersonFaceSearchLog();
+            faceSearchLog.setId(id);
+            faceSearchLog.setToPolice("U");
+            personFaceSearchLogService.updatePersonFaceSearchLog(faceSearchLog);
+            return AjaxResult.error("现场图片为空无需推送");
+        }
+    }
 }
