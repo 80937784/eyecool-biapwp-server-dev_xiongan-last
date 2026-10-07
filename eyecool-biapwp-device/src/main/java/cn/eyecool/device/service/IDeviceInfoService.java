@@ -45,6 +45,7 @@ public interface IDeviceInfoService {
      * @return 结果
      */
     public int updateDeviceInfo(DeviceInfo deviceInfo);
+    public int updateDeviceData(DeviceInfo deviceInfo);
 
     /**
      * 批量删除设备信息

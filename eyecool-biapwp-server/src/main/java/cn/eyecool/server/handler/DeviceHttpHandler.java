@@ -1,5 +1,6 @@
 package cn.eyecool.server.handler;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -403,5 +404,41 @@ public class DeviceHttpHandler {
             LOG.error("Device query failed", e);
             return HttpAjaxResult.httpError(e.getMessage());
         }
+    }
+    /** 同步设备上人员数量 */
+    public AjaxResult syncDevicePersonCount(String bizContent) {
+        JSONObject parseObject;
+        try {
+            parseObject = JSON.parseObject(bizContent);
+        } catch (Exception e) {
+            LOG.error("The request parameter collection [bizContent] parameter is malformed", e);
+            return HttpAjaxResult.businessDataValidError(MessageUtils.message("base.person.handler.request.param.format.wrong"));
+        }
+
+        String deviceNo = parseObject.getString("deviceNo");
+        if (StringUtils.isBlank(deviceNo)){
+            return HttpAjaxResult.businessDataValidError(MessageUtils.message("device.info.service.devicesn.empty"));
+        }
+
+        // 验证设备是否存在
+        DeviceInfo deviceInfo = getClientByDeviceNo(deviceNo);
+        String msg = "";
+        if (null == deviceInfo) {
+            msg = MessageUtils.message("device.handler.deviceno.not.exists",deviceNo);
+            return HttpAjaxResult.businessError(msg);
+        }
+        String countServer1 = parseObject.getString("countServer1");
+        String countServer2 = parseObject.getString("countServer2");
+        String lastIdServer1 = parseObject.getString("lastIdServer1");
+        String lastIdServer2 = parseObject.getString("lastIdServer2");
+        DeviceInfo update = new DeviceInfo();
+        update.setId(deviceInfo.getId());
+        update.setCountServer1(countServer1);
+        update.setCountServer2(countServer2);
+        update.setLastIdServer1(lastIdServer1);
+        update.setLastIdServer2(lastIdServer2);
+        update.setUpdateTime(new Date());
+        deviceInfoService.updateDeviceData(update);
+        return AjaxResult.success();
     }
 }

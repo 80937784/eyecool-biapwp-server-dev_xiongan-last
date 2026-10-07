@@ -193,6 +193,8 @@ public class PersonFaceSearchLog extends BaseEntity {
 
     /** 卡号 */
     private String cardNo;
+    /** 是否推送公安 N/Y 默认N */
+    private String toPolice;
 
     @Override
     public String toString() {

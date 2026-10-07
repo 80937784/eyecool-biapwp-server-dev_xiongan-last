@@ -100,6 +100,8 @@ public interface IPersonFaceSearchLogService {
      * @since 2022/11/29 15:12
      */
     void execXACardPassSendMsg(PersonFaceSearchLog faceSearchLog);
+    /** 往公安系统推送数据 */
+    void sendToPolice(PersonFaceSearchLog faceSearchLog) ;
 
     /**
      * sendToOneCardPass 往一卡通推送数据

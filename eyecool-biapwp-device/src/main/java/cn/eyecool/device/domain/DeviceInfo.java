@@ -69,6 +69,14 @@ public class DeviceInfo extends BaseEntity {
     /** 导入批次 */
     @Excel(name = "device.info.import.batch", type = Type.EXPORT)
     private String importBatchNum;
+    @Excel(name = "device.info.count.server1", type = Type.EXPORT)
+    private String countServer1;
+    @Excel(name = "device.info.import.server2", type = Type.EXPORT)
+    private String countServer2;
+    @Excel(name = "device.info.last.id.server1", type = Type.EXPORT)
+    private String lastIdServer1;
+    @Excel(name = "device.info.last.id.server2", type = Type.EXPORT)
+    private String lastIdServer2;
 
     /** 创建方式(1: 后台添加，2：自主注册) */
     private String createMethod;
@@ -361,6 +369,38 @@ public class DeviceInfo extends BaseEntity {
 
     public void setDeviceDirection(String deviceDirection) {
         this.deviceDirection = deviceDirection;
+    }
+
+    public String getCountServer1() {
+        return countServer1;
+    }
+
+    public void setCountServer1(String countServer1) {
+        this.countServer1 = countServer1;
+    }
+
+    public String getCountServer2() {
+        return countServer2;
+    }
+
+    public void setCountServer2(String countServer2) {
+        this.countServer2 = countServer2;
+    }
+
+    public String getLastIdServer1() {
+        return lastIdServer1;
+    }
+
+    public void setLastIdServer1(String lastIdServer1) {
+        this.lastIdServer1 = lastIdServer1;
+    }
+
+    public String getLastIdServer2() {
+        return lastIdServer2;
+    }
+
+    public void setLastIdServer2(String lastIdServer2) {
+        this.lastIdServer2 = lastIdServer2;
     }
 
     /**

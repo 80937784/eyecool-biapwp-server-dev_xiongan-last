@@ -33,10 +33,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="batchDate"    column="batch_date"    />
         <result property="tenantId"    column="tenant_id"    />
+        <result property="countServer1"    column="count_server1"    />
+        <result property="countServer2"    column="count_server2"    />
+        <result property="lastIdServer1"    column="last_id_server1"    />
+        <result property="lastIdServer2"    column="last_id_server2"    />
     </resultMap>
 
     <sql id="selectDeviceInfoVo">
-        select id, device_no, device_name, device_addr, device_model_code, device_ip, device_mac, device_direction, longitude, latitude, channel_code, area_id, subtreasury_code, import_batch_num, create_method, pull_all_flag, primary_sub_code, duplicate_time, device_type, mqtt_pwd, mqtt_salt, ext_info, create_by, update_by, create_time, update_time, batch_date, tenant_id from device_info
+        select id, device_no, device_name, device_addr, device_model_code, device_ip, device_mac, device_direction, longitude, latitude, channel_code, area_id, subtreasury_code, import_batch_num, create_method, pull_all_flag, primary_sub_code, duplicate_time, device_type, mqtt_pwd, mqtt_salt, ext_info, create_by, update_by, create_time, update_time, batch_date,count_server1,count_server2,last_id_server1,last_id_server2, tenant_id from device_info
     </sql>
 
     <select id="selectDeviceInfoList" parameterType="DeviceInfo" resultMap="DeviceInfoResult" databaseId="mysql">
@@ -99,6 +103,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceType != null and deviceType != ''">device_type,</if>
             <if test="mqttPwd != null and mqttPwd != ''">mqtt_pwd,</if>
             <if test="mqttSalt != null and mqttSalt != ''">mqtt_salt,</if>
+            <if test="countServer1 != null and countServer1 != ''">count_server1,</if>
+            <if test="countServer2 != null and countServer2 != ''">count_server2,</if>
+            <if test="lastIdServer1 != null and lastIdServer1 != ''">last_id_server1,</if>
+            <if test="lastIdServer2 != null and lastIdServer2 != ''">last_id_server2,</if>
             <if test="extInfo != null">ext_info,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateBy != null">update_by,</if>
@@ -129,6 +137,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deviceType != null and deviceType != ''">#{deviceType},</if>
             <if test="mqttPwd != null and mqttPwd != ''">#{mqttPwd},</if>
             <if test="mqttSalt != null and mqttSalt != ''">#{mqttSalt},</if>
+            <if test="countServer1 != null and countServer1 != ''">#{countServer1},</if>
+            <if test="countServer2 != null and countServer2 != ''">#{countServer2},</if>
+            <if test="lastIdServer1 != null and lastIdServer1 != ''">#{lastIdServer1},</if>
+            <if test="lastIdServer2 != null and lastIdServer2 != ''">#{lastIdServer2},</if>
             <if test="extInfo != null">#{extInfo},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateBy != null">#{updateBy},</if>
@@ -160,6 +172,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="primarySubCode != null">primary_sub_code = #{primarySubCode},</if>
             <if test="duplicateTime != null">duplicate_time = #{duplicateTime},</if>
             <if test="deviceType != null and deviceType != ''">device_type = #{deviceType},</if>
+            <if test="countServer1 != null and countServer1 != ''">count_server1 = #{countServer1},</if>
+            <if test="countServer2 != null and countServer2 != ''">count_server2 = #{countServer2},</if>
+            <if test="lastIdServer1 != null and lastIdServer1 != ''">last_id_server1 = #{lastIdServer1},</if>
+            <if test="lastIdServer2 != null and lastIdServer2 != ''">last_id_server2 = #{lastIdServer2},</if>
             <if test="extInfo != null">ext_info = #{extInfo},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>

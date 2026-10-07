@@ -184,4 +184,15 @@ public class SysConfigConstants {
     public static final String XA_CARD_PASS_AREACODE = "xa.cardpass.areacode";
     public static final String XA_AUTHORITY_STATUS_URL = "xa.authority.status.url";
 
+
+    public static final String XA_POLICE_URL = "xa.police.url";
+    public static final String XA_POLICE_DEVICE_ID = "xa.police.device.id";
+    /** 订阅数据消息  */
+    public static final String XA_POLICE_DEVICE_SUB_SCRIBEID = "xa.police.device.sub.subscribeId";
+    public static final String XA_POLICE_DEVICE_SUB_USER_IDENTIFY = "xa.police.device.sub.userIdentify";
+
+    public static final String XA_POLICE_DATA_SUB_SCRIBEID = "xa.police.data.sub.subscribeId";
+    public static final String XA_POLICE_DATA_SUB_USER_IDENTIFY = "xa.police.data.sub.userIdentify";
+    public static final String XA_POLICE_DATA_IMAGE_URL = "xa.police.data.image.url";
+
 }

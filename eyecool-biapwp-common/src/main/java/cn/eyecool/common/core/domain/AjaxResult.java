@@ -1,6 +1,7 @@
 package cn.eyecool.common.core.domain;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 
 import cn.eyecool.common.constant.HttpStatus;
@@ -147,5 +148,12 @@ public class AjaxResult extends HashMap<String, Object>
     public static AjaxResult error(int code, String msg)
     {
         return new AjaxResult(code, msg, null);
+    }
+
+    public boolean isSuccess() {
+        return Objects.equals(HttpStatus.SUCCESS, this.get(CODE_TAG));
+    }
+    public String getMsg() {
+        return this.get(MSG_TAG)+"";
     }
 }

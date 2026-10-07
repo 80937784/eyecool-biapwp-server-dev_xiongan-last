@@ -13,12 +13,14 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import cn.eyecool.match.service.commons.Requester;
 import cn.eyecool.match.service.commons.ServerInfo;
 import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 启动程序
  *
  * @author admin
  */
+@EnableScheduling
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class},
     scanBasePackages = {"cn.eyecool", "com.eyecool", "org.weixin4j"})
 @ImportResource(locations = {"classpath*:minisearch.xml"})

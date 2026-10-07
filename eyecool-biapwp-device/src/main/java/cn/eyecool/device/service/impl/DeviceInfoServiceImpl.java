@@ -231,6 +231,11 @@ public class DeviceInfoServiceImpl implements IDeviceInfoService {
         return deviceInfoMapper.updateDeviceInfo(deviceInfo);
     }
 
+    @Override
+    @Transactional
+    public int updateDeviceData(DeviceInfo deviceInfo) {
+        return deviceInfoMapper.updateDeviceInfo(deviceInfo);
+    }
     /**
      * 批量删除设备信息
      * 

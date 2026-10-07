@@ -113,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-ui.html").anonymous().antMatchers("/swagger-resources/**").anonymous()
             .antMatchers("/webjars/**").anonymous().antMatchers("/*/api-docs").anonymous().antMatchers("/druid/**")
             .anonymous().antMatchers("/tool/sdkFile/lastSDK").anonymous().antMatchers("/tool/sdkFile/downloadUnsafe/*")
-            .anonymous().antMatchers("/api/**").anonymous().antMatchers("/system/tenant/register/**").anonymous()
+            .anonymous().antMatchers("/api/**").anonymous().antMatchers("/VIID/**").anonymous().antMatchers("/system/tenant/register/**").anonymous()
             .antMatchers("/system/userSecurity/**").anonymous().antMatchers("/websocket/**").anonymous()
             .antMatchers("/prometheus/**").anonymous();
         // 加入单元测试开关

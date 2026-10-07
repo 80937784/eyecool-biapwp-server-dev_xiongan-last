@@ -7,6 +7,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import cn.eyecool.common.core.domain.AjaxResult;
+import cn.eyecool.tradelog.service.IXAPoliceService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -91,7 +93,8 @@ public class PersonFaceSearchLogServiceImpl implements IPersonFaceSearchLogServi
     private ISysConfigService sysConfigService;
     @Autowired
     private IMsgSendService msgSendService;
-
+    @Autowired
+    private IXAPoliceService xaPoliceService;
     private static final ConcurrentMap<String, String> cardPassTokenCache = new ConcurrentHashMap<>();
 
     /**
@@ -307,9 +310,11 @@ public class PersonFaceSearchLogServiceImpl implements IPersonFaceSearchLogServi
         // 推送高温信息到微信公众号
         sendAbnormalTemperatureWeixinMsg(faceSearchLog);
         /** 刷卡的记录 雄安管委会 推送的一卡通 */
-        if (DictConstants.PassValidType.CARD.equals(faceSearchLog.getValidType())) {
-            execXACardPassSendMsg(faceSearchLog);
-        }
+//        if (DictConstants.PassValidType.CARD.equals(faceSearchLog.getValidType())) {
+//            execXACardPassSendMsg(faceSearchLog);
+//        }
+        // 推送人员识别信息 到公安
+        sendToPolice(faceSearchLog);
     }
 
     /**
@@ -549,7 +554,17 @@ public class PersonFaceSearchLogServiceImpl implements IPersonFaceSearchLogServi
             }
         });
     }
-
+    @Override
+    public void sendToPolice(PersonFaceSearchLog faceSearchLog) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                AjaxResult result = xaPoliceService.sendToPolice(faceSearchLog);
+                log.info("记录公安body[{}]", result);
+            } catch (Exception e) {
+                log.error("推送记录到公安实时交易异常:[{}]", e.getMessage(), e);
+            }
+        });
+    }
     @Override
     public void sendToOneCardPass(String body, String url, String type) {
         String msg = "";

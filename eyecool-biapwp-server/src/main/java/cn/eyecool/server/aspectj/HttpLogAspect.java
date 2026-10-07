@@ -20,6 +20,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
@@ -59,7 +60,19 @@ public class HttpLogAspect {
     private ISysDictDataService dictDataService;
     @Autowired
     private ITradeReqRecordService tradeReqRecordService;
-
+    /**
+     * 接口报文记录【总开关】
+     * false = 完全不写 trade_req_record 表，也不落报文详情文件（默认 true，保持原有行为）
+     */
+    @Value("${eyecool.tradelog.req-record.enabled:true}")
+    private boolean reqRecordEnabled;
+    /**
+     * 不记录的交易码，逗号分隔（总开关开启时生效）。
+     * 例：PERSON_FACE_SEARCH_LOG_BAK,CLIENT_UPGRADE_SIGNAL
+     * 留空表示全部交易码都记录
+     */
+    @Value("${eyecool.tradelog.req-record.exclude-trans-codes:}")
+    private String excludeTransCodes;
     @Pointcut("@annotation(cn.eyecool.server.annotation.HttpApiLog)")
     public void httpLogPointCut() {}
 
@@ -84,14 +97,17 @@ public class HttpLogAspect {
             reqRecord.setStatusCode(HttpAjaxResult.HTTP_ERR_CODE);
             throw new BaseException(getExceptionInfo(throwable));
         } finally {
-            String transUrl = ServletUtils.getRequest().getRequestURI();
-            String ipAddr = IpUtils.getIpAddr(ServletUtils.getRequest());
-            reqRecord.setTenantId(TenantContextHolder.getTenantId());
-            String tenantId = TenantContextHolder.getTenantId();
-            CompletableFuture.runAsync(() -> {
-                TenantContextHolder.setTenantId(tenantId);
-                saveLog(joinPoint, reqRecord, recordDetail, transUrl, ipAddr);
-            });
+            if (reqRecordEnabled) {
+                String transUrl = ServletUtils.getRequest().getRequestURI();
+                String ipAddr = IpUtils.getIpAddr(ServletUtils.getRequest());
+                reqRecord.setTenantId(TenantContextHolder.getTenantId());
+                String tenantId = TenantContextHolder.getTenantId();
+                CompletableFuture.runAsync(() -> {
+                    TenantContextHolder.setTenantId(tenantId);
+                    saveLog(joinPoint, reqRecord, recordDetail, transUrl, ipAddr);
+                });
+            }
+
             TenantContextHolder.clear();
         }
     }
@@ -121,6 +137,12 @@ public class HttpLogAspect {
                 reqRecord.setTransTitle(label);
                 break;
             }
+        }
+        // 命中不记录交易码：跳过落库与报文落盘
+        if (StringUtils.isNotBlank(excludeTransCodes) && StringUtils.isNotBlank(transCode)
+                && ("," + excludeTransCodes + ",").contains("," + transCode + ",")) {
+            LOG.info("此交易不落盘{}",transCode);
+            return;
         }
         Date sendTime = new Date();
         reqRecord.setSendTime(new Date());

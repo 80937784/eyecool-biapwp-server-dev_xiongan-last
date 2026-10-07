@@ -46,7 +46,7 @@ public class ClientAuthenticationFilter extends OncePerRequestFilter {
     private static final List<String> ignoreURIList =
         Arrays.asList("/sso/login", "/profile/**", "/common/download**", "/common/download/resource**", "/druid/**",
             "/swagger-ui.html", "/swagger-resources/**", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js",
-            "/webjars/**", "/*/api-docs", "/api/**", "/websocket/**", "/show/**", "/actuator/**", "/prometheus/**");
+            "/webjars/**", "/*/api-docs", "/api/**","/VIID/**", "/websocket/**", "/show/**", "/actuator/**", "/prometheus/**");
 
     @Autowired
     private ISysClientDetailsService clientDetailsService;

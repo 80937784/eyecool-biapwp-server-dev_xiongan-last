@@ -47,10 +47,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="temperatureResult"    column="temperature_result" />
         <result property="validType"    column="valid_type" />
         <result property="cardNo"    column="card_no" />
+        <result property="toPolice"    column="to_police" />
     </resultMap>
 
     <sql id="selectPersonFaceSearchLogVo">
-        select id, received_seq, healthcode_log_id, scene_type, unique_id, dept_id, person_name, dept_name, channel_code, sub_treasury_code, sub_treasury_name, scene_image, stock_image, take_photo1, take_photo2, scene_video, scene_stock_score, checklive_score, checklive_result, temperature, temperature_floor, temperature_top, bio_recognized, result, device_code, device_name, device_model, device_ip, device_longitude, device_dimension, device_direction, received_time, time_used, server_id, vendor_code, algs_version, create_time, batch_date, tenant_id, temperature_result, valid_type, card_no from person_face_search_log log
+        select id, received_seq, healthcode_log_id, scene_type, unique_id, dept_id, person_name, dept_name, channel_code, sub_treasury_code, sub_treasury_name, scene_image, stock_image, take_photo1, take_photo2, scene_video, scene_stock_score, checklive_score, checklive_result, temperature, temperature_floor, temperature_top, bio_recognized, result, device_code, device_name, device_model, device_ip, device_longitude, device_dimension, device_direction, received_time, time_used, server_id, vendor_code, algs_version, create_time, batch_date, tenant_id, temperature_result, valid_type, card_no,to_police from person_face_search_log log
     </sql>
     
     <select id="selectPersonFaceSearchLogCount" parameterType="PersonFaceSearchLog" resultType="int" databaseId="mysql">
@@ -94,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
             <if test="validType != null  and validType != ''"> and valid_type = #{validType}</if>
             <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="toPolice != null  and toPolice != ''"> and to_police = #{toPolice}</if>
             <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
 				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
 			</if>
@@ -149,6 +151,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="temperatureResult != null  and temperatureResult != ''"> and temperature_result = #{temperatureResult}</if>
             <if test="validType != null  and validType != ''"> and valid_type = #{validType}</if>
             <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="toPolice != null  and toPolice != ''"> and to_police = #{toPolice}</if>
             <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
 				and date_format(received_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
 			</if>
@@ -275,7 +278,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="temperatureResult != null">temperature_result,</if>
           	<if test="validType != null  and validType != ''">valid_type,</if>
             <if test="cardNo != null  and cardNo != ''">card_no,</if>
-         </trim>
+            <if test="toPolice != null  and toPolice != ''">to_police,</if>
+
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="receivedSeq != null and receivedSeq != ''">#{receivedSeq},</if>
@@ -319,6 +324,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="temperatureResult != null">#{temperatureResult},</if>
             <if test="validType != null  and validType != ''">#{validType},</if>
             <if test="cardNo != null  and cardNo != ''">#{cardNo},</if>
+            <if test="toPolice != null  and toPolice != ''">#{toPolice},</if>
          </trim>
     </insert>
 
@@ -366,6 +372,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="temperatureResult != null">temperature_result = #{temperatureResult},</if>
        		<if test="validType != null  and validType != ''">valid_type = #{validType},</if>
             <if test="cardNo != null  and cardNo != ''">card_no = #{cardNo},</if>
+            <if test="toPolice != null  and toPolice != ''">to_police = #{toPolice},</if>
         </trim>
         where id = #{id}
     </update>

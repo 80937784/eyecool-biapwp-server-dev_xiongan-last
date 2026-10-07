@@ -289,6 +289,8 @@ public interface DictConstants {
         public static final String PERSON_FACE_SEARCH_LOG_QUERY = "PERSON_FACE_SEARCH_LOG_QUERY"; // 人脸识别日志查询
         public static final String SUB_TREASURY_OPERATE = "SUB_TREASURY_OPERATE";// 子场景管理
         public static final String QUREY_DEVICE = "QUREY_DEVICE"; // 设备查询
+        public static final String SYNC_DEVICE_PERSON_COUNT = "SYNC_DEVICE_PERSON_COUNT"; // 同步设备人员数
+
 
         public static final String HEALTH_CODE_SEARCH = "HEALTH_CODE_SEARCH";// 健康码查询
 

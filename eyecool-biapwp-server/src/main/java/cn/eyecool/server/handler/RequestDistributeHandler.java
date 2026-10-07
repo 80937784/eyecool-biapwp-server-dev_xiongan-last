@@ -259,6 +259,9 @@ public class RequestDistributeHandler {
             case HttpInterfaceTransCode.QUREY_DEVICE:// 查询设备列表
                 ajaxResult = deviceHttpHandler.queryDevice(httpParam.getBizContent());
                 break;
+            case HttpInterfaceTransCode.SYNC_DEVICE_PERSON_COUNT:// 同步设备人员数
+                ajaxResult = deviceHttpHandler.syncDevicePersonCount(httpParam.getBizContent());
+                break;
             case HttpInterfaceTransCode.PERSON_IDENTITY_VERIFICATION:// 身份核验
                 ajaxResult = bioTradeHttpHandler.personIdentityVerification(httpParam.getBizContent());
                 break;

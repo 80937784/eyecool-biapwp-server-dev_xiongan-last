@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -15,6 +16,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -63,7 +65,46 @@ public class PlatformFileUtils extends FileUtils {
         }
         return stringBase64;
     }
-
+    /**
+     * 读取本地图片，输出RFC2045 MIME‑Base64（VIID视图库图片上传专用）
+     * @param filePath 本地图片绝对路径 D:/test/1.jpg
+     * @return mimeBase64字符串
+     * @throws IOException
+     */
+    public static String readImageToRfc2045Base64(String filePath){
+        try {
+            File file = new File(filePath);
+            //读文件字节数组
+            byte[] imageBytes = Files.readAllBytes(file.toPath());
+            //✅MIME编码器，每76字符换行，GA/T1400标准
+            String mimeBase64 = java.util.Base64.getMimeEncoder().encodeToString(imageBytes);
+            return mimeBase64;
+        } catch (IOException e) {
+            LOG.error("获取图片的MIME‑Base64失败：" + e.getMessage());
+            return Strings.EMPTY;
+        }
+    }
+    /**
+     * 将单行普通Base64字符串 转为 RFC2045 MIME Base64（76字符分割，\r\n换行）
+     * @param plainBase64 不带换行的普通base64
+     * @return RFC2045 MIME Base64
+     */
+    public static String toRfc2045MimeBase64(String plainBase64) {
+        if (plainBase64 == null || plainBase64.isEmpty()) {
+            return plainBase64;
+        }
+        StringBuilder sb = new StringBuilder();
+        int len = plainBase64.length();
+        int chunk = 76;
+        for (int i = 0; i < len; i += chunk) {
+            int end = Math.min(i + chunk, len);
+            sb.append(plainBase64, i, end);
+            if(end != len){
+                sb.append("\r\n");
+            }
+        }
+        return sb.toString();
+    }
     /**
      * 根据MultipartFile获取图片的base64
      * 
