@@ -191,6 +191,8 @@ public class SysConfigConstants {
     public static final String XA_POLICE_DEVICE_SUB_SCRIBEID = "xa.police.device.sub.subscribeId";
     public static final String XA_POLICE_DEVICE_SUB_USER_IDENTIFY = "xa.police.device.sub.userIdentify";
 
+    public static final String XA_POLICE_DEVICE_URL = "xa.police.device.url";
+
     public static final String XA_POLICE_DATA_SUB_SCRIBEID = "xa.police.data.sub.subscribeId";
     public static final String XA_POLICE_DATA_SUB_USER_IDENTIFY = "xa.police.data.sub.userIdentify";
     public static final String XA_POLICE_DATA_IMAGE_URL = "xa.police.data.image.url";

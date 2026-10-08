@@ -8,9 +8,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -93,6 +95,7 @@ public class PlatformFileUtils extends FileUtils {
         if (plainBase64 == null || plainBase64.isEmpty()) {
             return plainBase64;
         }
+        plainBase64 = plainBase64.replaceAll("[\\r\\n\\s]+", "");
         StringBuilder sb = new StringBuilder();
         int len = plainBase64.length();
         int chunk = 76;
@@ -379,6 +382,77 @@ public class PlatformFileUtils extends FileUtils {
         // 3.计算后得到的文件流大小，单位为字节
         Integer size = strLength - (strLength / 8) * 2;
         return size;
+    }
+    /**
+     * RFC2045 MIME Base64 转图片保存本地
+     * @param rfc2045Base64Str 带换行的base64图片串，可包含 data:image/jpeg;base64, 前缀
+     * @param saveBasePath 保存根目录 例：/data/upload/image/
+     * @return 返回图片完整路径
+     */
+    public static String rfc2045Base64ToImage(String rfc2045Base64Str, String saveBasePath) {
+        if (StringUtils.isBlank(rfc2045Base64Str)) {
+            LOG.error("base64字符串为空");
+            return null;
+        }
+        // 移除BOM头
+        char bom = '\uFEFF';
+        if(rfc2045Base64Str.length()>0 && rfc2045Base64Str.charAt(0)==bom){
+            rfc2045Base64Str = rfc2045Base64Str.substring(1);
+        }
+        String base64 = rfc2045Base64Str;
+        // 1. 移除data:image/jpeg;base64, 前缀
+        if(base64.contains(",")){
+            base64 = base64.substring(base64.indexOf(",") + 1);
+        }
+        base64 = base64.replace("\\r", "");
+        base64 = base64.replace("\\n", "");
+// 清除真正的换行、空格
+        base64 = base64.replaceAll("[\\r\\n\\s]","");
+        // 补齐base64填充等号
+        int mod = base64.length() % 4;
+        if(mod >0){
+            base64 += "====".substring(mod);
+        }
+        try {
+            byte[] imgBytes =  java.util.Base64.getDecoder().decode(base64);
+            File dir = new File(saveBasePath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            String fileName = UUID.randomUUID() + ".jpg";
+            String fullPath = saveBasePath + File.separator + fileName;
+            try (FileOutputStream out = new FileOutputStream(fullPath)) {
+                out.write(imgBytes);
+            }
+            LOG.info("图片保存成功：{}", fullPath);
+            return fullPath;
+        } catch (Exception e) {
+            LOG.error("RFC2045 base64转图片失败", e);
+            return null;
+        }
+    }
+
+    // 测试main
+    public static void main(String[] args) throws IOException {
+//         String base64 = PlatformFileUtils.getImageBase64("/test/test.jpg");
+//        String base64r = PlatformFileUtils.toRfc2045MimeBase64(base64);
+//        String base64Str = PlatformFileUtils.readImageToRfc2045Base64("/test/test.jpg");
+//        System.out.println("===场景1 生成的RFC2045长度：" + base64Str.length());
+//        String path1 = rfc2045Base64ToImage(base64Str, "D:/eyecool_img");
+//        System.out.println("场景1输出路径：" + path1);
+//
+//        System.out.println("====================分割线====================");
+//
+//        //场景2：读取txt文件（会报错的场景）
+        File file = new File("E:\\work\\eyecool\\weng\\base64.txt");
+        String base64r = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+//        System.out.println("===场景2 txt读取原始长度：" + base64r.length());
+//        //打印字符串最后20个字符，看尾巴脏东西
+//        if(base64r.length()>20){
+//            System.out.println("txt原始末尾20字符：" + base64r.substring(base64r.length()-20));
+//        }
+        String path2 = rfc2045Base64ToImage(base64r, "D:/eyecool_img");
+        System.out.println("场景2输出路径：" + path2);
     }
 
 }

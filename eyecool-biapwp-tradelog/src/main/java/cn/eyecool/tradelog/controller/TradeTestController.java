@@ -100,4 +100,16 @@ public class TradeTestController {
         faceLog.setId("150716443507517440"+id);
         return xaPoliceService.sendToPolice(faceLog);
     }
+    @RequestMapping(value = "/sendDeviceToPolice", method = {RequestMethod.POST, RequestMethod.GET})
+    public AjaxResult sendDeviceToPolice() {
+        log.info("sendToPolice: {}", DateUtils.getTime());
+
+        String subscribeID = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_SUB_SCRIBEID);
+
+//        String receiveAddr = "http://10.245.64.69:14681/VIID/SubscribeNotifications";
+        String receiveAddr = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_URL);
+        String userIdentify = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_SUB_USER_IDENTIFY);
+        String deviceId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_ID);
+        return xaPoliceService.sendNotifyAfterSubscribeSuccess(subscribeID,receiveAddr,userIdentify,deviceId);
+    }
 }

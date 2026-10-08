@@ -5,6 +5,7 @@ import cn.eyecool.common.constant.SysConfigConstants;
 import cn.eyecool.common.core.domain.AjaxResult;
 import cn.eyecool.common.utils.DateUtils;
 import cn.eyecool.common.utils.IdWorker;
+import cn.eyecool.common.utils.PlatformCryptUtils;
 import cn.eyecool.common.utils.StringUtils;
 import cn.eyecool.common.utils.file.PlatformFileUtils;
 import cn.eyecool.common.utils.uuid.IdUtils;
@@ -424,7 +425,7 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
         log.info("sendSubscribeNotification url[{}]reqBody [{}]", notifyUrl, reqBody);
         try (Response response = okHttpClient.newCall(request).execute()) {
             String respBody = response.body() != null ? response.body().string() : "";
-            log.info("[推送SubscribeNotifications] url={}, req={}, resp={}", notifyUrl, reqBody, respBody);
+            log.info("[推送SubscribeNotifications] url={}, req={}, resp={}", StringUtils.isEmpty(defaultUrl) ? notifyUrl : defaultUrl, reqBody, respBody);
             if (StringUtils.isNotEmpty(respBody)) {
                 //resp={"ResponseStatusListObject":{"ResponseStatusObject":[{"RequestURL":"/VIID/SubscribeNotifications","StatusCode":0,"StatusString":"操作成功","Id":"500000000000041790761253508011153","LocalTime":"20260930174043"}]}}
                 ViidResponse viidResponse = JSONObject.parseObject(respBody, ViidResponse.class);
@@ -479,12 +480,13 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
      * 组装截图格式的SubscribeNotifications报文，推送给上级平台 SubscribeObject sub
      */
     @Override
-    public void sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify) {
+    public AjaxResult sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify,String deviceId) {
         JSONObject subject = new JSONObject();
         SubscribeNotificationListObject root = new SubscribeNotificationListObject();
         SubscribeNotificationObject item = new SubscribeNotificationObject();
-
-        String deviceId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_ID);
+        if (StringUtils.isEmpty(deviceId)){
+            deviceId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_ID);
+        }
         // 唯一ID，自行生成
         item.NotificationID = "50000000000004" + System.currentTimeMillis() + ViidIdGenerator.getRandomDigitStr(6, Boolean.TRUE);
         item.SubscribeID = subscribeID; //复用订阅的SubscribeID
@@ -497,21 +499,21 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
         DeviceList deviceList = new DeviceList();
         APEObject ape = new APEObject();
         ape.ApeID = deviceId;
-        ape.Name = "通道机";
-        ape.Model = "IPC2255";
+        ape.Name = "生物识别平台";
+        ape.Model = "BioServer";
         ape.IPAddr = "10.1.47.251";
         ape.Port = 8701;
-        ape.Place = "ys生物识别平台";
+        ape.Place = "平台服务";
         ape.CapDirection = 0;
         ape.MonitorAreaDesc = "";
         ape.OwnerApsID = "";
         ape.UserId = "admin";
-        ape.Password = "ad1113";
+        ape.Password = "admin123";
         ape.PlaceCode = "500231";
         ape.OrgCode = "";
         ape.MonitorDirection = "";
-        ape.IsOnline = "2";
-        ape.FunctionType = "2"; //2=人员卡口
+        ape.IsOnline = "1";
+        ape.FunctionType = "2";
         ape.PositionType = "";
         ape.Longitude = new BigDecimal(116.403874);
         ape.Latitude = new BigDecimal(39.031049);
@@ -523,11 +525,15 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
         List itemList = new ArrayList<>();
         itemList.add(item);
         root.SubscribeNotificationObject = itemList;
-        log.info("准备回复通知设备消息");
         subject.put("SubscribeNotificationListObject", root);
-        String defaultUrl = "http://10.245.64.69:14681/VIID/SubscribeNotifications";
+        String defaultUrl = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_URL);
+        if (StringUtils.isEmpty(defaultUrl)){
+            defaultUrl = "http://10.245.64.69:14681/VIID/SubscribeNotifications";
+        }
+        log.info("准备回复通知设备消息defaultUrl[{}]",defaultUrl);
 //        xaPoliceService.sendSubscribeNotification(defaultUrl,sub.ReceiveAddr, sub.userIdentify, subject);
-        this.sendSubscribeNotification(defaultUrl, receiveAddr, userIdentify, subject);
+        AjaxResult ajaxResult = this.sendSubscribeNotification(defaultUrl, receiveAddr, userIdentify, subject);
+        return ajaxResult;
     }
 
     @Override
@@ -540,7 +546,11 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
             faceRfcBase64 = PlatformFileUtils.toRfc2045MimeBase64(faceBase64);
         } else {
             if (StringUtils.isNotEmpty(faceLog.getSceneImage())) {
-                faceRfcBase64 = PlatformFileUtils.readImageToRfc2045Base64(faceLog.getSceneImage());
+                String stringBase64 = PlatformFileUtils.getImageBase64(faceLog.getSceneImage());
+                if (StringUtils.isNotBlank(stringBase64)) {
+                    stringBase64 = PlatformCryptUtils.decryptImageBase64(stringBase64);
+                    faceRfcBase64 = PlatformFileUtils.toRfc2045MimeBase64(stringBase64);
+                }
             }
         }
         if (StringUtils.isEmpty(faceRfcBase64)) {
@@ -561,7 +571,9 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
         face.setInfoKind(2);
         face.setSourceID(sourceId);
         face.setDeviceID(deviceId);
-        face.setName(faceLog.getPersonName());
+        face.setName(faceLog.getDeviceName());
+        face.setUsedName(faceLog.getPersonName());
+        face.setAlias(faceLog.getDeviceCode());
         face.setIDNumber(faceLog.getUniqueId());
         face.setLocationMarkTime(receiveTimeStr);
         face.setFaceAppearTime(receiveTimeStr);
@@ -580,6 +592,20 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
         subImageInfo.setHeight(480);
         subImageInfo.setData(faceRfcBase64);
         subImageInfoList.add(subImageInfo);
+        subImageList.setSubImageInfoObject(subImageInfoList);
+
+        SubImageInfoObject subImageInfo11 = new SubImageInfoObject();
+        subImageInfo11.setImageID(sourceId);
+        subImageInfo11.setEventSort(2);
+        subImageInfo11.setDeviceID(deviceId);
+        subImageInfo11.setType("11");
+        subImageInfo11.setFileFormat("Jpeg");
+        subImageInfo11.setShotTime(receiveTimeStr);
+        subImageInfo11.setWidth(640);
+        subImageInfo11.setHeight(480);
+        subImageInfo11.setData(faceRfcBase64);
+        subImageInfoList.add(subImageInfo11);
+
         subImageList.setSubImageInfoObject(subImageInfoList);
         face.setSubImageList(subImageList);
 

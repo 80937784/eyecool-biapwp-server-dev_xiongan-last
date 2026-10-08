@@ -175,7 +175,7 @@ public class SubscribeController {
                         userIdentifyConfig.setConfigValue(sub.userIdentify);
                         configService.updateConfig(userIdentifyConfig);
                     }
-                    xaPoliceService.sendNotifyAfterSubscribeSuccess(sub.SubscribeID,sub.ReceiveAddr,sub.userIdentify);
+                    xaPoliceService.sendNotifyAfterSubscribeSuccess(sub.SubscribeID,sub.ReceiveAddr,sub.userIdentify,"");
                 }else if ("POST".equals( method)){
                     // 订阅数据 订阅后 可以传照片
                     //更新参数表中的参数

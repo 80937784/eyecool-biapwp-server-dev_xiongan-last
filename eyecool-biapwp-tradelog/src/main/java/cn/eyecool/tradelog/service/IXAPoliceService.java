@@ -37,7 +37,7 @@ public interface IXAPoliceService {
 
     int insertSysConfig(String configKey, String configVal);
     /** 发送设备消息 */
-    void sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify);
+    AjaxResult sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify,String deviceId);
 
     AjaxResult sendImageNotifyAfterSubscribeSuccess(String url, String receiveAddr, String subscribeID, String userIdentify,PersonFaceSearchLog faceSearchLog);
 

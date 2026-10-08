@@ -11,6 +11,7 @@ import cn.eyecool.common.core.domain.AjaxResult;
 import cn.eyecool.tradelog.service.IXAPoliceService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,6 +96,9 @@ public class PersonFaceSearchLogServiceImpl implements IPersonFaceSearchLogServi
     private IMsgSendService msgSendService;
     @Autowired
     private IXAPoliceService xaPoliceService;
+
+    @Value("${xa.to.police:true}")
+    private Boolean toPolice;
     private static final ConcurrentMap<String, String> cardPassTokenCache = new ConcurrentHashMap<>();
 
     /**
@@ -251,6 +255,7 @@ public class PersonFaceSearchLogServiceImpl implements IPersonFaceSearchLogServi
         String sceneImageBase64 = faceSearchBakLog.getSceneImage();
         // 进行比对图片的上传
         String baseDir = getSysFaceSearchPicBaseDir();
+        faceSearchLog.setSceneImageBase64(sceneImageBase64);
         // 加密上传现场照
         faceSearchLog.setSceneImage(faceRecogLogicService.uploadFaceImg(true, null, sceneImageBase64, baseDir));
         String uniqueId = faceSearchBakLog.getUniqueId();
@@ -314,7 +319,9 @@ public class PersonFaceSearchLogServiceImpl implements IPersonFaceSearchLogServi
 //            execXACardPassSendMsg(faceSearchLog);
 //        }
         // 推送人员识别信息 到公安
-        sendToPolice(faceSearchLog);
+        if (toPolice){
+            sendToPolice(faceSearchLog);
+        }
     }
 
     /**
