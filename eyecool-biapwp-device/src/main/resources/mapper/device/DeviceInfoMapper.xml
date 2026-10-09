@@ -37,10 +37,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="countServer2"    column="count_server2"    />
         <result property="lastIdServer1"    column="last_id_server1"    />
         <result property="lastIdServer2"    column="last_id_server2"    />
+        <result property="apeId"    column="ape_id"    />
+        <result property="isUpload"    column="is_upload"    />
     </resultMap>
 
     <sql id="selectDeviceInfoVo">
-        select id, device_no, device_name, device_addr, device_model_code, device_ip, device_mac, device_direction, longitude, latitude, channel_code, area_id, subtreasury_code, import_batch_num, create_method, pull_all_flag, primary_sub_code, duplicate_time, device_type, mqtt_pwd, mqtt_salt, ext_info, create_by, update_by, create_time, update_time, batch_date,count_server1,count_server2,last_id_server1,last_id_server2, tenant_id from device_info
+        select id, device_no, device_name, device_addr, device_model_code, device_ip, device_mac, device_direction, longitude, latitude, channel_code, area_id, subtreasury_code, import_batch_num, create_method, pull_all_flag, primary_sub_code, duplicate_time, device_type, mqtt_pwd, mqtt_salt, ext_info, create_by, update_by, create_time, update_time, batch_date,count_server1,count_server2,last_id_server1,last_id_server2,ape_id,is_upload, tenant_id from device_info
     </sql>
 
     <select id="selectDeviceInfoList" parameterType="DeviceInfo" resultMap="DeviceInfoResult" databaseId="mysql">
@@ -114,6 +116,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="batchDate != null">batch_date,</if>
             <if test="tenantId != null">tenant_id,</if>
+            <if test="apeId != null">ape_id,</if>
+            <if test="isUpload != null">is_upload,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -148,6 +152,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="batchDate != null">#{batchDate},</if>
             <if test="tenantId != null">#{tenantId},</if>
+            <if test="apeId != null">#{apeId},</if>
+            <if test="isUpload != null">#{isUpload},</if>
          </trim>
     </insert>
 
@@ -183,6 +189,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="batchDate != null">batch_date = #{batchDate},</if>
             <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="apeId != null">ape_id = #{apeId},</if>
+            <if test="isUpload != null">is_upload = #{isUpload},</if>
         </trim>
         where id = #{id}
     </update>

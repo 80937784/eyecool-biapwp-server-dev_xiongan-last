@@ -19,6 +19,7 @@ import cn.eyecool.tradelog.domain.police.notice.APEObject;
 import cn.eyecool.tradelog.domain.police.notice.DeviceList;
 import cn.eyecool.tradelog.domain.police.notice.SubscribeNotificationListObject;
 import cn.eyecool.tradelog.domain.police.notice.SubscribeNotificationObject;
+import cn.eyecool.tradelog.mapper.PersonFaceSearchLogMapper;
 import cn.eyecool.tradelog.service.IPersonFaceSearchLogService;
 import cn.eyecool.tradelog.service.IXAPoliceService;
 import com.alibaba.fastjson.JSON;
@@ -39,14 +40,12 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author zfx
@@ -61,6 +60,9 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
     private ISysConfigService sysConfigService;
     @Autowired
     private IPersonFaceSearchLogService personFaceSearchLogService;
+
+    @Autowired
+    private PersonFaceSearchLogMapper personFaceSearchLogMapper;
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(Duration.ofSeconds(60)).writeTimeout(Duration.ofSeconds(60))
             .authenticator(new DigestAuthenticator("spyzw1", "xaxq2026"))
@@ -125,13 +127,16 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
 //        }
 //        String sceneImage = PlatformFileUtils.readImageToRfc2045Base64(faceSearchLog.getSceneImage());
 //        faceSearchLog.setSceneImage(sceneImage);
-        if (StringUtils.isEmpty(faceSearchLog.getId())) {
-            faceSearchLog.setId(IdWorker.getNextStringId());
+        String deviceCode = faceSearchLog.getDeviceCode();
+        String apeId = getApeIdByDeviceCode(deviceCode);
+        if (!"0".equals(faceSearchLog.getResult())) {
+            log.warn("识别结果不为0的数据不推送faceSearchLogId", faceSearchLog.getId());
+            return AjaxResult.error("识别结果不为0的数据不推送");
         }
         String defalutUrl = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DATA_IMAGE_URL);
         String subscribeId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DATA_SUB_SCRIBEID);
         String userIdentify = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DATA_SUB_USER_IDENTIFY);
-        AjaxResult ajaxResult = sendImageNotifyAfterSubscribeSuccess(defalutUrl, "", subscribeId, userIdentify, faceSearchLog);
+        AjaxResult ajaxResult = sendImageNotifyAfterSubscribeSuccess(defalutUrl, "", subscribeId, userIdentify, faceSearchLog,apeId);
         if (ajaxResult.isSuccess()) {
             PersonFaceSearchLog fs = new PersonFaceSearchLog();
             fs.setId(faceSearchLog.getId());
@@ -143,7 +148,6 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
             return ajaxResult;
         }
     }
-
     /**
      * 注册
      */
@@ -430,9 +434,9 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
                 //resp={"ResponseStatusListObject":{"ResponseStatusObject":[{"RequestURL":"/VIID/SubscribeNotifications","StatusCode":0,"StatusString":"操作成功","Id":"500000000000041790761253508011153","LocalTime":"20260930174043"}]}}
                 ViidResponse viidResponse = JSONObject.parseObject(respBody, ViidResponse.class);
                 ResponseStatusListObject responseStatusListObject = null;
-                if (viidResponse != null){
+                if (viidResponse != null) {
                     responseStatusListObject = viidResponse.ResponseStatusListObject;
-                }else{
+                } else {
                     return AjaxResult.error("respBody is empty");
                 }
                 if (responseStatusListObject != null && responseStatusListObject.ResponseStatusObject != null) {
@@ -445,16 +449,16 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
                     } else {
                         return AjaxResult.error("responseStatusListObject.ResponseStatusObject is empty");
                     }
-                }else{
+                } else {
                     return AjaxResult.error("ResponseStatusObject not exists");
                 }
-            }else{
+            } else {
                 return AjaxResult.error("ResponseStatusListObject is empty");
             }
         } catch (Exception e) {
             log.error("[推送SubscribeNotifications失败] url={}", notifyUrl, e);
             //继续往 http://10.245.64.69:14681/VIID/SubscribeNotifications 发送
-            if (StringUtils.isNotEmpty(notifyUrl)){
+            if (StringUtils.isNotEmpty(notifyUrl)) {
                 sendSubscribeNotification("", notifyUrl, userIdentify, notifyObj);
             }
             log.info("[推送SubscribeNotifications失败]往http://10.245.64.69:14681/VIID/SubscribeNotifications失败 再次推送 url={}", notifyUrl);
@@ -480,45 +484,64 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
      * 组装截图格式的SubscribeNotifications报文，推送给上级平台 SubscribeObject sub
      */
     @Override
-    public AjaxResult sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify,String deviceId) {
+    public AjaxResult sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify, List<DevicePolice> devList, String type) {
         JSONObject subject = new JSONObject();
         SubscribeNotificationListObject root = new SubscribeNotificationListObject();
         SubscribeNotificationObject item = new SubscribeNotificationObject();
-        if (StringUtils.isEmpty(deviceId)){
-            deviceId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_ID);
+        if (StringUtils.isEmpty(devList)) {
+            return AjaxResult.error("请传入设备信息");
+        }
+//        if (StringUtils.isEmpty(deviceId)){
+//            deviceId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_ID);
+//        }
+        // 获取 InfoIDs
+        String apeIds = devList.stream()
+                .map(DevicePolice::getApeId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(","));
+        // 1 添加  2 修改 3删除
+        if (StringUtils.isEmpty(type)) {
+            type = "1";
         }
         // 唯一ID，自行生成
         item.NotificationID = "50000000000004" + System.currentTimeMillis() + ViidIdGenerator.getRandomDigitStr(6, Boolean.TRUE);
         item.SubscribeID = subscribeID; //复用订阅的SubscribeID
         item.Title = "市民服务中心订阅设备";
-        item.ExecuteOperation = 1; //1=增加订阅通知
-        item.InfoIDs = deviceId; //你之前GET拿到的ApeID
+        item.ExecuteOperation = Integer.valueOf(type); //1=增加订阅通知
+        item.InfoIDs = apeIds;
         item.TriggerTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 
         // 点位设备信息，和截图保持一致
         DeviceList deviceList = new DeviceList();
-        APEObject ape = new APEObject();
-        ape.ApeID = deviceId;
-        ape.Name = "生物识别平台";
-        ape.Model = "BioServer";
-        ape.IPAddr = "10.1.47.251";
-        ape.Port = 8701;
-        ape.Place = "平台服务";
-        ape.CapDirection = 0;
-        ape.MonitorAreaDesc = "";
-        ape.OwnerApsID = "";
-        ape.UserId = "admin";
-        ape.Password = "admin123";
-        ape.PlaceCode = "500231";
-        ape.OrgCode = "";
-        ape.MonitorDirection = "";
-        ape.IsOnline = "1";
-        ape.FunctionType = "2";
-        ape.PositionType = "";
-        ape.Longitude = new BigDecimal(116.403874);
-        ape.Latitude = new BigDecimal(39.031049);
+
         List apeList = new ArrayList<>();
-        apeList.add(ape);
+        for (DevicePolice dev : devList) {
+            APEObject ape = new APEObject();
+            String apeId = dev.getApeId();
+            if (StringUtils.isEmpty(apeId)) {
+                continue;
+            }
+            ape.ApeID = apeId;
+            ape.Name = dev.getDeviceName();
+            ape.Model = "BioServer";
+            ape.IPAddr = StringUtils.isEmpty(dev.getDeviceIp()) ? "10.1.47.251" : dev.getDeviceIp();
+            ape.Port = 8701;
+            ape.Place = StringUtils.isEmpty(dev.getDeviceAddr()) ? "市民中心" : dev.getDeviceAddr();
+            ape.CapDirection = 0;
+            ape.MonitorAreaDesc = "";
+            ape.OwnerApsID = "";
+            ape.UserId = "admin";
+            ape.Password = "admin123";
+            ape.PlaceCode = "500231";
+            ape.OrgCode = "";
+            ape.MonitorDirection = "";
+            ape.IsOnline = "1";
+            ape.FunctionType = "2";
+            ape.PositionType = "";
+            ape.Longitude = new BigDecimal(dev.getLongitude() == null ? 115.9 : dev.getLongitude());
+            ape.Latitude = new BigDecimal(dev.getLatitude() == null ? 39.1 : dev.getLatitude());
+            apeList.add(ape);
+        }
         deviceList.APEObject = apeList;
         item.DeviceList = deviceList;
 
@@ -527,19 +550,23 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
         root.SubscribeNotificationObject = itemList;
         subject.put("SubscribeNotificationListObject", root);
         String defaultUrl = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_URL);
-        if (StringUtils.isEmpty(defaultUrl)){
+        if (StringUtils.isEmpty(defaultUrl)) {
             defaultUrl = "http://10.245.64.69:14681/VIID/SubscribeNotifications";
         }
-        log.info("准备回复通知设备消息defaultUrl[{}]",defaultUrl);
+        log.info("准备回复通知设备消息defaultUrl[{}]", defaultUrl);
 //        xaPoliceService.sendSubscribeNotification(defaultUrl,sub.ReceiveAddr, sub.userIdentify, subject);
         AjaxResult ajaxResult = this.sendSubscribeNotification(defaultUrl, receiveAddr, userIdentify, subject);
         return ajaxResult;
     }
 
     @Override
-    public AjaxResult sendImageNotifyAfterSubscribeSuccess(String defalutUrl, String receiveAddr, String subscribeID, String userIdentify, PersonFaceSearchLog faceLog) {
+    public AjaxResult sendImageNotifyAfterSubscribeSuccess(String defalutUrl, String receiveAddr, String subscribeID, String userIdentify, PersonFaceSearchLog faceLog, String apeId) {
         // deviceId 20位
-        String deviceId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_ID);
+        String deviceId = apeId;
+        if (StringUtils.isEmpty(deviceId)) {
+            log.warn("deviceCode[{}] apeId is empty",faceLog.getDeviceCode());
+            deviceId = sysConfigService.selectConfigByKey(SysConfigConstants.XA_POLICE_DEVICE_ID);
+        }
         String faceBase64 = faceLog.getSceneImageBase64();
         String faceRfcBase64 = "";
         if (StringUtils.isNotEmpty(faceBase64)) {
@@ -571,13 +598,13 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
         face.setInfoKind(2);
         face.setSourceID(sourceId);
         face.setDeviceID(deviceId);
-        face.setName(faceLog.getDeviceName());
+        face.setName(faceLog.getPersonName());
         face.setUsedName(faceLog.getPersonName());
         face.setAlias(faceLog.getDeviceCode());
         face.setIDNumber(faceLog.getUniqueId());
         face.setLocationMarkTime(receiveTimeStr);
         face.setFaceAppearTime(receiveTimeStr);
-        face.setFaceDisAppearTime(DateUtils.parseDateToStr("yyyyMMddHHmmss",DateUtils.addSeconds(receiveTime,10)));
+        face.setFaceDisAppearTime(DateUtils.parseDateToStr("yyyyMMddHHmmss", DateUtils.addSeconds(receiveTime, 10)));
 
         SubImageList subImageList = new SubImageList();
         List<SubImageInfoObject> subImageInfoList = new ArrayList<>();
@@ -636,12 +663,31 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
 
     @Override
     public SysConfig selectConfigByKey(String configKey) {
-        if (StringUtils.isEmpty(configKey)){
+        if (StringUtils.isEmpty(configKey)) {
             return null;
         }
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
         List<SysConfig> sysConfigs = sysConfigService.selectConfigList(config);
         return sysConfigs.get(0);
+    }
+
+    @Override
+    public List<DevicePolice> selectDevicePoliceList(DevicePolice dev) {
+        List<DevicePolice> devList = personFaceSearchLogMapper.selectDevicePoliceList(dev);
+        return devList;
+    }
+    /** 获取apeId */
+    private String getApeIdByDeviceCode(String deviceCode) {
+        if (StringUtils.isEmpty(deviceCode)){
+            return "";
+        }
+        DevicePolice dev = new DevicePolice();
+        dev.setDeviceNo(deviceCode);
+        List<DevicePolice> devList = personFaceSearchLogMapper.selectDevicePoliceList(dev);
+        if (StringUtils.isNotEmpty(devList)){
+            return devList.get(0).getApeId();
+        }
+        return "";
     }
 }

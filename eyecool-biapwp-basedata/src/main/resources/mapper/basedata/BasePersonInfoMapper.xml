@@ -36,6 +36,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, unique_id, name, sex, phone, card_no, account, email, dept_id, datasource, flag, status, effective_begin_time, effective_end_time,  remark, create_by, update_by, create_time, update_time, batch_date, tenant_id, ext_attrs from base_person_info info
     </sql>
 
+    <!-- 排除"访客"部门(部门名称为"访客")及其所有子部门下的人员，仅当 excludeVisitorDept=true 时生效 -->
+    <sql id="excludeVisitorDeptCondition">
+        <if test="excludeVisitorDept != null and excludeVisitorDept">
+            AND dept_id NOT IN (
+            SELECT t.dept_id FROM sys_dept t
+            WHERE t.dept_name = '访客'
+            OR EXISTS (SELECT 1 FROM sys_dept v WHERE v.dept_name = '访客' AND find_in_set(v.dept_id, t.ancestors))
+            )
+        </if>
+    </sql>
+
     <sql id="selectBaseVisitorInfoVo">
         select id, unique_id, name, sex, phone, card_no, account, email, dept_id, datasource, flag, status,person_type, inviter_id, visitor_status, effective_begin_time, effective_end_time, remark, create_by, update_by, create_time, update_time, batch_date, tenant_id from base_person_info info
     </sql>
@@ -70,6 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptId != null and deptId != 0">
                 AND (info.dept_id = #{deptId} OR info.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
             </if>
+            <!-- 默认排除"访客"部门下的人员(除非手动选择了"访客"部门) -->
+            <include refid="excludeVisitorDeptCondition"/>
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
@@ -147,6 +160,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="uniqueId != null ">and unique_id = #{uniqueId} or name like concat(concat('%', #{uniqueId}), '%')</if>
             <if test="name != null "> and unique_id = #{name} or name like concat(concat('%', #{name}), '%')</if>
             <if test="personType != null "> and person_type = #{personType}</if>
+            <!-- 默认排除"访客"部门下的人员 -->
+            <include refid="excludeVisitorDeptCondition"/>
         </where>
     </select>
     
@@ -283,6 +298,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="batchDate != null "> and batch_date = #{batchDate}</if>
             <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <!-- 默认排除"访客"部门下的人员 -->
+            <include refid="excludeVisitorDeptCondition"/>
         </where>
     </select>
 

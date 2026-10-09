@@ -101,6 +101,10 @@ public class DeviceInfo extends BaseEntity {
 
     /** MQTT密码盐值 */
     private String mqttSalt;
+    /** 设备APEID */
+    private String apeId;
+    /**是否上传 Y上传 N不上传*/
+    private String isUpload;
 
     /** 扩展信息 */
     @Excel(name = "device.info.extinfo", type = Type.EXPORT)
@@ -401,6 +405,22 @@ public class DeviceInfo extends BaseEntity {
 
     public void setLastIdServer2(String lastIdServer2) {
         this.lastIdServer2 = lastIdServer2;
+    }
+
+    public String getApeId() {
+        return apeId;
+    }
+
+    public void setApeId(String apeId) {
+        this.apeId = apeId;
+    }
+
+    public String getIsUpload() {
+        return isUpload;
+    }
+
+    public void setIsUpload(String isUpload) {
+        this.isUpload = isUpload;
     }
 
     /**

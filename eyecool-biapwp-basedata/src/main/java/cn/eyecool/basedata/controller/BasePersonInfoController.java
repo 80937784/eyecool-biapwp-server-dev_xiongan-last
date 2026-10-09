@@ -83,6 +83,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BasePersonInfoController extends BaseController {
 
+    /** 访客部门名称：用于判断是否为访客部门 */
+    private static final String VISITOR_DEPT_NAME = "访客";
     @Autowired
     private ISysDeptService deptService;
     @Autowired
@@ -106,6 +108,7 @@ public class BasePersonInfoController extends BaseController {
     @GetMapping("/count")
     public AjaxResult count(BasePersonInfo basePersonInfo) {
         basePersonInfo.setPersonType(PersonTypeEnum.USER.value());
+        applyVisitorDeptFilter(basePersonInfo);
         int count = basePersonInfoService.selectBasePersonCount(basePersonInfo);
         Map<String, Object> result = new HashMap<>();
         result.put("total", count);
@@ -134,6 +137,7 @@ public class BasePersonInfoController extends BaseController {
     public TableDataInfo list(BasePersonInfo basePersonInfo) {
         startPage();
         basePersonInfo.setPersonType(PersonTypeEnum.USER.value());
+        applyVisitorDeptFilter(basePersonInfo);
         List<BasePersonInfo> list = basePersonInfoService.selectBasePersonInfoList(basePersonInfo);
         list.stream().forEach(it -> {
             Long deptId = it.getDeptId();
@@ -171,6 +175,7 @@ public class BasePersonInfoController extends BaseController {
             TenantContextHolder.setTenantId(tenantId);
             LoginUserContextHolder.setLoginUser(loginUser);
             basePersonInfo.setPersonType(PersonTypeEnum.USER.value());
+            applyVisitorDeptFilter(basePersonInfo);
             List<BasePersonInfo> list = basePersonInfoService.selectBasePersonInfoList(basePersonInfo);
             list = list.parallelStream().map(it -> {
                 TenantContextHolder.setTenantId(tenantId);
@@ -500,5 +505,22 @@ public class BasePersonInfoController extends BaseController {
         int stopAndEnable = basePersonInfoService.isStopAndEnable(ids, type);
         return toAjax(stopAndEnable);
     }
-
+    /**
+     * 处理"访客"部门过滤规则：
+     * 默认排除部门名称为"访客"的部门(及其子部门)下的人员；
+     * 仅当用户手动选中了"访客"部门时才显示访客部门人员。
+     *
+     * @param basePersonInfo 查询参数
+     */
+    private void applyVisitorDeptFilter(BasePersonInfo basePersonInfo) {
+        boolean selectVisitorDept = false;
+        Long deptId = basePersonInfo.getDeptId();
+        if (deptId != null && deptId != 0) {
+            SysDept dept = deptService.selectDeptById(deptId);
+            if (dept != null && VISITOR_DEPT_NAME.equals(dept.getDeptName())) {
+                selectVisitorDept = true;
+            }
+        }
+        basePersonInfo.setExcludeVisitorDept(!selectVisitorDept);
+    }
 }

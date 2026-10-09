@@ -192,7 +192,6 @@ public class PersonFaceSearchLogController extends BaseController {
     }
     @GetMapping(value = "/pushToPolice")
     public AjaxResult pushToPolice(String id) {
-        System.out.println(id+"===============");
         PersonFaceSearchLog faceLog = personFaceSearchLogService.selectPersonFaceSearchLogById(id);
         if (StringUtils.isNotBlank(faceLog.getSceneImage())) {
             String stringBase64 = PlatformFileUtils.getImageBase64(faceLog.getSceneImage());

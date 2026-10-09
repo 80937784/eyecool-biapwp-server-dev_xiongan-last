@@ -3,8 +3,11 @@ package cn.eyecool.tradelog.service;
 import cn.eyecool.common.core.domain.AjaxResult;
 import cn.eyecool.system.domain.SysConfig;
 import cn.eyecool.tradelog.domain.PersonFaceSearchLog;
+import cn.eyecool.tradelog.domain.police.DevicePolice;
 import cn.eyecool.tradelog.domain.police.PoliceFace;
 import com.alibaba.fastjson.JSONObject;
+
+import java.util.List;
 
 /**
  * @author
@@ -37,9 +40,11 @@ public interface IXAPoliceService {
 
     int insertSysConfig(String configKey, String configVal);
     /** 发送设备消息 */
-    AjaxResult sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify,String deviceId);
+    AjaxResult sendNotifyAfterSubscribeSuccess(String subscribeID, String receiveAddr, String userIdentify, List<DevicePolice> devList, String type);
 
-    AjaxResult sendImageNotifyAfterSubscribeSuccess(String url, String receiveAddr, String subscribeID, String userIdentify,PersonFaceSearchLog faceSearchLog);
+    AjaxResult sendImageNotifyAfterSubscribeSuccess(String url, String receiveAddr, String subscribeID, String userIdentify,PersonFaceSearchLog faceSearchLog,String apeId);
 
     SysConfig selectConfigByKey(String configKey);
+    /** 查询需要回传的设备 */
+    List<DevicePolice> selectDevicePoliceList(DevicePolice dev);
 }

@@ -431,28 +431,4 @@ public class PlatformFileUtils extends FileUtils {
             return null;
         }
     }
-
-    // 测试main
-    public static void main(String[] args) throws IOException {
-//         String base64 = PlatformFileUtils.getImageBase64("/test/test.jpg");
-//        String base64r = PlatformFileUtils.toRfc2045MimeBase64(base64);
-//        String base64Str = PlatformFileUtils.readImageToRfc2045Base64("/test/test.jpg");
-//        System.out.println("===场景1 生成的RFC2045长度：" + base64Str.length());
-//        String path1 = rfc2045Base64ToImage(base64Str, "D:/eyecool_img");
-//        System.out.println("场景1输出路径：" + path1);
-//
-//        System.out.println("====================分割线====================");
-//
-//        //场景2：读取txt文件（会报错的场景）
-        File file = new File("E:\\work\\eyecool\\weng\\base64.txt");
-        String base64r = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-//        System.out.println("===场景2 txt读取原始长度：" + base64r.length());
-//        //打印字符串最后20个字符，看尾巴脏东西
-//        if(base64r.length()>20){
-//            System.out.println("txt原始末尾20字符：" + base64r.substring(base64r.length()-20));
-//        }
-        String path2 = rfc2045Base64ToImage(base64r, "D:/eyecool_img");
-        System.out.println("场景2输出路径：" + path2);
-    }
-
 }

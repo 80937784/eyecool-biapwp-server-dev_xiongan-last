@@ -114,7 +114,12 @@ public class BasePersonInfo extends BaseEntity {
 
     /** 绑定的场景编码列表，用,分割 */
     private String channels;
-
+    /**
+     * 是否排除"访客"部门下的人员（仅用于人员基础信息查询条件，不映射到表字段）
+     * true: 排除部门名称为"访客"的部门及其子部门下的人员
+     * false/null: 不排除
+     */
+    private transient Boolean excludeVisitorDept;
     public void setId(String id) {
         this.id = id;
     }
@@ -337,6 +342,14 @@ public class BasePersonInfo extends BaseEntity {
 
     public void setChannels(String channels) {
         this.channels = channels;
+    }
+
+    public Boolean getExcludeVisitorDept() {
+        return excludeVisitorDept;
+    }
+
+    public void setExcludeVisitorDept(Boolean excludeVisitorDept) {
+        this.excludeVisitorDept = excludeVisitorDept;
     }
 
     @Override

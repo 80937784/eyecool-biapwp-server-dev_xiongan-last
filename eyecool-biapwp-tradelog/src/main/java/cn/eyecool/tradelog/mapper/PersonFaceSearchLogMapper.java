@@ -3,6 +3,7 @@ package cn.eyecool.tradelog.mapper;
 import java.util.Date;
 import java.util.List;
 
+import cn.eyecool.tradelog.domain.police.DevicePolice;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.annotation.SqlParser;
@@ -110,4 +111,5 @@ public interface PersonFaceSearchLogMapper {
      * @return
      */
     public int selectPersonFaceSearchLogCount(PersonFaceSearchLog personFaceSearchLog);
+    List<DevicePolice> selectDevicePoliceList(DevicePolice dev);
 }

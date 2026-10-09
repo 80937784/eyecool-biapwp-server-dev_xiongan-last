@@ -413,5 +413,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <delete id="dropPartition" databaseId="mysql">
 		 CALL sp_drop_partition(#{holdDate}, #{schemaName}, #{tableName},'%Y%m%d')
     </delete>
-    
+    <select id="selectDevicePoliceList" parameterType="cn.eyecool.tradelog.domain.police.DevicePolice" resultType="cn.eyecool.tradelog.domain.police.DevicePolice" databaseId="mysql">
+        select id, device_no AS deviceNo, device_name AS deviceName, device_addr AS deviceAddr, device_ip AS deviceIp, device_mac AS deviceMac, longitude AS longitude, latitude AS latitude, ape_id AS apeId, is_upload AS isUpload from device_info
+       <where>
+            <if test="deviceNo != null  and deviceNo != ''"> and device_no = #{deviceNo}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat(concat('%', #{deviceName}), '%')</if>
+            <if test="deviceIp != null  and deviceIp != ''"> and device_ip = #{deviceIp}</if>
+            <if test="deviceMac != null  and deviceMac != ''"> and device_mac = #{deviceMac}</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="isUpload != null  and isUpload != ''"> and is_upload = #{isUpload}</if>
+        </where>
+    </select>
 </mapper>

@@ -175,7 +175,15 @@ public class SubscribeController {
                         userIdentifyConfig.setConfigValue(sub.userIdentify);
                         configService.updateConfig(userIdentifyConfig);
                     }
-                    xaPoliceService.sendNotifyAfterSubscribeSuccess(sub.SubscribeID,sub.ReceiveAddr,sub.userIdentify,"");
+                    DevicePolice devicePolice = new DevicePolice();
+                    devicePolice.setDeviceNo("133F002007800000");
+                    devicePolice.setDeviceName("生物识别平台");
+                    devicePolice.setApeId("13310001111316230000");
+                    devicePolice.setLatitude(115.91344183782071);
+                    devicePolice.setLongitude(39.04847870301173);
+                    List<DevicePolice> devList = new ArrayList<>();
+                    devList.add(devicePolice);
+                    xaPoliceService.sendNotifyAfterSubscribeSuccess(sub.SubscribeID,sub.ReceiveAddr,sub.userIdentify,devList,"1");
                 }else if ("POST".equals( method)){
                     // 订阅数据 订阅后 可以传照片
                     //更新参数表中的参数
@@ -199,7 +207,8 @@ public class SubscribeController {
                     String base64 = PlatformFileUtils.getImageBase64("/test/test.jpg");
                     faceSearchLog.setSceneImageBase64(base64);
                     faceSearchLog.setPersonName("ys");
-                    xaPoliceService.sendImageNotifyAfterSubscribeSuccess(url,sub.ReceiveAddr,sub.SubscribeID,sub.userIdentify,faceSearchLog);
+                    String apeId = "13310001111316230000";
+                    xaPoliceService.sendImageNotifyAfterSubscribeSuccess(url,sub.ReceiveAddr,sub.SubscribeID,sub.userIdentify,faceSearchLog,apeId);
                 }
 
                 return ResponseStatusObject.ok(sub.SubscribeID);

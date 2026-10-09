@@ -26,3 +26,7 @@ ADD COLUMN count_server2 VARCHAR(64) DEFAULT NULL COMMENT '服务器2计数',
 ADD COLUMN last_id_server1 VARCHAR(64) DEFAULT NULL COMMENT '服务器1最后ID',
 ADD COLUMN last_id_server2 VARCHAR(64) DEFAULT NULL COMMENT '服务器2最后ID';
 
+
+ALTER TABLE device_info ADD COLUMN ape_id VARCHAR (64) COMMENT '设备APEID',
+    ADD COLUMN is_upload char (1) DEFAULT 'Y' COMMENT '是否上传 Y上传 N不上传';
+
