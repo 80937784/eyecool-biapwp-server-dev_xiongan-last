@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -526,7 +527,7 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
             ape.Model = "BioServer";
             ape.IPAddr = StringUtils.isEmpty(dev.getDeviceIp()) ? "10.1.47.251" : dev.getDeviceIp();
             ape.Port = 8701;
-            ape.Place = StringUtils.isEmpty(dev.getDeviceAddr()) ? "市民中心" : dev.getDeviceAddr();
+            ape.Place = StringUtils.isEmpty(dev.getDeviceAddr()) ? "市民服务中心" : dev.getDeviceAddr();
             ape.CapDirection = 0;
             ape.MonitorAreaDesc = "";
             ape.OwnerApsID = "";
@@ -538,8 +539,8 @@ public class XAPoliceServiceImpl implements IXAPoliceService {
             ape.IsOnline = "1";
             ape.FunctionType = "2";
             ape.PositionType = "";
-            ape.Longitude = new BigDecimal(dev.getLongitude() == null ? 115.9 : dev.getLongitude());
-            ape.Latitude = new BigDecimal(dev.getLatitude() == null ? 39.1 : dev.getLatitude());
+            ape.Longitude = new BigDecimal(dev.getLongitude() == null ? 115.9 : dev.getLongitude()).setScale(6, RoundingMode.HALF_UP);
+            ape.Latitude = new BigDecimal(dev.getLatitude() == null ? 39.1 : dev.getLatitude()).setScale(6, RoundingMode.HALF_UP);
             apeList.add(ape);
         }
         deviceList.APEObject = apeList;

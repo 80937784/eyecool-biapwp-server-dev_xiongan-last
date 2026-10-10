@@ -70,7 +70,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="email != null  and email != ''"> and email = #{email}</if>
             <if test="datasource != null  and datasource != ''"> and datasource = #{datasource}</if>
             <if test="flag != null  and flag != ''"> and flag = #{flag}</if>
-            <if test="status != null  and status != '' and status !=2 "> and status = #{status}</if>
             <if test="personType != null  and personType != ''"> and person_type = #{personType}</if>
             <if test="inviterId != null  and inviterId != ''"> and inviter_id = #{inviterId}</if>
             <if test="visitorStatus != null  and visitorStatus != ''"> and visitor_status = #{visitorStatus}</if>
@@ -89,6 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ) mm
         <where>
             <if test="status != null  and status == 2 "> and mm.tstate = #{status}</if>
+            <if test="status != null  and status != '' and status !=2 "> and if(tstate = 2,tstate,tstatus) = #{status}</if>
         </where>
     </select>
 
